@@ -177,5 +177,7 @@ Waterfall digunakan untuk **pengembangan aplikasi web**. Pemilihan lookback berd
 
 **Sudah disiapkan dan diuji secara lokal:** pembaca dan validator CSV BPS, statistik deskriptif, dua eksperimen NeuralProphet, laporan hasil `artifacts/report.json` dan `HASIL_EKSPERIMEN.md`, aplikasi Streamlit empat bagian, serta dokumentasi. Pemeriksaan data memastikan 114 bulan hingga Juni 2026; file sumber memiliki Juli 2026 sebagai bulan ke-115. Pengujian memeriksa tanggal dan nilai aktual uji, menghitung ulang metrik, membuktikan batas prediksi satu langkah, serta menjalankan pelatihan ulang dengan Juli sebagai data tambahan. Aplikasi berhasil dirender bersama laporan tersimpan pada pengujian lokal.
 
-**Belum selesai:** penayangan dan pengujian aplikasi pada URL publik. Lingkungan lokal Python 3.12 dan dependensi sudah tersedia; akun GitHub pengguna ada, sedangkan akun Streamlit Community Cloud dan repositori tujuan masih perlu disiapkan untuk deployment. Hasil metrik dan prediksi yang sudah dihitung tercantum di [HASIL_EKSPERIMEN.md](HASIL_EKSPERIMEN.md).
+**Sudah diunggah:** kode, data sumber, dan hasil eksperimen tersedia di [repositori GitHub](https://github.com/davsantoso/neuralprophet) pada branch `main`. Lingkungan lokal Python 3.12 dan dependensi sudah tersedia. Hasil metrik dan prediksi yang sudah dihitung tercantum di [HASIL_EKSPERIMEN.md](HASIL_EKSPERIMEN.md).
+
+**Belum selesai:** penayangan dan pengujian aplikasi pada URL publik. Langkah ini memerlukan pengguna masuk ke Streamlit Community Cloud dengan akun GitHub, lalu men-deploy repositori tersebut. Setelah URL tersedia, halaman utama, unduhan laporan, dan pelatihan ulang perlu diuji pada layanan hosting.
 

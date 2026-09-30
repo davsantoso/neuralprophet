@@ -70,8 +70,8 @@ Bulan yang diunggah harus berurutan langsung dari bulan terakhir yang sedang dip
 
 ## Menayangkan secara online
 
-1. Simpan kode, `data/`, dan `artifacts/report.json` di repositori GitHub. Jangan unggah `.venv/`, `.python/`, atau berkas checkpoint sementara; semuanya sudah diabaikan oleh `.gitignore`.
-2. Buat atau masuk ke akun [Streamlit Community Cloud](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy) dengan GitHub, lalu pilih repositori tersebut.
+1. Kode, `data/`, dan `artifacts/report.json` sudah tersedia di [repositori GitHub proyek](https://github.com/davsantoso/neuralprophet). `.venv/`, `.python/`, dan checkpoint sementara diabaikan oleh `.gitignore`.
+2. Buat atau masuk ke akun [Streamlit Community Cloud](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy) dengan GitHub, lalu pilih `davsantoso/neuralprophet` dan branch `main`.
 3. Pilih `app.py` sebagai entrypoint dan **Python 3.12** pada Advanced settings. Setelah deploy, buka URL aplikasi dan uji halaman utama, unduhan laporan, serta pelatihan ulang.
 
 Aplikasi online tidak bergantung pada laptop lokal setelah deploy. Community Cloud menidurkan aplikasi yang tidak dikunjungi selama 12 jam; pengunjung dapat membangunkannya. Pelatihan ulang memerlukan sumber daya lebih besar daripada membaca hasil tersimpan, sehingga pengujian fitur tersebut di platform hosting tetap diperlukan.

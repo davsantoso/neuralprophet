@@ -1,0 +1,11 @@
+.venv/
+.python/
+.uv-cache/
+.tmp/
+.mpl-cache/
+lightning_logs/
+*.ckpt
+__pycache__/
+*.py[cod]
+.streamlit/secrets.toml
+

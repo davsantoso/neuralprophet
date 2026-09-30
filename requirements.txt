@@ -1,0 +1,7 @@
+neuralprophet==0.9.0
+streamlit==1.57.0
+numpy==1.26.4
+pandas==2.3.3
+torch==2.14.0
+pytorch-lightning==2.6.6
+

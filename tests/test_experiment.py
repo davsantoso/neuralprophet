@@ -8,7 +8,7 @@ import unittest
 import pandas as pd
 
 from cargo_forecast.data import load_bps_data
-from cargo_forecast.modeling import retrain_for_next_month
+from cargo_forecast.modeling import retrain_target_for_next_month
 
 
 REPORT_PATH = Path("artifacts/report.json")
@@ -20,11 +20,12 @@ class RetrainingTests(unittest.TestCase):
         report = json.loads(REPORT_PATH.read_text(encoding="utf-8"))
         lags = {target: report["series"][target]["selected_n_lags"] for target in ("bongkar", "muat")}
         frame = load_bps_data(through=pd.Timestamp("2026-07-01"))
-        result = retrain_for_next_month(frame, lags)
-        self.assertEqual(result["n_observations"], 115)
-        self.assertEqual(result["last_observation"], "2026-07")
         for target in ("bongkar", "muat"):
-            forecast = result["forecasts"][target]
+            result = retrain_target_for_next_month(frame, target, lags[target])
+            self.assertEqual(result["n_observations"], 115)
+            self.assertEqual(result["last_observation"], "2026-07")
+            self.assertEqual(result["target"], target)
+            forecast = result["forecast"]
             self.assertEqual(forecast["ds"], "2026-08")
             self.assertTrue(math.isfinite(forecast["prediksi"]))
 

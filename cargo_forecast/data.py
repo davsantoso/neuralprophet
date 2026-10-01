@@ -68,12 +68,16 @@ def load_bps_data(directory: str | Path = "data", *, through: pd.Timestamp | Non
 
 def parse_additional_csv(content: bytes, base: pd.DataFrame) -> pd.DataFrame:
     """Accept new monthly rows in ds,bongkar,muat format and append to base."""
+    if len(content) > 1_000_000:
+        raise ValueError("CSV tambahan maksimal 1 MB.")
     try:
         extra = pd.read_csv(io.BytesIO(content), dtype={"ds": str})
     except (UnicodeError, pd.errors.ParserError) as exc:
         raise ValueError("Berkas tambahan harus berupa CSV UTF-8.") from exc
     if not {"ds", *COLUMNS}.issubset(extra.columns) or extra.empty:
         raise ValueError("CSV tambahan perlu kolom ds,bongkar,muat dan minimal satu baris.")
+    if len(extra) > 24:
+        raise ValueError("CSV tambahan maksimal 24 bulan per eksperimen.")
     extra = extra.loc[:, ["ds", *COLUMNS]].copy()
     if not extra["ds"].str.fullmatch(r"\d{4}-\d{2}").all():
         raise ValueError("Kolom ds harus menggunakan format YYYY-MM.")

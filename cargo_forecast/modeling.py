@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import math
 import os
+import gc
+import logging
 from pathlib import Path
+import time
 from typing import Any
 
 import pandas as pd
@@ -136,8 +139,32 @@ def retrain_for_next_month(frame: pd.DataFrame, lags: dict[str, int]) -> dict[st
         raise ValueError("Data eksperimen tidak boleh berakhir sebelum Juni 2026.")
     forecasts = {}
     for target in COLUMNS:
-        model = _fit(data, target, lags[target])
-        forecasts[target] = _forecast_next(model, data, target)
-        del model
+        forecasts[target] = retrain_target_for_next_month(data, target, lags[target])["forecast"]
     return {"last_observation": data["ds"].max().strftime("%Y-%m"), "n_observations": len(data), "forecasts": forecasts}
+
+
+def retrain_target_for_next_month(frame: pd.DataFrame, target: str, n_lags: int) -> dict[str, Any]:
+    """Fit one independent series, keeping cloud CPU use bounded per request."""
+    data = validate_monthly(frame)
+    if data["ds"].max() < THESIS_CUTOFF:
+        raise ValueError("Data eksperimen tidak boleh berakhir sebelum Juni 2026.")
+    if target not in COLUMNS:
+        raise ValueError(f"Target tidak dikenal: {target}")
+    if n_lags <= 0:
+        raise ValueError("Lookback harus positif.")
+    os.environ.setdefault("OMP_NUM_THREADS", "1")
+    os.environ.setdefault("MKL_NUM_THREADS", "1")
+    import torch
+
+    torch.set_num_threads(1)
+    started = time.perf_counter()
+    model = _fit(data, target, n_lags)
+    try:
+        forecast = _forecast_next(model, data, target)
+    finally:
+        del model
+        gc.collect()
+    duration = time.perf_counter() - started
+    logging.getLogger(__name__).info("Pelatihan eksperimen %s: %.1f detik, %s bulan, %s epoch", target, duration, len(data), EPOCHS)
+    return {"target": target, "last_observation": data["ds"].max().strftime("%Y-%m"), "n_observations": len(data), "forecast": forecast, "duration_seconds": duration}
 

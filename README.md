@@ -4,6 +4,7 @@ Aplikasi skripsi untuk dua deret bulanan **bongkar** dan **muat** kargo udara do
 
 Rancangan penelitian dan pengembangan lengkap: [PLAN_PROYEK.md](PLAN_PROYEK.md).
 Angka hasil validasi, uji, dan rincian prediksi bulanan: [HASIL_EKSPERIMEN.md](HASIL_EKSPERIMEN.md).
+Jejak sumber, sidik jari data, dan versi lingkungan: [JEJAK_PENELITIAN.md](JEJAK_PENELITIAN.md).
 
 ## Data dan rancangan eksperimen
 
@@ -48,16 +49,16 @@ python train.py
 streamlit run app.py
 ```
 
-`train.py` dapat membuat ulang `artifacts/report.json` berisi konfigurasi, hasil validasi, prediksi dan metrik uji, serta prediksi satu bulan berikutnya. Artefak hasil saat ini sudah tersedia. Aplikasi membacanya tanpa melatih ulang saat setiap pengunjung membuka halaman. Jika berkas belum ada, pelatihan juga dapat dipicu dari tab **Evaluasi model**. Jalankan `python export_results.py` setelah pelatihan untuk memperbarui `HASIL_EKSPERIMEN.md`.
+`train.py` dapat membuat ulang `artifacts/report.json` berisi konfigurasi, hasil validasi, prediksi dan metrik uji, serta prediksi satu bulan berikutnya. Artefak hasil saat ini sudah tersedia. Aplikasi membacanya tanpa melatih ulang saat setiap pengunjung membuka halaman. Jika berkas belum ada, buat dengan `python train.py` sebelum deploy. Jalankan `python export_results.py` setelah pelatihan untuk memperbarui `HASIL_EKSPERIMEN.md` dan `python audit_provenance.py --write` setelah meninjau perubahan untuk memperbarui sidik jari penelitian.
 
-Uji data, hasil, batas waktu prediksi, dan pelatihan ulang dengan data Juli dapat dijalankan lewat `python -m unittest discover -s tests -v`. `requirements-lock.txt` merekam versi lengkap paket pada lingkungan yang menghasilkan hasil di atas.
+Uji data, hasil, batas waktu prediksi, jejak penelitian, dan pelatihan ulang dengan data Juli dapat dijalankan lewat `python -m unittest discover -s tests -v`. `python audit_provenance.py` memeriksa bahwa CSV, laporan, dan versi lingkungan masih cocok dengan manifest. `requirements-lock.txt` merekam versi lengkap paket pada lingkungan yang menghasilkan hasil di atas.
 
 ## Interaksi aplikasi
 
 - **Ringkasan:** grafik dua deret, prediksi Juli 2026, dan ukuran kesalahan uji.
 - **Data:** grafik dan tabel 114 bulan, unduhan CSV, serta tautan ke sumber BPS.
 - **Evaluasi model:** pembagian kronologis, kandidat lookback, MAE/RMSE/MAPE uji, dan grafik aktual versus prediksi.
-- **Eksperimen:** tambahkan Juli 2026 dari berkas BPS atau unggah CSV bulan baru; latih ulang kedua model dengan lookback terpilih. Hasil eksperimen tersimpan di sesi pengguna dan tidak mengganti laporan skripsi.
+- **Eksperimen:** tambahkan Juli 2026 dari berkas BPS atau unggah CSV bulan baru; pilih bongkar atau muat dan latih ulang satu deret per klik dengan lookback terpilih. Dua hasil dapat diperoleh berurutan. Hasil tersimpan di sesi pengguna dan tidak mengganti laporan skripsi. Aplikasi membatasi satu pekerjaan pelatihan pada satu waktu untuk seluruh pengunjung.
 
 CSV tambahan memakai format `ds,bongkar,muat`, misalnya:
 
@@ -67,12 +68,11 @@ ds,bongkar,muat
 ```
 
 Bulan yang diunggah harus berurutan langsung dari bulan terakhir yang sedang dipakai. Contoh angka di atas hanya menunjukkan format, bukan data BPS.
+Unggahan dibatasi 1 MB dan 24 bulan tambahan per eksperimen agar pekerjaan pelatihan tetap terkendali di hosting gratis. Pelatihan NeuralProphet dapat tetap terkena batas CPU Streamlit Community Cloud; catat durasi yang ditampilkan aplikasi dan periksa Cloud logs jika terjadi pembatasan.
 
 ## Menayangkan secara online
 
-1. Kode, `data/`, dan `artifacts/report.json` sudah tersedia di [repositori GitHub proyek](https://github.com/davsantoso/neuralprophet). `.venv/`, `.python/`, dan checkpoint sementara diabaikan oleh `.gitignore`.
-2. Buat atau masuk ke akun [Streamlit Community Cloud](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy) dengan GitHub, lalu pilih `davsantoso/neuralprophet` dan branch `main`.
-3. Pilih `app.py` sebagai entrypoint dan **Python 3.12** pada Advanced settings. Setelah deploy, buka URL aplikasi dan uji halaman utama, unduhan laporan, serta pelatihan ulang.
+Deployment berada di [prediksi-kargo-domestik.streamlit.app](https://prediksi-kargo-domestik.streamlit.app/), dari [repositori GitHub proyek](https://github.com/davsantoso/neuralprophet), branch `main`, entrypoint `app.py`, dan Python 3.12. `.venv/`, `.python/`, dan checkpoint sementara diabaikan oleh `.gitignore`. Catatan pemeriksaan ada di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md).
 
 Aplikasi online tidak bergantung pada laptop lokal setelah deploy. Community Cloud menidurkan aplikasi yang tidak dikunjungi selama 12 jam; pengunjung dapat membangunkannya. Pelatihan ulang memerlukan sumber daya lebih besar daripada membaca hasil tersimpan, sehingga pengujian fitur tersebut di platform hosting tetap diperlukan.
 

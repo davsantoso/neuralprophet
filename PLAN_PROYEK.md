@@ -117,9 +117,9 @@ Aplikasi memakai **Python + Streamlit** dengan empat bagian:
 1. **Ringkasan:** cakupan 114 bulan, grafik dua deret, prediksi Juli 2026 dari model yang dilatih sampai Juni 2026, dan ringkasan kesalahan uji.
 2. **Data:** sumber BPS, tabel dan grafik, statistik deskriptif, serta unduhan CSV hasil pengolahan.
 3. **Evaluasi model:** tanggal split, kandidat lookback beserta MAE validasi, konfigurasi terpilih, MAE/RMSE/MAPE uji, grafik dan tabel aktual versus prediksi, serta unduhan laporan eksperimen.
-4. **Eksperimen:** pengguna dapat menambahkan Juli 2026 dari berkas yang tersedia atau mengunggah CSV bulan baru yang berurutan, lalu menekan tombol untuk melatih ulang dua model dan memperoleh prediksi bulan berikutnya. Hasilnya hanya untuk sesi tersebut dan diberi label **eksperimen**, sehingga tidak mengganti hasil skripsi 114 bulan.
+4. **Eksperimen:** pengguna dapat menambahkan Juli 2026 dari berkas yang tersedia atau mengunggah CSV bulan baru yang berurutan, lalu memilih bongkar atau muat untuk dilatih ulang satu deret per klik. Hasil keduanya dapat diperoleh secara berurutan. Hasilnya hanya untuk sesi tersebut dan diberi label **eksperimen**, sehingga tidak mengganti hasil skripsi 114 bulan.
 
-Pelatihan tidak dijalankan setiap kali pengunjung membuka halaman atau mengubah pilihan grafik. Hasil penelitian yang sudah dihitung disimpan sebagai artefak dan dibaca aplikasi. Unggahan diperiksa format kolom, urutan bulan, kekosongan, dan nilai positif. Kegagalan input menampilkan pesan yang dapat diperbaiki pengguna.
+Pelatihan tidak dijalankan setiap kali pengunjung membuka halaman atau mengubah pilihan grafik. Hasil penelitian yang sudah dihitung disimpan sebagai artefak dan dibaca aplikasi. Eksperimen resmi yang memerlukan sepuluh pelatihan hanya dijalankan lewat CLI, bukan dari web. Unggahan diperiksa format kolom, urutan bulan, kekosongan, nilai positif, ukuran 1 MB, dan batas 24 bulan tambahan. Aplikasi hanya menerima satu pekerjaan pelatihan pada satu waktu. Kegagalan input menampilkan pesan yang dapat diperbaiki pengguna.
 
 ## 7. Arsitektur dan penayangan online
 
@@ -179,5 +179,7 @@ Waterfall digunakan untuk **pengembangan aplikasi web**. Pemilihan lookback berd
 
 **Sudah diunggah:** kode, data sumber, dan hasil eksperimen tersedia di [repositori GitHub](https://github.com/davsantoso/neuralprophet) pada branch `main`. Lingkungan lokal Python 3.12 dan dependensi sudah tersedia. Hasil metrik dan prediksi yang sudah dihitung tercantum di [HASIL_EKSPERIMEN.md](HASIL_EKSPERIMEN.md).
 
-**Belum selesai:** penayangan dan pengujian aplikasi pada URL publik. Langkah ini memerlukan pengguna masuk ke Streamlit Community Cloud dengan akun GitHub, lalu men-deploy repositori tersebut. Setelah URL tersedia, halaman utama, unduhan laporan, dan pelatihan ulang perlu diuji pada layanan hosting.
+**Sudah dideploy:** aplikasi berada di [prediksi-kargo-domestik.streamlit.app](https://prediksi-kargo-domestik.streamlit.app/). Pemeriksaan lokal, perbaikan pembatasan pekerjaan CPU, serta jejak data dan laporan dicatat di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md) dan [JEJAK_PENELITIAN.md](JEJAK_PENELITIAN.md).
+
+**Masih perlu diverifikasi daring:** akses pengunjung tanpa login, semua alur pada versi terbaru, durasi pelatihan ulang, dan Cloud logs saat peringatan CPU. Pengguna menyatakan akan membuat aplikasi publik; perubahan pengaturan tersebut belum terverifikasi dari luar pada saat catatan ini diperbarui.
 

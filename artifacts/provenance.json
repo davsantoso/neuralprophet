@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "source": {
+    "publisher": "Badan Pusat Statistik",
+    "url": "https://www.bps.go.id/id/statistics-table/2/MjM1MSMy/bongkar-muat-barang-angkutan-udara-dalam-negeri-di-5-bandara-utama.html",
+    "category": "Soekarno Hatta-Jakarta",
+    "unit": "ton per bulan",
+    "retrieval_date": null,
+    "retrieval_date_note": "Tanggal pengunduhan awal tidak tercatat; tidak direkonstruksi dari metadata berkas."
+  },
+  "raw_files": [
+    {
+      "path": "data/Bongkar_Muat Barang Angkutan Udara Dalam Negeri di 5 Bandara Utama, 2017.csv",
+      "sha256": "24f3932c98c8a346476b370ceacec56ea5a5bee8eebeb1a90fb30b75e0d5a566"
+    },
+    {
+      "path": "data/Bongkar_Muat Barang Angkutan Udara Dalam Negeri di 5 Bandara Utama, 2018.csv",
+      "sha256": "b87c70510b0bd52c2a1097a951a4816ce945b89e05444131f2350c4d3ab7a337"
+    },
+    {
+      "path": "data/Bongkar_Muat Barang Angkutan Udara Dalam Negeri di 5 Bandara Utama, 2019.csv",
+      "sha256": "848211b67a00f62e1601625a69bd136d2f1e2f94bc491864dccb2eca260fe89d"
+    },
+    {
+      "path": "data/Bongkar_Muat Barang Angkutan Udara Dalam Negeri di 5 Bandara Utama, 2020.csv",
+      "sha256": "d8df4de5ad0b10c0bda6298fe6a62b75127db09cc8a0290f3e527962f6e585a8"
+    },
+    {
+      "path": "data/Bongkar_Muat Barang Angkutan Udara Dalam Negeri di 5 Bandara Utama, 2021.csv",
+      "sha256": "0acbccda40b40dd9c9c1056754f48907b60911d9d2af575f3793c640e7aa7dfd"
+    },
+    {
+      "path": "data/Bongkar_Muat Barang Angkutan Udara Dalam Negeri di 5 Bandara Utama, 2022.csv",
+      "sha256": "496ca6e0647c19d1f18a50a005f59438a35bb15583ced223a19e75f92a024aa9"
+    },
+    {
+      "path": "data/Bongkar_Muat Barang Angkutan Udara Dalam Negeri di 5 Bandara Utama, 2023.csv",
+      "sha256": "10998d9312dcf5fff0d78e0c3b23119f2f0f0b449ff550b562fcf842106ebc2d"
+    },
+    {
+      "path": "data/Bongkar_Muat Barang Angkutan Udara Dalam Negeri di 5 Bandara Utama, 2024.csv",
+      "sha256": "4ecf77445264b4f75ee661284b669bf34360c4af961dfd4f341730894ba7edf4"
+    },
+    {
+      "path": "data/Bongkar_Muat Barang Angkutan Udara Dalam Negeri di 5 Bandara Utama, 2025.csv",
+      "sha256": "e78268dbdbd3d4986bdc72372a8a74fdcfbcde6f80d05dfb9cf256d7e14db133"
+    },
+    {
+      "path": "data/Bongkar_Muat Barang Angkutan Udara Dalam Negeri di 5 Bandara Utama, 2026.csv",
+      "sha256": "cedf70207c3e1c476042bccf92842d91644ec527640e21f7b18866604cee6fdf"
+    }
+  ],
+  "research_dataset": {
+    "first_month": "2017-01",
+    "last_month": "2026-06",
+    "observations_per_series": 114,
+    "columns": [
+      "ds",
+      "bongkar",
+      "muat"
+    ],
+    "canonical_csv_sha256": "09efd78fe3c15adf1c05683e38ba54b1c677cc1d3ec0285cf8c2c60eace69131",
+    "excluded_available_month": "2026-07"
+  },
+  "experiment": {
+    "train": "2017-01..2023-12",
+    "validation": "2024-01..2024-12",
+    "test": "2025-01..2026-06",
+    "horizon_months": 1,
+    "lag_candidates": [
+      3,
+      6,
+      12
+    ],
+    "selected_lags": {
+      "bongkar": 6,
+      "muat": 3
+    },
+    "seed": 42,
+    "epochs": 100,
+    "learning_rate": 0.01,
+    "selection_metric": "MAE"
+  },
+  "report": {
+    "path": "artifacts/report.json",
+    "sha256": "ceb808f172f90de63350565bb661f29d75a8d9c3b8957fc5900299f8b49b0f7f"
+  },
+  "environment": {
+    "python": "3.12.13",
+    "packages": {
+      "neuralprophet": "0.9.0",
+      "numpy": "1.26.4",
+      "pandas": "2.3.3",
+      "torch": "2.14.0",
+      "pytorch-lightning": "2.6.6",
+      "streamlit": "1.57.0"
+    }
+  }
+}

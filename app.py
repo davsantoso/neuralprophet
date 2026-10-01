@@ -3,8 +3,11 @@
 from __future__ import annotations
 
 import json
+import hashlib
+import logging
 from pathlib import Path
 import sys
+import threading
 
 import altair as alt
 import pandas as pd
@@ -34,6 +37,12 @@ def saved_report() -> dict | None:
     if not REPORT_PATH.exists():
         return None
     return json.loads(REPORT_PATH.read_text(encoding="utf-8"))
+
+
+@st.cache_resource
+def training_lock() -> threading.Lock:
+    """One training job at a time across all visitors."""
+    return threading.Lock()
 
 
 def ton(value: float) -> str:
@@ -76,7 +85,7 @@ except (ValueError, FileNotFoundError) as exc:
     st.error(f"Data BPS tidak dapat dibaca: {exc}")
     st.stop()
 
-report = st.session_state.get("thesis_report") or saved_report()
+report = saved_report()
 tabs = st.tabs(["Ringkasan", "Data", "Evaluasi model", "Eksperimen"])
 
 with tabs[0]:
@@ -119,15 +128,7 @@ with tabs[2]:
     ]), hide_index=True, width="stretch")
     st.caption("Setiap prediksi uji adalah prediksi satu bulan ke depan dengan nilai aktual bulan-bulan sebelumnya sebagai riwayat. Model tidak dilatih ulang pada setiap bulan uji.")
     if report is None:
-        st.warning("Hasil evaluasi belum tersedia. Pelatihan dua deret dan pemilihan lookback dapat memerlukan beberapa menit.")
-        if sys.version_info >= (3, 13):
-            st.error("NeuralProphet 0.9.0 memerlukan Python 3.9–3.12. Jalankan aplikasi dengan Python 3.12.")
-        elif st.button("Latih dan evaluasi model skripsi", type="primary"):
-            from cargo_forecast.modeling import run_thesis_experiment
-
-            with st.spinner("Melatih kandidat dan mengevaluasi dua deret..."):
-                st.session_state["thesis_report"] = run_thesis_experiment(data)
-            st.rerun()
+        st.error("Laporan penelitian tidak ditemukan. Jalankan `python train.py` di lingkungan penelitian dan sertakan `artifacts/report.json` saat deploy.")
     else:
         target = st.selectbox("Deret evaluasi", ["bongkar", "muat"], format_func=lambda x: LABELS[x], key="evaluation_target")
         item = report["series"][target]
@@ -152,6 +153,7 @@ with tabs[3]:
     st.write("Eksperimen ini dapat memakai bulan baru. Hasilnya hanya berlaku untuk sesi ini dan tidak mengubah evaluasi skripsi yang memakai 114 bulan.")
     add_july = st.checkbox("Tambahkan Juli 2026 dari berkas BPS yang tersedia", value=False)
     experiment_data = latest_file_data() if add_july else data
+    st.caption("Centang Juli hanya menambah data masukan; pelatihan dimulai setelah tombol di bawah ditekan.")
     st.caption(f"Bulan terakhir saat ini: {experiment_data['ds'].max():%Y-%m} ({len(experiment_data)} observasi).")
     template_month = experiment_data["ds"].max() + pd.offsets.MonthBegin(1)
     template = f"ds,bongkar,muat\n{template_month:%Y-%m},10000,15000\n"
@@ -165,23 +167,42 @@ with tabs[3]:
             st.error(str(exc))
             experiment_data = None
     if report is None:
-        st.info("Jalankan evaluasi model skripsi terlebih dahulu agar lookback terpilih tersedia.")
+        st.info("Laporan penelitian diperlukan agar lookback terpilih tersedia.")
     elif experiment_data is not None:
-        fingerprint = pd.util.hash_pandas_object(experiment_data, index=False).sum()
+        fingerprint = hashlib.sha256(experiment_data.to_csv(index=False).encode("utf-8")).hexdigest()
         if sys.version_info >= (3, 13):
             st.error("Pelatihan ulang memerlukan Python 3.12.")
-        elif st.button("Latih ulang dua model dan prediksi", type="primary"):
-            from cargo_forecast.modeling import retrain_for_next_month
+        else:
+            target = st.selectbox("Deret yang dilatih ulang", list(LABELS), format_func=lambda name: LABELS[name], key="experiment_target")
+            st.caption("Satu deret dilatih per klik untuk membatasi beban CPU. Konfigurasi resmi tetap 100 epoch dan lookback hasil validasi.")
+            results = st.session_state.setdefault("experiment_results", {})
+            prior = results.get(target)
+            already_done = prior is not None and prior["fingerprint"] == fingerprint
+            if st.button("Latih ulang dan prediksi", type="primary", disabled=already_done):
+                lock = training_lock()
+                if not lock.acquire(blocking=False):
+                    st.warning("Pelatihan lain sedang berjalan. Coba lagi setelah selesai.")
+                else:
+                    try:
+                        from cargo_forecast.modeling import retrain_target_for_next_month
 
-            lags = {name: report["series"][name]["selected_n_lags"] for name in LABELS}
-            with st.spinner("Melatih ulang model bongkar dan muat..."):
-                st.session_state["experiment_result"] = retrain_for_next_month(experiment_data, lags)
-                st.session_state["experiment_fingerprint"] = fingerprint
-        result = st.session_state.get("experiment_result")
-        if result and st.session_state.get("experiment_fingerprint") == fingerprint:
-            st.write(f"**Hasil eksperimen:** dilatih pada {result['n_observations']} bulan sampai {result['last_observation']}.")
-            left, right = st.columns(2)
-            for column, target in ((left, "bongkar"), (right, "muat")):
-                forecast = result["forecasts"][target]
-                column.metric(f"{LABELS[target]} {forecast['ds']}", ton(forecast["prediksi"]))
+                        n_lags = report["series"][target]["selected_n_lags"]
+                        with st.spinner(f"Melatih ulang deret {LABELS[target].lower()}..."):
+                            result = retrain_target_for_next_month(experiment_data, target, n_lags)
+                        results[target] = {"fingerprint": fingerprint, "result": result}
+                    except Exception:
+                        logging.exception("Pelatihan ulang %s gagal", target)
+                        st.error("Pelatihan ulang gagal. Periksa Manage app → Logs atau coba lagi setelah pembatasan CPU berakhir.")
+                    finally:
+                        lock.release()
+            if already_done:
+                st.info("Prediksi untuk deret dan data ini sudah tersedia dalam sesi. Ubah data jika ingin melatih ulang.")
+            available = {name: entry["result"] for name, entry in results.items() if entry["fingerprint"] == fingerprint}
+            if available:
+                st.write(f"**Hasil eksperimen:** data hingga {experiment_data['ds'].max():%Y-%m} ({len(experiment_data)} bulan).")
+                columns = st.columns(len(available))
+                for column, (name, result) in zip(columns, available.items()):
+                    forecast = result["forecast"]
+                    column.metric(f"{LABELS[name]} {forecast['ds']}", ton(forecast["prediksi"]))
+                    column.caption(f"Durasi pelatihan: {result['duration_seconds']:.1f} detik")
 

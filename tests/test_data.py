@@ -21,6 +21,15 @@ class BpsDataTests(unittest.TestCase):
         appended = parse_additional_csv(b"ds,bongkar,muat\n2026-07,10633,15496\n", thesis)
         self.assertEqual(len(appended), 115)
 
+    def test_uploaded_data_is_bounded(self):
+        thesis = load_bps_data()
+        with self.assertRaisesRegex(ValueError, "1 MB"):
+            parse_additional_csv(b"x" * 1_000_001, thesis)
+        months = pd.period_range("2026-07", periods=25, freq="M")
+        content = "ds,bongkar,muat\n" + "".join(f"{month},10000,15000\n" for month in months)
+        with self.assertRaisesRegex(ValueError, "24 bulan"):
+            parse_additional_csv(content.encode("utf-8"), thesis)
+
 
 if __name__ == "__main__":
     unittest.main()

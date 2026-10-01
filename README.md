@@ -7,6 +7,7 @@ Angka hasil validasi, uji, dan rincian prediksi bulanan: [HASIL_EKSPERIMEN.md](H
 Analisis galat, tolok ukur sederhana, dan kepekaan seed: [DIAGNOSTIK_PENELITIAN.md](DIAGNOSTIK_PENELITIAN.md).
 Jejak sumber, sidik jari data, dan versi lingkungan: [JEJAK_PENELITIAN.md](JEJAK_PENELITIAN.md).
 Rancangan dan keputusan integrasi data langsung: [RENCANA_INTEGRASI_BPS_API.md](RENCANA_INTEGRASI_BPS_API.md).
+Matriks dan hasil pengujian fungsional black-box: [PENGUJIAN_BLACK_BOX.md](PENGUJIAN_BLACK_BOX.md).
 
 ## Data dan rancangan eksperimen
 

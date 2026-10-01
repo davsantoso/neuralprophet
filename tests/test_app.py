@@ -4,8 +4,10 @@ import unittest
 from unittest.mock import patch
 
 import pandas as pd
+import streamlit as st
 from streamlit.testing.v1 import AppTest
 
+from cargo_forecast.bps_api import BpsApiError
 from cargo_forecast.data import load_bps_data
 
 
@@ -28,7 +30,17 @@ def live_fixture():
 
 
 class AppWorkflowTests(unittest.TestCase):
+    def test_api_failure_keeps_research_visible_and_disables_training(self):
+        st.cache_data.clear()
+        with patch("cargo_forecast.bps_api.fetch_bps_cargo", side_effect=BpsApiError("API sementara gagal")):
+            app = AppTest.from_file("app.py").run(timeout=30)
+        self.assertFalse(app.exception)
+        self.assertEqual(app.metric[0].value, "114")
+        self.assertTrue(any("arsip penelitian" in item.value for item in app.info))
+        self.assertFalse(any(item.label == "Latih model dan prediksi satu bulan" for item in app.button))
+
     def test_live_data_and_experiment_inputs(self):
+        st.cache_data.clear()
         with patch("cargo_forecast.bps_api.fetch_bps_cargo", return_value=live_fixture()):
             app = AppTest.from_file("app.py").run(timeout=30)
             self.assertFalse(app.exception)

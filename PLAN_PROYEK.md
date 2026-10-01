@@ -181,5 +181,5 @@ Waterfall digunakan untuk **pengembangan aplikasi web**. Pemilihan lookback berd
 
 **Sudah dideploy:** aplikasi berada di [prediksi-kargo-domestik.streamlit.app](https://prediksi-kargo-domestik.streamlit.app/). Pemeriksaan lokal, perbaikan pembatasan pekerjaan CPU, serta jejak data dan laporan dicatat di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md) dan [JEJAK_PENELITIAN.md](JEJAK_PENELITIAN.md).
 
-**Sudah diverifikasi daring:** permintaan anonim dengan sesi cookie mencapai halaman aplikasi dengan HTTP 200 di URL publik. **Masih perlu diverifikasi di Cloud setelah integrasi API:** interaksi widget, durasi pelatihan di server, serta Cloud logs saat peringatan CPU. Rinciannya ada di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md).
+**Sudah diverifikasi daring:** permintaan anonim dengan sesi cookie mencapai halaman aplikasi dengan HTTP 200 di URL publik. Pengguna mengonfirmasi data API tampil dan satu pelatihan ringan Ngurah Rai-Bali menghasilkan prediksi Agustus 2026 di browser publik. **Belum terukur di Cloud:** pilihan pelatihan paling berat, durasi server secara rinci, serta Cloud logs saat peringatan CPU. Rinciannya ada di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md).
 

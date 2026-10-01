@@ -1,5 +1,7 @@
 # Rencana integrasi BPS Web API dan eksperimen interaktif
 
+**Status 1 Oktober 2026:** integrasi API, tampilan lima bandara, pelatihan dengan parameter pilihan, jejak eksperimen, dan pengujian lokal telah diimplementasikan pada commit `489152c`. Pengguna telah memverifikasi dari browser publik bahwa data API tampil dan pelatihan ringan Ngurah Rai-Bali menghasilkan prediksi Agustus 2026. Batas CPU Cloud untuk pilihan paling berat belum terukur; rincian bukti ada di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md).
+
 ## Tujuan dan batas tetap
 
 Aplikasi akan mengambil data asli BPS melalui Web API untuk tampilan data dan eksperimen prediksi terbaru. Pengunjung dapat memilih salah satu kategori bandara utama, termasuk Ngurah Rai-Bali, memilih deret bongkar atau muat, mengatur konfigurasi NeuralProphet dalam batas yang aman, lalu melatih satu model untuk memprediksi **satu bulan setelah data BPS terakhir yang tersedia**. Pengunjung tidak perlu mengunggah CSV.

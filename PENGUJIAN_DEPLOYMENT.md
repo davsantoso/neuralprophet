@@ -7,7 +7,7 @@ Sumber deployment: `davsantoso/neuralprophet`, branch `main`, `app.py`.
 
 | Alur | Hasil |
 | --- | --- |
-| Delapan pengujian otomatis: data, unggahan, jejak penelitian, laporan, batas waktu prediksi, dan pelatihan ulang Juli | Lulus pada Python 3.12 lokal. |
+| Sembilan pengujian otomatis: alur UI, data, unggahan, jejak penelitian, laporan, batas waktu prediksi, dan pelatihan ulang Juli | Lulus pada Python 3.12 lokal; uji UI dapat diulang melalui `python -m unittest discover -s tests -p test_app.py -v`. |
 | Render aplikasi dengan Streamlit AppTest | Empat tab muncul, tanpa exception. |
 | Centang Juli 2026 | Menampilkan 115 observasi hingga 2026-07, tanpa exception dan tanpa memulai pelatihan. |
 | Unggah CSV valid untuk Agustus 2026 setelah mencentang Juli | Diterima sebagai 116 observasi hingga 2026-08, tanpa exception. |

@@ -181,5 +181,5 @@ Waterfall digunakan untuk **pengembangan aplikasi web**. Pemilihan lookback berd
 
 **Sudah dideploy:** aplikasi berada di [prediksi-kargo-domestik.streamlit.app](https://prediksi-kargo-domestik.streamlit.app/). Pemeriksaan lokal, perbaikan pembatasan pekerjaan CPU, serta jejak data dan laporan dicatat di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md) dan [JEJAK_PENELITIAN.md](JEJAK_PENELITIAN.md).
 
-**Masih perlu diverifikasi daring:** akses pengunjung tanpa login, semua alur pada versi terbaru, durasi pelatihan ulang, dan Cloud logs saat peringatan CPU. Pengguna menyatakan akan membuat aplikasi publik; perubahan pengaturan tersebut belum terverifikasi dari luar pada saat catatan ini diperbarui.
+**Sudah diverifikasi daring:** permintaan anonim dengan sesi cookie mencapai halaman aplikasi dengan HTTP 200 di URL publik. Pengujian lokal empat tab, unggah data, dan satu pelatihan ulang berhasil. **Masih perlu diverifikasi di Cloud:** interaksi widget pada versi terbaru, durasi pelatihan ulang di server, serta Cloud logs saat peringatan CPU. Rinciannya ada di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md).
 

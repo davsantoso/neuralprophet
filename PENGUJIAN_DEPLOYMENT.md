@@ -27,3 +27,7 @@ Fitur API versi ini memerlukan `BPS_API_KEY` di **Settings → Secrets** Streaml
 Unduhan CSV/JSON, seluruh kombinasi bandara dan parameter, serta 100 epoch pada CPU Cloud belum diuji langsung dari browser. Perilaku throttle untuk beban terberat masih perlu dipantau saat penggunaan nyata.
 
 Pengguna pernah melaporkan banner CPU throttle pada versi sebelumnya. Banner saja tidak menunjukkan penyebab; log Cloud saat kejadian belum tersedia. Pengujian lokal satu pelatihan tidak membuktikan batas CPU Cloud aman. Catat durasi serta Cloud logs setelah pelatihan daring. Jika satu pelatihan ringan masih terkena throttle, pindahkan pekerjaan pelatihan ke layanan komputasi lain dan pertahankan tampilan data serta hasil penelitian di Streamlit.
+
+## Diagnostik tambahan: pemeriksaan lokal
+
+Sepuluh pelatihan offline untuk lima seed pada kedua deret selesai pada Python 3.12. Seed 42 mereproduksi seluruh 18 prediksi uji resmi per deret dengan selisih maksimum **0 ton**. Tolok ukur bulan sebelumnya dan bulan sama tahun lalu dihitung dari nilai yang mendahului tiap bulan uji. Artefak `artifacts/diagnostics.json` memiliki SHA-256 data yang cocok dengan `artifacts/provenance.json`, sementara `artifacts/report.json` tetap. Enam belas pengujian otomatis, termasuk pembatasan data latih seed sampai Desember 2024, lulus secara lokal. Tab Diagnostik lima bagian juga lulus Streamlit AppTest ketika API langsung gagal. Versi tab tambahan ini belum diuji di Cloud sampai perubahan diterbitkan.

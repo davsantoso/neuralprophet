@@ -90,6 +90,8 @@ def main() -> None:
         "",
         "Metrik di atas menggambarkan kesalahan pada 18 bulan uji dengan prosedur satu langkah yang didefinisikan. Hasil tidak membuktikan model akan memiliki kesalahan yang sama pada semua bulan mendatang. Prediksi Juli 2026 berasal dari titik akhir Juni 2026; karena nilai aktual Juli kini tersedia, hasil tersebut harus tetap dibedakan dari metrik uji yang sudah ditetapkan. Tab eksperimen memakai data terbaru dari BPS Web API tanpa mengubah hasil penelitian ini.",
         "",
+        "Diagnostik galat, tolok ukur prediksi sederhana, dan kepekaan lima seed disajikan terpisah di [DIAGNOSTIK_PENELITIAN.md](DIAGNOSTIK_PENELITIAN.md). Angka tambahan itu tidak dipakai memilih ulang hasil resmi.",
+        "",
         "Angka tidak dibulatkan dalam `artifacts/report.json`; pembulatan di dokumen ini hanya untuk penyajian.",
         "",
     ])

@@ -19,6 +19,7 @@ TRAIN_END = pd.Timestamp("2023-12-01")
 VALIDATION_END = pd.Timestamp("2024-12-01")
 LAG_CANDIDATES = (3, 6, 12)
 SEED = 42
+SENSITIVITY_SEEDS = (7, 21, 42, 123, 2026)
 EPOCHS = 100
 LEARNING_RATE = 0.01
 
@@ -30,6 +31,7 @@ def _fit(
     *,
     epochs: int = EPOCHS,
     yearly_seasonality: bool = True,
+    seed: int = SEED,
 ):
     matplotlib_cache = Path(__file__).resolve().parents[1] / ".mpl-cache"
     matplotlib_cache.mkdir(exist_ok=True)
@@ -37,7 +39,7 @@ def _fit(
     from neuralprophet import NeuralProphet, set_log_level, set_random_seed
 
     set_log_level("ERROR")
-    set_random_seed(SEED)
+    set_random_seed(seed)
     model = NeuralProphet(
         n_lags=n_lags,
         n_forecasts=1,
@@ -137,6 +139,49 @@ def run_thesis_experiment(frame: pd.DataFrame) -> dict[str, Any]:
             "next_month": next_month,
         }
     return result
+
+
+def evaluate_seed_sensitivity(
+    frame: pd.DataFrame,
+    selected_lags: dict[str, int],
+    *,
+    seeds: tuple[int, ...] = SENSITIVITY_SEEDS,
+) -> dict[str, list[dict[str, Any]]]:
+    """Refit fixed validated configurations on 2017-2024; test each on 2025-2026.
+
+    This is supplementary sensitivity analysis. It does not reselect lookback or
+    alter the frozen thesis report, and no test result is used to pick a seed.
+    """
+    data = validate_monthly(frame)
+    if len(data) != 114 or data["ds"].max() != THESIS_CUTOFF:
+        raise ValueError("Analisis seed harus memakai 114 bulan sampai Juni 2026.")
+    if len(seeds) < 3 or len(set(seeds)) != len(seeds) or SEED not in seeds:
+        raise ValueError("Gunakan minimal tiga seed unik, termasuk seed resmi 42.")
+    if set(selected_lags) != set(COLUMNS) or any(lag not in LAG_CANDIDATES for lag in selected_lags.values()):
+        raise ValueError("Lookback terpilih kedua deret tidak valid.")
+    import torch
+
+    torch.set_num_threads(1)
+    through_validation = data.loc[data["ds"] <= VALIDATION_END].copy()
+    first_test_month = VALIDATION_END + pd.offsets.MonthBegin(1)
+    results: dict[str, list[dict[str, Any]]] = {}
+    for target in COLUMNS:
+        results[target] = []
+        for seed in seeds:
+            model = _fit(through_validation, target, selected_lags[target], seed=seed)
+            try:
+                predictions = _predict_range(model, data, target, first_test_month)
+            finally:
+                del model
+                gc.collect()
+            if len(predictions) != 18:
+                raise ValueError("Uji sensitivitas harus menghasilkan 18 prediksi per deret dan seed.")
+            results[target].append({
+                "seed": seed,
+                "metrics": _metrics(predictions),
+                "predictions": _records(predictions),
+            })
+    return results
 
 
 def retrain_for_next_month(frame: pd.DataFrame, lags: dict[str, int]) -> dict[str, Any]:

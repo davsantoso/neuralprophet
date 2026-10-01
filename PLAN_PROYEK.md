@@ -175,11 +175,15 @@ Waterfall digunakan untuk **pengembangan aplikasi web**. Pemilihan lookback berd
 
 ## 12. Status proyek saat rencana ini ditulis
 
-**Sudah disiapkan dan diuji secara lokal:** pembaca CSV penelitian, parser Web API BPS, statistik deskriptif, dua eksperimen resmi NeuralProphet, laporan `artifacts/report.json`, dan aplikasi Streamlit empat bagian. API mengembalikan 575 baris untuk lima bandara sampai Juli 2026; seluruh 575 baris dan dua deretnya cocok dengan CSV arsip saat diperiksa pada 1 Oktober 2026. Uji otomatis mencakup data, parser, UI, metrik, batas prediksi, dan pelatihan ulang. Pelatihan nyata satu deret Ngurah Rai-Bali dari API juga berhasil.
+**Sudah disiapkan dan diuji secara lokal:** pembaca CSV penelitian, parser Web API BPS, statistik deskriptif, dua eksperimen resmi NeuralProphet, laporan `artifacts/report.json`, serta aplikasi Streamlit. API mengembalikan 575 baris untuk lima bandara sampai Juli 2026; seluruh 575 baris dan dua deretnya cocok dengan CSV arsip saat diperiksa pada 1 Oktober 2026. Uji otomatis mencakup data, parser, UI, metrik, batas prediksi, dan pelatihan ulang. Pelatihan nyata satu deret Ngurah Rai-Bali dari API juga berhasil.
 
 **Sudah diunggah:** kode, data sumber, dan hasil eksperimen tersedia di [repositori GitHub](https://github.com/davsantoso/neuralprophet) pada branch `main`. Lingkungan lokal Python 3.12 dan dependensi sudah tersedia. Hasil metrik dan prediksi yang sudah dihitung tercantum di [HASIL_EKSPERIMEN.md](HASIL_EKSPERIMEN.md).
 
 **Sudah dideploy:** aplikasi berada di [prediksi-kargo-domestik.streamlit.app](https://prediksi-kargo-domestik.streamlit.app/). Pemeriksaan lokal, perbaikan pembatasan pekerjaan CPU, serta jejak data dan laporan dicatat di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md) dan [JEJAK_PENELITIAN.md](JEJAK_PENELITIAN.md).
 
 **Sudah diverifikasi daring:** permintaan anonim dengan sesi cookie mencapai halaman aplikasi dengan HTTP 200 di URL publik. Pengguna mengonfirmasi data API tampil dan satu pelatihan ringan Ngurah Rai-Bali menghasilkan prediksi Agustus 2026 di browser publik. **Belum terukur di Cloud:** pilihan pelatihan paling berat, durasi server secara rinci, serta Cloud logs saat peringatan CPU. Rinciannya ada di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md).
+
+## 13. Analisis tambahan setelah eksperimen resmi
+
+Tab **Diagnostik penelitian** dan [DIAGNOSTIK_PENELITIAN.md](DIAGNOSTIK_PENELITIAN.md) menambahkan: (1) galat bertanda dan tiga bulan dengan galat terbesar; (2) tolok ukur bulan sebelumnya dan bulan sama tahun lalu pada 18 bulan uji yang identik; (3) uji lima seed dengan lookback resmi tetap. Semua dihitung dari snapshot 114 bulan. Hasil ini memberi konteks terhadap MAE/RMSE/MAPE NeuralProphet dan tidak dipakai memilih ulang konfigurasi berdasarkan data uji. Artefak `artifacts/diagnostics.json` menyimpan prediksi per bulan dan sidik jari laporan resmi.
 

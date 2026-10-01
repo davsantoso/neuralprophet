@@ -36,6 +36,7 @@ class AppWorkflowTests(unittest.TestCase):
             app = AppTest.from_file("app.py").run(timeout=30)
         self.assertFalse(app.exception)
         self.assertEqual(app.metric[0].value, "114")
+        self.assertTrue(any(item.label == "Deret diagnostik" for item in app.selectbox))
         self.assertTrue(any("arsip penelitian" in item.value for item in app.info))
         self.assertFalse(any(item.label == "Latih model dan prediksi satu bulan" for item in app.button))
 
@@ -44,8 +45,9 @@ class AppWorkflowTests(unittest.TestCase):
         with patch("cargo_forecast.bps_api.fetch_bps_cargo", return_value=live_fixture()):
             app = AppTest.from_file("app.py").run(timeout=30)
             self.assertFalse(app.exception)
-            self.assertEqual([tab.label for tab in app.tabs], ["Ringkasan", "Data", "Evaluasi model", "Eksperimen"])
+            self.assertEqual([tab.label for tab in app.tabs], ["Ringkasan", "Data", "Evaluasi model", "Diagnostik penelitian", "Eksperimen"])
             self.assertEqual(app.metric[0].value, "114")
+            self.assertTrue(any(item.label == "Rata-rata galat bertanda" for item in app.metric))
             self.assertFalse(app.file_uploader)
             next(item for item in app.selectbox if item.label == "Kategori bandara").set_value("Ngurah Rai-Bali")
             next(item for item in app.selectbox if item.label == "Kategori bandara untuk eksperimen").set_value("Ngurah Rai-Bali")

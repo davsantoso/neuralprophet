@@ -4,6 +4,7 @@ Aplikasi skripsi untuk dua deret bulanan **bongkar** dan **muat** kargo udara do
 
 Rancangan penelitian dan pengembangan lengkap: [PLAN_PROYEK.md](PLAN_PROYEK.md).
 Angka hasil validasi, uji, dan rincian prediksi bulanan: [HASIL_EKSPERIMEN.md](HASIL_EKSPERIMEN.md).
+Analisis galat, tolok ukur sederhana, dan kepekaan seed: [DIAGNOSTIK_PENELITIAN.md](DIAGNOSTIK_PENELITIAN.md).
 Jejak sumber, sidik jari data, dan versi lingkungan: [JEJAK_PENELITIAN.md](JEJAK_PENELITIAN.md).
 Rancangan dan keputusan integrasi data langsung: [RENCANA_INTEGRASI_BPS_API.md](RENCANA_INTEGRASI_BPS_API.md).
 
@@ -60,13 +61,16 @@ Nilainya adalah **key saja**, bukan URL endpoint. Pada Streamlit Community Cloud
 
 `train.py` dapat membuat ulang `artifacts/report.json` berisi konfigurasi, hasil validasi, prediksi dan metrik uji, serta prediksi satu bulan berikutnya. Artefak hasil saat ini sudah tersedia. Aplikasi membacanya tanpa melatih ulang saat setiap pengunjung membuka halaman. Jika berkas belum ada, buat dengan `python train.py` sebelum deploy. Jalankan `python export_results.py` setelah pelatihan untuk memperbarui `HASIL_EKSPERIMEN.md` dan `python audit_provenance.py --write` setelah meninjau perubahan untuk memperbarui sidik jari penelitian.
 
-Uji data, parser API, antarmuka, hasil, batas waktu prediksi, jejak penelitian, dan pelatihan ulang dapat dijalankan lewat `python -m unittest discover -s tests -v`. `python audit_provenance.py` memeriksa bahwa CSV, laporan, dan versi lingkungan masih cocok dengan manifest. `requirements-lock.txt` merekam versi lengkap paket pada lingkungan yang menghasilkan hasil di atas.
+Jalankan `python diagnose.py` **secara offline** untuk menghitung ulang analisis tambahan. Perintah ini melatih sepuluh model (lima seed untuk masing-masing deret) dengan lookback yang sudah dipilih, lalu menulis `artifacts/diagnostics.json` dan `DIAGNOSTIK_PENELITIAN.md`. Aplikasi hanya membaca artefak tersebut; membuka tab Diagnostik tidak menjalankan pelatihan. Seed 42 mereproduksi prediksi uji resmi, dan artefak tambahan menyimpan SHA-256 data serta laporan resmi.
+
+Uji data, parser API, antarmuka, hasil, diagnostik, batas waktu prediksi, jejak penelitian, dan pelatihan ulang dapat dijalankan lewat `python -m unittest discover -s tests -v`. `python audit_provenance.py` memeriksa bahwa CSV, laporan, dan versi lingkungan masih cocok dengan manifest. `requirements-lock.txt` merekam versi lengkap paket pada lingkungan yang menghasilkan hasil di atas.
 
 ## Interaksi aplikasi
 
 - **Ringkasan:** grafik dua deret, prediksi Juli 2026, dan ukuran kesalahan uji.
 - **Data:** grafik, statistik, tabel, dan unduhan CSV dari API BPS; pilih salah satu dari lima bandara utama, deret bongkar/muat, dan rentang tahun. Waktu pengambilan dan bulan terakhir tersedia ditampilkan.
 - **Evaluasi model:** pembagian kronologis, kandidat lookback, MAE/RMSE/MAPE uji, dan grafik aktual versus prediksi.
+- **Diagnostik penelitian:** galat bertanda per bulan, tiga bulan dengan galat terbesar, metrik aturan bulan sebelumnya dan bulan sama tahun lalu pada 18 bulan uji yang sama, serta variasi hasil lima seed. Analisis ini hanya untuk kategori penelitian Soekarno Hatta-Jakarta.
 - **Eksperimen:** pilih bandara, target bongkar atau muat, riwayat 60/84/semua bulan, lookback 3/6/12, epoch 25/50/100, dan musiman tahunan. Data diambil dari API tanpa unggah CSV. Satu klik melatih satu deret dan memprediksi satu bulan berikutnya. Hasil dan jejak parameter dapat diunduh sebagai JSON; hasil tersimpan hanya dalam sesi pengguna dan tidak mengganti laporan skripsi.
 
 Eksperimen satu kali pelatihan tidak memiliki metrik uji tersendiri. MAE, RMSE, dan MAPE pada tab Evaluasi model hanya berlaku bagi dua deret penelitian Soekarno Hatta-Jakarta. Aplikasi memakai cache API enam jam, satu pekerjaan pelatihan untuk semua pengunjung, dan satu thread CPU. Pelatihan NeuralProphet tetap dapat terkena batas CPU Streamlit Community Cloud; catat durasi dan periksa Cloud logs jika terjadi pembatasan.

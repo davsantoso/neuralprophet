@@ -22,6 +22,7 @@ from cargo_forecast.modeling import LEARNING_RATE, SEED
 
 ROOT = Path(__file__).resolve().parent
 REPORT_PATH = ROOT / "artifacts" / "report.json"
+DIAGNOSTICS_PATH = ROOT / "artifacts" / "diagnostics.json"
 LABELS = {"bongkar": "Bongkar", "muat": "Muat"}
 BPS_URL = "https://www.bps.go.id/id/statistics-table/2/MjM1MSMy/bongkar-muat-barang-angkutan-udara-dalam-negeri-di-5-bandara-utama.html"
 
@@ -36,6 +37,13 @@ def saved_report() -> dict | None:
     if not REPORT_PATH.exists():
         return None
     return json.loads(REPORT_PATH.read_text(encoding="utf-8"))
+
+
+@st.cache_data
+def saved_diagnostics() -> dict | None:
+    if not DIAGNOSTICS_PATH.exists():
+        return None
+    return json.loads(DIAGNOSTICS_PATH.read_text(encoding="utf-8"))
 
 
 @st.cache_data(ttl=6 * 3600, show_spinner=False)
@@ -95,6 +103,23 @@ def test_plot(records: list[dict], title: str) -> alt.Chart:
     )
 
 
+def error_plot(records: list[dict]) -> alt.Chart:
+    frame = pd.DataFrame(records)
+    frame["ds"] = pd.to_datetime(frame["ds"])
+    return (
+        alt.Chart(frame)
+        .mark_bar()
+        .encode(
+            x=alt.X("ds:T", title="Bulan uji"),
+            y=alt.Y("error:Q", title="Prediksi − aktual (ton)"),
+            color=alt.condition(alt.datum.error >= 0, alt.value("#c65b45"), alt.value("#327eac")),
+            tooltip=["ds:T", alt.Tooltip("actual:Q", title="Aktual"), alt.Tooltip("neuralprophet:Q", title="Prediksi"), alt.Tooltip("error:Q", title="Galat")],
+        )
+        .properties(height=300)
+        .interactive()
+    )
+
+
 st.set_page_config(page_title="Prediksi Kargo Udara Domestik", page_icon="✈️", layout="wide")
 st.title("Prediksi volume kargo udara domestik")
 st.caption("NeuralProphet · penelitian Soekarno Hatta-Jakarta · eksplorasi lima bandara BPS · horizon satu bulan")
@@ -106,6 +131,7 @@ except (ValueError, FileNotFoundError) as exc:
     st.stop()
 
 report = saved_report()
+diagnostics = saved_diagnostics()
 try:
     with st.spinner("Mengambil data terbaru dari BPS..."):
         live = live_dataset()
@@ -117,7 +143,7 @@ except Exception:
     live = None
     api_error = "Data BPS langsung belum dapat dibaca. Coba muat ulang nanti."
 
-tabs = st.tabs(["Ringkasan", "Data", "Evaluasi model", "Eksperimen"])
+tabs = st.tabs(["Ringkasan", "Data", "Evaluasi model", "Diagnostik penelitian", "Eksperimen"])
 
 with tabs[0]:
     st.subheader("Data penelitian: Januari 2017–Juni 2026")
@@ -191,6 +217,48 @@ with tabs[2]:
         st.download_button("Unduh laporan penelitian (JSON)", json.dumps(report, ensure_ascii=False, indent=2), file_name="laporan_neuralprophet.json", mime="application/json")
 
 with tabs[3]:
+    st.subheader("Diagnostik pada 18 bulan uji")
+    st.write("Analisis tambahan untuk kategori Soekarno Hatta-Jakarta. Tolok ukur sederhana dan uji beberapa seed memberi konteks bagi hasil NeuralProphet; hasil resmi tidak dipilih ulang dari sini.")
+    if report is None:
+        st.info("Laporan penelitian resmi diperlukan untuk menampilkan diagnostik.")
+    elif diagnostics is None:
+        st.info("Artefak diagnostik belum tersedia. Jalankan `python diagnose.py` secara offline lalu sertakan `artifacts/diagnostics.json` saat deploy.")
+    elif diagnostics["source"]["report_sha256"] != hashlib.sha256(REPORT_PATH.read_bytes()).hexdigest():
+        st.error("Artefak diagnostik tidak cocok dengan laporan penelitian resmi.")
+    elif diagnostics["source"]["data_sha256"] != hashlib.sha256(data.assign(ds=data["ds"].dt.strftime("%Y-%m")).to_csv(index=False, lineterminator="\n").encode("utf-8")).hexdigest():
+        st.error("Artefak diagnostik tidak cocok dengan snapshot data penelitian.")
+    else:
+        target = st.selectbox("Deret diagnostik", list(LABELS), format_func=lambda name: LABELS[name], key="diagnostic_target")
+        detail = diagnostics["series"][target]
+        st.caption("Periode uji: Januari 2025–Juni 2026. Galat bertanda = prediksi dikurangi aktual; nilai positif berarti prediksi terlalu tinggi.")
+        bias = detail["bias"]
+        first, second, third = st.columns(3)
+        first.metric("Rata-rata galat bertanda", ton(bias["mean_error"]))
+        second.metric("Bulan terlalu tinggi", bias["overprediction_months"])
+        third.metric("Bulan terlalu rendah", bias["underprediction_months"])
+        st.altair_chart(error_plot(detail["monthly"]), width="stretch")
+        st.write("**Tolok ukur pada 18 bulan yang sama**")
+        st.dataframe(pd.DataFrame([
+            {"Metode": label, **detail["metrics"][name]}
+            for name, label in (("neuralprophet", "NeuralProphet"), ("last_month", "Bulan sebelumnya"), ("same_month_last_year", "Bulan sama tahun lalu"))
+        ]), hide_index=True, width="stretch")
+        st.caption("Dua aturan sederhana memakai hanya nilai aktual yang tersedia sebelum bulan target. Angka ini adalah konteks evaluasi, bukan pemilihan ulang model dengan data uji.")
+        monthly = pd.DataFrame(detail["monthly"]).rename(columns={
+            "ds": "Bulan", "actual": "Aktual", "neuralprophet": "NeuralProphet",
+            "last_month": "Bulan sebelumnya", "same_month_last_year": "Bulan sama tahun lalu",
+            "error": "Galat (ton)", "absolute_error": "Galat absolut (ton)", "ape_percent": "APE (%)",
+        })
+        st.write("**Rincian bulanan dan tiga galat terbesar**")
+        st.dataframe(monthly, hide_index=True, width="stretch")
+        st.dataframe(pd.DataFrame(detail["largest_errors"])[["ds", "actual", "neuralprophet", "error", "ape_percent"]], hide_index=True, width="stretch")
+        st.write("**Kepekaan terhadap seed pelatihan**")
+        st.caption(f"Lookback {detail['selected_n_lags']} bulan tetap; setiap seed dilatih pada data sampai Desember 2024 dan diuji pada 18 bulan yang sama. Hasil uji tidak dipakai memilih seed terbaik.")
+        st.dataframe(pd.DataFrame([{"Seed": run["seed"], **run["metrics"]} for run in detail["seed_runs"]]), hide_index=True, width="stretch")
+        st.dataframe(pd.DataFrame([{"Metrik": name, **summary} for name, summary in detail["seed_summary"].items()]).rename(columns={"mean": "Rata-rata", "sample_std": "Simpangan baku sampel", "min": "Minimum", "max": "Maksimum"}), hide_index=True, width="stretch")
+        st.caption(f"Seed 42 mereproduksi laporan resmi (selisih prediksi maksimum {detail['seed_42_max_forecast_difference_from_official']:.6f} ton). Kelima seed memakai periode uji yang sama; sebarannya bukan interval kepercayaan atau bukti kinerja pada bandara lain.")
+        st.download_button("Unduh diagnostik lengkap (JSON)", json.dumps(diagnostics, ensure_ascii=False, indent=2), file_name="diagnostik_penelitian.json", mime="application/json")
+
+with tabs[4]:
     st.subheader("Eksperimen prediksi dari data BPS langsung")
     st.write("Pilih bandara, satu deret, dan parameter. Pelatihan dimulai hanya setelah tombol ditekan. Hasil eksperimen tidak mengubah penelitian 114 bulan.")
     if live is None:

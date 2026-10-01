@@ -115,26 +115,26 @@ Simpan juga tabel bulanan aktual dan prediksi, grafik keduanya, konfigurasi terp
 Aplikasi memakai **Python + Streamlit** dengan empat bagian:
 
 1. **Ringkasan:** cakupan 114 bulan, grafik dua deret, prediksi Juli 2026 dari model yang dilatih sampai Juni 2026, dan ringkasan kesalahan uji.
-2. **Data:** sumber BPS, tabel dan grafik, statistik deskriptif, serta unduhan CSV hasil pengolahan.
+2. **Data:** data langsung BPS untuk lima bandara utama, pilihan deret dan rentang tahun, tabel dan grafik, statistik deskriptif, serta unduhan CSV. Jika API gagal, arsip penelitian diberi label jelas.
 3. **Evaluasi model:** tanggal split, kandidat lookback beserta MAE validasi, konfigurasi terpilih, MAE/RMSE/MAPE uji, grafik dan tabel aktual versus prediksi, serta unduhan laporan eksperimen.
-4. **Eksperimen:** pengguna dapat menambahkan Juli 2026 dari berkas yang tersedia atau mengunggah CSV bulan baru yang berurutan, lalu memilih bongkar atau muat untuk dilatih ulang satu deret per klik. Hasil keduanya dapat diperoleh secara berurutan. Hasilnya hanya untuk sesi tersebut dan diberi label **eksperimen**, sehingga tidak mengganti hasil skripsi 114 bulan.
+4. **Eksperimen:** pengguna memilih salah satu dari lima bandara utama, bongkar atau muat, panjang riwayat, lookback, epoch, dan musiman tahunan. Data diperoleh dari API BPS tanpa unggah CSV. Satu deret dilatih per klik untuk prediksi satu bulan; hasil serta jejak parameter hanya tersimpan di sesi dan diberi label **eksperimen**, sehingga tidak mengganti hasil skripsi 114 bulan.
 
-Pelatihan tidak dijalankan setiap kali pengunjung membuka halaman atau mengubah pilihan grafik. Hasil penelitian yang sudah dihitung disimpan sebagai artefak dan dibaca aplikasi. Eksperimen resmi yang memerlukan sepuluh pelatihan hanya dijalankan lewat CLI, bukan dari web. Unggahan diperiksa format kolom, urutan bulan, kekosongan, nilai positif, ukuran 1 MB, dan batas 24 bulan tambahan. Aplikasi hanya menerima satu pekerjaan pelatihan pada satu waktu. Kegagalan input menampilkan pesan yang dapat diperbaiki pengguna.
+Pelatihan tidak dijalankan setiap kali pengunjung membuka halaman atau mengubah pilihan grafik. Hasil penelitian yang sudah dihitung disimpan sebagai artefak dan dibaca aplikasi. Eksperimen resmi yang memerlukan sepuluh pelatihan hanya dijalankan lewat CLI, bukan dari web. Respons API diperiksa dimensi, urutan bulan, kekosongan, dan nilai positif; hasil API disimpan sementara dalam cache enam jam. Aplikasi hanya menerima satu pekerjaan pelatihan pada satu waktu.
 
 ## 7. Arsitektur dan penayangan online
 
-Alur utama: **CSV BPS → validasi dan tabel bulanan → dua eksperimen NeuralProphet → laporan hasil → aplikasi Streamlit**. Pelatihan ulang pada tab eksperimen membaca data tambahan, memakai lookback terpilih, dan menghasilkan prediksi baru tanpa menulis ulang laporan penelitian.
+Alur penelitian: **CSV BPS → validasi dan tabel bulanan 114 bulan → dua eksperimen NeuralProphet → laporan hasil → aplikasi Streamlit**. Alur eksplorasi: **BPS Web API → validasi dan cache → pilihan bandara/parameter → satu pelatihan NeuralProphet → prediksi dan jejak eksperimen sesi**. Alur kedua tidak menulis ulang laporan penelitian.
 
 Target awal adalah [Streamlit Community Cloud](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy) dari repositori GitHub dengan Python 3.12 dan daftar dependensi proyek. Setelah deploy, aplikasi dapat diakses lewat URL tanpa komputer lokal menyala. [Community Cloud](https://docs.streamlit.io/deploy/streamlit-community-cloud/manage-your-app) menidurkan aplikasi setelah 12 jam tanpa kunjungan dan memiliki batas sumber daya; fitur pelatihan ulang harus diuji pada layanan tersebut. Jika kebutuhan akhir benar-benar server aktif tanpa jeda atau pelatihan melebihi sumber daya gratis, pindahkan aplikasi yang sama ke hosting berbayar yang sesuai.
 
-Kunci API BPS tidak diperlukan pada rancangan ini. Jika API ditambahkan kemudian, kunci harus disimpan sebagai secret platform, bukan di kode atau repositori.
+Kunci API BPS dibaca dari secret platform atau variabel lingkungan. Kunci tidak disimpan di kode maupun repositori. Tanpa API, hasil penelitian tetap terbaca dan pelatihan data terbaru dinonaktifkan.
 
 ## 8. Tahapan Waterfall dan hasil tiap tahap
 
 | Tahap | Pekerjaan | Bukti/keluaran selesai |
 | --- | --- | --- |
 | Analisis kebutuhan | Tetapkan dua target, horizon, dataset, alur pengguna, metrik, dan batas penelitian. | Dokumen kebutuhan dan keputusan pada bagian 1–2 ini disetujui untuk dijadikan acuan. |
-| Desain | Rancang format data, split, eksperimen model, navigasi web, format laporan, serta alur unggah dan pelatihan ulang. | Diagram/alur sistem dan spesifikasi pada bagian 3–7. |
+| Desain | Rancang format data, split, eksperimen model, navigasi web, format laporan, integrasi API, dan pelatihan interaktif. | Diagram/alur sistem dan spesifikasi pada bagian 3–7. |
 | Implementasi | Buat pemroses CSV, pipeline model, penyimpanan hasil, dan antarmuka Streamlit. | Kode yang dapat dijalankan dan laporan model yang dihasilkan dari data beku. |
 | Pengujian | Uji kualitas data, prediksi tanpa kebocoran waktu, metrik, input web yang valid/tidak valid, dan aplikasi online. | Hasil uji yang terdokumentasi, grafik prediksi, serta pemeriksaan bahwa hasil skripsi tidak berubah akibat eksperimen. |
 | Pemeliharaan | Perbaiki bug dan dokumentasikan cara memperbarui data atau dependensi setelah sistem selesai. | Panduan menjalankan, memperbarui, dan menayangkan aplikasi. |
@@ -157,7 +157,7 @@ Waterfall digunakan untuk **pengembangan aplikasi web**. Pemilihan lookback berd
 2. **Siapkan lingkungan model yang kompatibel:** Python 3.12, dependensi terpasang, lalu catat versi paket yang benar-benar digunakan. Jangan mengisi tabel hasil dengan angka sementara.
 3. **Jalankan eksperimen resmi:** pilih lookback pada validasi, latih ulang, hitung 18 hasil uji per deret, dan hasilkan prediksi Juli 2026 beserta artefak laporan yang dapat diperiksa.
 4. **Verifikasi hasil:** periksa jumlah baris, rumus metrik, tidak adanya kebocoran waktu, kewajaran prediksi, serta reproduksibilitas dengan seed dan data yang sama. Perbaiki implementasi jika pemeriksaan menemukan masalah, lalu jalankan ulang seluruh hasil yang terdampak.
-5. **Selesaikan dan uji aplikasi:** tampilkan hasil resmi dari artefak, uji unggah data valid/tidak valid, jalankan pelatihan ulang, serta periksa bahwa hasil skripsi tidak berubah.
+5. **Selesaikan dan uji aplikasi:** tampilkan hasil resmi dari artefak, uji respons API valid/tidak valid, jalankan pelatihan interaktif, serta periksa bahwa hasil skripsi tidak berubah.
 6. **Deploy dan uji daring:** unggah versi yang sudah diverifikasi ke repositori GitHub, deploy ke Streamlit Community Cloud, uji akses URL dan penggunaan sumber daya. Pilih host lain jika syarat selalu aktif atau pelatihan ulang tidak terpenuhi.
 7. **Tulis dan cocokkan BAB I–V:** masukkan hanya angka hasil eksperimen terverifikasi, selaraskan tabel/grafik aplikasi dengan naskah, periksa sitasi, istilah, judul, serta simpulan akhir.
 
@@ -169,17 +169,17 @@ Waterfall digunakan untuk **pengembangan aplikasi web**. Pemilihan lookback berd
 - Hasil uji dihitung pada tepat 18 bulan yang belum digunakan untuk memilih konfigurasi, dengan input hanya dari masa lalu pada setiap prediksi.
 - MAE, RMSE, MAPE dihitung dari pasangan aktual/prediksi yang sama; tabel hasil dapat diaudit ulang.
 - Aplikasi menampilkan sumber, satuan ton, periode, konfigurasi, dan perbedaan antara hasil skripsi dan eksperimen pengguna.
-- Data unggahan yang salah ditolak dengan pesan jelas; pelatihan ulang tidak mengubah artefak penelitian.
+- Respons API yang salah ditolak dengan pesan aman; pelatihan interaktif tidak mengubah artefak penelitian.
 - Aplikasi terbuka melalui URL online, grafik dan tabel terbaca, serta kebutuhan memori pelatihan ulang diuji pada host yang dipilih.
 - Naskah konsisten memakai frasa **“bongkar dan muat”**, termasuk sampul dan lembar pengesahan; nama kategori BPS tetap hanya pada batasan/metodologi/data.
 
 ## 12. Status proyek saat rencana ini ditulis
 
-**Sudah disiapkan dan diuji secara lokal:** pembaca dan validator CSV BPS, statistik deskriptif, dua eksperimen NeuralProphet, laporan hasil `artifacts/report.json` dan `HASIL_EKSPERIMEN.md`, aplikasi Streamlit empat bagian, serta dokumentasi. Pemeriksaan data memastikan 114 bulan hingga Juni 2026; file sumber memiliki Juli 2026 sebagai bulan ke-115. Pengujian memeriksa tanggal dan nilai aktual uji, menghitung ulang metrik, membuktikan batas prediksi satu langkah, serta menjalankan pelatihan ulang dengan Juli sebagai data tambahan. Aplikasi berhasil dirender bersama laporan tersimpan pada pengujian lokal.
+**Sudah disiapkan dan diuji secara lokal:** pembaca CSV penelitian, parser Web API BPS, statistik deskriptif, dua eksperimen resmi NeuralProphet, laporan `artifacts/report.json`, dan aplikasi Streamlit empat bagian. API mengembalikan 575 baris untuk lima bandara sampai Juli 2026; seluruh 575 baris dan dua deretnya cocok dengan CSV arsip saat diperiksa pada 1 Oktober 2026. Uji otomatis mencakup data, parser, UI, metrik, batas prediksi, dan pelatihan ulang. Pelatihan nyata satu deret Ngurah Rai-Bali dari API juga berhasil.
 
 **Sudah diunggah:** kode, data sumber, dan hasil eksperimen tersedia di [repositori GitHub](https://github.com/davsantoso/neuralprophet) pada branch `main`. Lingkungan lokal Python 3.12 dan dependensi sudah tersedia. Hasil metrik dan prediksi yang sudah dihitung tercantum di [HASIL_EKSPERIMEN.md](HASIL_EKSPERIMEN.md).
 
 **Sudah dideploy:** aplikasi berada di [prediksi-kargo-domestik.streamlit.app](https://prediksi-kargo-domestik.streamlit.app/). Pemeriksaan lokal, perbaikan pembatasan pekerjaan CPU, serta jejak data dan laporan dicatat di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md) dan [JEJAK_PENELITIAN.md](JEJAK_PENELITIAN.md).
 
-**Sudah diverifikasi daring:** permintaan anonim dengan sesi cookie mencapai halaman aplikasi dengan HTTP 200 di URL publik. Pengujian lokal empat tab, unggah data, dan satu pelatihan ulang berhasil. **Masih perlu diverifikasi di Cloud:** interaksi widget pada versi terbaru, durasi pelatihan ulang di server, serta Cloud logs saat peringatan CPU. Rinciannya ada di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md).
+**Sudah diverifikasi daring:** permintaan anonim dengan sesi cookie mencapai halaman aplikasi dengan HTTP 200 di URL publik. **Masih perlu diverifikasi di Cloud setelah integrasi API:** interaksi widget, durasi pelatihan di server, serta Cloud logs saat peringatan CPU. Rinciannya ada di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md).
 

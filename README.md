@@ -5,10 +5,11 @@ Aplikasi skripsi untuk dua deret bulanan **bongkar** dan **muat** kargo udara do
 Rancangan penelitian dan pengembangan lengkap: [PLAN_PROYEK.md](PLAN_PROYEK.md).
 Angka hasil validasi, uji, dan rincian prediksi bulanan: [HASIL_EKSPERIMEN.md](HASIL_EKSPERIMEN.md).
 Jejak sumber, sidik jari data, dan versi lingkungan: [JEJAK_PENELITIAN.md](JEJAK_PENELITIAN.md).
+Rancangan dan keputusan integrasi data langsung: [RENCANA_INTEGRASI_BPS_API.md](RENCANA_INTEGRASI_BPS_API.md).
 
 ## Data dan rancangan eksperimen
 
-Data penelitian dibekukan pada **Januari 2017–Juni 2026 (114 bulan)**. Berkas BPS di `data/` sudah memuat Juli 2026, tetapi bulan itu hanya dapat digunakan dalam tab eksperimen aplikasi. Sumber: [tabel statistik BPS](https://www.bps.go.id/id/statistics-table/2/MjM1MSMy/bongkar-muat-barang-angkutan-udara-dalam-negeri-di-5-bandara-utama.html).
+Data penelitian dibekukan pada **Januari 2017–Juni 2026 (114 bulan)**. Berkas BPS di `data/` sudah memuat Juli 2026, tetapi bulan itu tidak masuk eksperimen inti. Tab Data dan Eksperimen memakai [BPS Web API](https://webapi.bps.go.id/documentation/) untuk membaca publikasi terbaru, yang mungkin telah direvisi. Sumber tabel: [BPS](https://www.bps.go.id/id/statistics-table/2/MjM1MSMy/bongkar-muat-barang-angkutan-udara-dalam-negeri-di-5-bandara-utama.html).
 
 | Bagian | Periode | Banyak bulan | Fungsi |
 | --- | --- | ---: | --- |
@@ -49,26 +50,26 @@ python train.py
 streamlit run app.py
 ```
 
+Untuk mengaktifkan data langsung, buat `.streamlit/secrets.toml` (sudah diabaikan Git) dengan isi:
+
+```toml
+BPS_API_KEY = "key-anda-dari-bps"
+```
+
+Nilainya adalah **key saja**, bukan URL endpoint. Pada Streamlit Community Cloud, simpan baris yang sama di **Settings → Secrets**. Jangan memasukkan key ke repositori atau mengirimkannya lewat chat. Tanpa key atau saat API gagal, tab Data menampilkan arsip penelitian yang diberi label, dan pelatihan dengan data terbaru tidak tersedia.
+
 `train.py` dapat membuat ulang `artifacts/report.json` berisi konfigurasi, hasil validasi, prediksi dan metrik uji, serta prediksi satu bulan berikutnya. Artefak hasil saat ini sudah tersedia. Aplikasi membacanya tanpa melatih ulang saat setiap pengunjung membuka halaman. Jika berkas belum ada, buat dengan `python train.py` sebelum deploy. Jalankan `python export_results.py` setelah pelatihan untuk memperbarui `HASIL_EKSPERIMEN.md` dan `python audit_provenance.py --write` setelah meninjau perubahan untuk memperbarui sidik jari penelitian.
 
-Uji data, hasil, batas waktu prediksi, jejak penelitian, dan pelatihan ulang dengan data Juli dapat dijalankan lewat `python -m unittest discover -s tests -v`. `python audit_provenance.py` memeriksa bahwa CSV, laporan, dan versi lingkungan masih cocok dengan manifest. `requirements-lock.txt` merekam versi lengkap paket pada lingkungan yang menghasilkan hasil di atas.
+Uji data, parser API, antarmuka, hasil, batas waktu prediksi, jejak penelitian, dan pelatihan ulang dapat dijalankan lewat `python -m unittest discover -s tests -v`. `python audit_provenance.py` memeriksa bahwa CSV, laporan, dan versi lingkungan masih cocok dengan manifest. `requirements-lock.txt` merekam versi lengkap paket pada lingkungan yang menghasilkan hasil di atas.
 
 ## Interaksi aplikasi
 
 - **Ringkasan:** grafik dua deret, prediksi Juli 2026, dan ukuran kesalahan uji.
-- **Data:** grafik dan tabel 114 bulan, unduhan CSV, serta tautan ke sumber BPS.
+- **Data:** grafik, statistik, tabel, dan unduhan CSV dari API BPS; pilih salah satu dari lima bandara utama, deret bongkar/muat, dan rentang tahun. Waktu pengambilan dan bulan terakhir tersedia ditampilkan.
 - **Evaluasi model:** pembagian kronologis, kandidat lookback, MAE/RMSE/MAPE uji, dan grafik aktual versus prediksi.
-- **Eksperimen:** tambahkan Juli 2026 dari berkas BPS atau unggah CSV bulan baru; pilih bongkar atau muat dan latih ulang satu deret per klik dengan lookback terpilih. Dua hasil dapat diperoleh berurutan. Hasil tersimpan di sesi pengguna dan tidak mengganti laporan skripsi. Aplikasi membatasi satu pekerjaan pelatihan pada satu waktu untuk seluruh pengunjung.
+- **Eksperimen:** pilih bandara, target bongkar atau muat, riwayat 60/84/semua bulan, lookback 3/6/12, epoch 25/50/100, dan musiman tahunan. Data diambil dari API tanpa unggah CSV. Satu klik melatih satu deret dan memprediksi satu bulan berikutnya. Hasil dan jejak parameter dapat diunduh sebagai JSON; hasil tersimpan hanya dalam sesi pengguna dan tidak mengganti laporan skripsi.
 
-CSV tambahan memakai format `ds,bongkar,muat`, misalnya:
-
-```csv
-ds,bongkar,muat
-2026-08,10000,15000
-```
-
-Bulan yang diunggah harus berurutan langsung dari bulan terakhir yang sedang dipakai. Contoh angka di atas hanya menunjukkan format, bukan data BPS.
-Unggahan dibatasi 1 MB dan 24 bulan tambahan per eksperimen agar pekerjaan pelatihan tetap terkendali di hosting gratis. Pelatihan NeuralProphet dapat tetap terkena batas CPU Streamlit Community Cloud; catat durasi yang ditampilkan aplikasi dan periksa Cloud logs jika terjadi pembatasan.
+Eksperimen satu kali pelatihan tidak memiliki metrik uji tersendiri. MAE, RMSE, dan MAPE pada tab Evaluasi model hanya berlaku bagi dua deret penelitian Soekarno Hatta-Jakarta. Aplikasi memakai cache API enam jam, satu pekerjaan pelatihan untuk semua pengunjung, dan satu thread CPU. Pelatihan NeuralProphet tetap dapat terkena batas CPU Streamlit Community Cloud; catat durasi dan periksa Cloud logs jika terjadi pembatasan.
 
 ## Menayangkan secara online
 

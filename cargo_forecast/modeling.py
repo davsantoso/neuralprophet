@@ -23,7 +23,14 @@ EPOCHS = 100
 LEARNING_RATE = 0.01
 
 
-def _fit(frame: pd.DataFrame, target: str, n_lags: int):
+def _fit(
+    frame: pd.DataFrame,
+    target: str,
+    n_lags: int,
+    *,
+    epochs: int = EPOCHS,
+    yearly_seasonality: bool = True,
+):
     matplotlib_cache = Path(__file__).resolve().parents[1] / ".mpl-cache"
     matplotlib_cache.mkdir(exist_ok=True)
     os.environ.setdefault("MPLCONFIGDIR", str(matplotlib_cache))
@@ -34,11 +41,11 @@ def _fit(frame: pd.DataFrame, target: str, n_lags: int):
     model = NeuralProphet(
         n_lags=n_lags,
         n_forecasts=1,
-        yearly_seasonality=True,
+        yearly_seasonality=yearly_seasonality,
         weekly_seasonality=False,
         daily_seasonality=False,
         n_changepoints=10,
-        epochs=EPOCHS,
+        epochs=epochs,
         learning_rate=LEARNING_RATE,
     )
     model.fit(to_neuralprophet(frame, target), freq="MS", progress=None)
@@ -143,28 +150,37 @@ def retrain_for_next_month(frame: pd.DataFrame, lags: dict[str, int]) -> dict[st
     return {"last_observation": data["ds"].max().strftime("%Y-%m"), "n_observations": len(data), "forecasts": forecasts}
 
 
-def retrain_target_for_next_month(frame: pd.DataFrame, target: str, n_lags: int) -> dict[str, Any]:
+def retrain_target_for_next_month(
+    frame: pd.DataFrame,
+    target: str,
+    n_lags: int,
+    *,
+    epochs: int = EPOCHS,
+    yearly_seasonality: bool = True,
+) -> dict[str, Any]:
     """Fit one independent series, keeping cloud CPU use bounded per request."""
-    data = validate_monthly(frame)
-    if data["ds"].max() < THESIS_CUTOFF:
-        raise ValueError("Data eksperimen tidak boleh berakhir sebelum Juni 2026.")
+    if frame.empty:
+        raise ValueError("Data eksperimen kosong.")
+    data = validate_monthly(frame, expected_start=pd.Timestamp(frame["ds"].min()))
+    if len(data) < 60:
+        raise ValueError("Data eksperimen memerlukan minimal 60 bulan lengkap.")
     if target not in COLUMNS:
         raise ValueError(f"Target tidak dikenal: {target}")
-    if n_lags <= 0:
-        raise ValueError("Lookback harus positif.")
+    if n_lags not in LAG_CANDIDATES or epochs not in (25, 50, 100):
+        raise ValueError("Konfigurasi lookback atau epoch tidak tersedia.")
     os.environ.setdefault("OMP_NUM_THREADS", "1")
     os.environ.setdefault("MKL_NUM_THREADS", "1")
     import torch
 
     torch.set_num_threads(1)
     started = time.perf_counter()
-    model = _fit(data, target, n_lags)
+    model = _fit(data, target, n_lags, epochs=epochs, yearly_seasonality=yearly_seasonality)
     try:
         forecast = _forecast_next(model, data, target)
     finally:
         del model
         gc.collect()
     duration = time.perf_counter() - started
-    logging.getLogger(__name__).info("Pelatihan eksperimen %s: %.1f detik, %s bulan, %s epoch", target, duration, len(data), EPOCHS)
+    logging.getLogger(__name__).info("Pelatihan eksperimen %s: %.1f detik, %s bulan, %s epoch", target, duration, len(data), epochs)
     return {"target": target, "last_observation": data["ds"].max().strftime("%Y-%m"), "n_observations": len(data), "forecast": forecast, "duration_seconds": duration}
 

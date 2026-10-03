@@ -32,6 +32,7 @@ def _fit(
     epochs: int = EPOCHS,
     yearly_seasonality: bool = True,
     seed: int = SEED,
+    minimal: bool = False,
 ):
     matplotlib_cache = Path(__file__).resolve().parents[1] / ".mpl-cache"
     matplotlib_cache.mkdir(exist_ok=True)
@@ -43,6 +44,7 @@ def _fit(
     model = NeuralProphet(
         n_lags=n_lags,
         n_forecasts=1,
+        ar_layers=[],  # AR linear: satu lapisan keluaran tanpa hidden layer.
         yearly_seasonality=yearly_seasonality,
         weekly_seasonality=False,
         daily_seasonality=False,
@@ -50,7 +52,7 @@ def _fit(
         epochs=epochs,
         learning_rate=LEARNING_RATE,
     )
-    model.fit(to_neuralprophet(frame, target), freq="MS", progress=None)
+    model.fit(to_neuralprophet(frame, target), freq="MS", progress=None, minimal=minimal)
     return model
 
 

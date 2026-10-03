@@ -22,6 +22,10 @@ Lingkungan pelaksanaan: Windows, Python 3.12.13, Streamlit sesuai `requirements.
 | BB-08 | Tekan `Latih model dan prediksi satu bulan` dengan data sampai Juli 2026; jalankan ulang tampilan tanpa mengganti masukan. | Prediksi Agustus 2026 ditampilkan; masukan yang sama tidak memicu pelatihan kedua. | Prediksi fixture `1.234 ton` tampil; pelatihan dipanggil sekali; tombol dinonaktifkan. | Lulus |
 | BB-09 | Setelah BB-08, ganti bandara eksperimen. | Prediksi dari konfigurasi lama tidak ditampilkan sebagai hasil bandara baru. | Prediksi lama hilang. | Lulus |
 | BB-10 | Fungsi pelatihan mengembalikan galat. | Pesan kegagalan yang aman tampil; rincian galat internal tidak dibocorkan. | Pesan umum tampil tanpa rincian internal fixture. | Lulus |
+| BB-16 | Ganti deret diagnostik dari Bongkar ke Muat. | MASE berubah, komponen dan keterangan bobot AR tetap tersedia untuk deret terpilih. | MASE berubah dan komponen tampil. | Lulus, lokal 2 Oktober 2026 |
+| BB-17 | Buka analisis walk-forward. | Hasil 42 bulan dan frekuensi lag tampil dari artefak tanpa pelatihan baru. | Hasil tampil; fungsi fit tidak dipanggil saat render. | Lulus, lokal 2 Oktober 2026 |
+| BB-18 | Artefak MASE/komponen dan walk-forward tidak tersedia. | Hasil resmi 114 bulan tetap terlihat dan informasi analisis belum tersedia tampil. | Keduanya sesuai harapan. | Lulus, lokal 2 Oktober 2026 |
+| BB-19 | Hash laporan pada artefak analisis tambahan berbeda. | Analisis tambahan ditolak dengan pesan aman; ringkasan resmi tetap terlihat. | Pesan ketidakcocokan tampil dan observasi resmi tetap 114. | Lulus, lokal 2 Oktober 2026 |
 
 Kriteria lulus: keluaran yang terlihat memenuhi semua keluaran yang diharapkan dan tidak ada exception aplikasi. Pada BB-07 dan BB-08, jumlah pemanggilan pelatihan hanya dipakai untuk membuktikan bahwa aksi tombol benar-benar mengendalikan proses. Pada BB-08 angka `1.234 ton` berasal dari fixture, sehingga **bukan** prediksi model yang dinilai benar.
 
@@ -44,6 +48,8 @@ Pengujian model nyata, parser API, reproduksibilitas laporan, dan provenance ada
 
 Pada tanggal yang sama, seluruh suite menghasilkan **26 pengujian lulus** dan audit provenance menyatakan 10 CSV, 114 bulan, laporan model, serta versi lingkungan cocok. Peringatan dependensi NeuralProphet dan traceback pembersihan sementara Windows muncul setelah pengujian, dengan kode keluar tetap `0`.
 
+Pada **2 Oktober 2026**, versi pengayaan menghasilkan **14 kasus black-box otomatis lulus** dan **35 pengujian seluruh proyek lulus**, tanpa kasus yang dilewati. Pemeriksaan mencakup MASE dengan 95 selisih train, rekonstruksi komponen, seluruh 42 bulan kedua deret, batas waktu nested validation, dan checkpoint yang dapat dilanjutkan. Audit provenance resmi tetap lulus. Traceback pembersihan direktori sementara AppTest muncul setelah `OK`; kode keluar tetap `0`.
+
 ## Pemeriksaan manual di browser daring
 
 AppTest tidak membuktikan bahwa pengunduhan berhasil di browser, respons jaringan BPS yang sebenarnya, atau kapasitas CPU Streamlit Cloud. Isi tabel ini saat melakukan pengujian pada `https://prediksi-kargo-domestik.streamlit.app/` setelah versi dengan tab Diagnostik diterbitkan. Jangan tulis `Lulus` sebelum aksi dan hasilnya benar-benar diamati.
@@ -55,6 +61,7 @@ AppTest tidak membuktikan bahwa pengunduhan berhasil di browser, respons jaringa
 | BB-13 | Unduh CSV data serta JSON laporan, diagnostik, dan jejak eksperimen; buka berkas dan cocokkan bandara, target, bulan, serta parameter dengan layar. | Belum diuji dari browser. | Empat berkas unduhan dan tangkapan layar parameter. |
 | BB-14 | Buka tab Diagnostik; ganti Bongkar/Muat; pastikan metrik, tolok ukur, dan tabel seed berubah sesuai deret. | Belum diuji di Cloud karena versi ini belum diterbitkan. | Tangkapan layar kedua pilihan. |
 | BB-15 | Coba pelatihan berat atau dua pengguna serentak; amati apakah muncul pesan antrean, galat, atau CPU throttle. | Belum diuji; hindari klaim kapasitas Cloud sebelum pengamatan. | Jam kejadian, parameter, durasi, dan Cloud logs. |
+| BB-20 | Pada versi pengayaan daring, buka MASE, komponen, dan walk-forward; unduh JSON serta ZIP grafik/tabel dan periksa isinya sesuai deret. | Belum diuji di Cloud; perubahan pengayaan baru diverifikasi lokal. | Tangkapan layar serta berkas unduhan kedua deret. |
 
 Catat per pengujian manual: tanggal/jam, URL/versi commit, browser dan perangkat, data terakhir BPS, pelaksana, hasil aktual, status, serta nama berkas bukti. Untuk BB-12, perubahan tanggal rilis BPS dapat menggeser bulan prediksi; aturan yang diuji adalah **satu bulan setelah observasi terakhir**, bukan selalu Agustus 2026.
 
@@ -62,4 +69,4 @@ Catat per pengujian manual: tanggal/jam, URL/versi commit, browser dan perangkat
 
 **BAB III — metode pengujian sistem.** Pengujian fungsional aplikasi dilakukan dengan metode black-box berdasarkan hubungan masukan dan keluaran. Skenario meliputi akses ringkasan penelitian, filter data langsung BPS, pemilihan deret evaluasi dan diagnostik, pengaturan eksperimen, eksekusi pelatihan, pencegahan penggunaan hasil konfigurasi lama, serta respons saat API atau pelatihan gagal. Setiap kasus dibandingkan dengan keluaran yang diharapkan. Pengujian UI otomatis memakai fixture layanan eksternal agar skenario normal dan galat dapat diulang. Pengujian manual browser daring digunakan untuk memeriksa integrasi jaringan, unduhan, dan batas sumber daya.
 
-**BAB IV — hasil yang sudah terbukti secara lokal.** Sepuluh kasus pengujian black-box otomatis pada versi lokal berhasil memenuhi keluaran yang diharapkan. Hasil tersebut menunjukkan fungsi antarmuka yang diuji bekerja untuk masukan dan fixture yang ditetapkan. Pengujian ini tidak mengukur ketepatan prediksi; ketepatan model dibahas dari MAE, RMSE, dan MAPE pada data uji kronologis. Hasil pengujian browser daring yang belum selesai harus dilaporkan sesuai temuan aktual setelah versi yang sama diterbitkan.
+**BAB IV — hasil yang sudah terbukti secara lokal.** Empat belas kasus pengujian black-box otomatis pada versi pengayaan lokal berhasil memenuhi keluaran yang diharapkan pada 2 Oktober 2026. Hasil tersebut menunjukkan fungsi antarmuka yang diuji bekerja untuk masukan dan fixture yang ditetapkan, termasuk tampilan MASE, komponen, walk-forward, serta penolakan artefak yang tidak cocok. Pengujian ini tidak mengukur ketepatan prediksi; ketepatan model dibahas dari metrik pada data uji kronologis dan backtest tambahan yang dilaporkan terpisah. Hasil pengujian browser daring yang belum selesai harus dilaporkan sesuai temuan aktual setelah versi yang sama diterbitkan.

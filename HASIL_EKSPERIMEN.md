@@ -73,3 +73,5 @@ Metrik di atas menggambarkan kesalahan pada 18 bulan uji dengan prosedur satu la
 Diagnostik galat, tolok ukur prediksi sederhana, dan kepekaan lima seed disajikan terpisah di [DIAGNOSTIK_PENELITIAN.md](DIAGNOSTIK_PENELITIAN.md). Angka tambahan itu tidak dipakai memilih ulang hasil resmi.
 
 Angka tidak dibulatkan dalam `artifacts/report.json`; pembulatan di dokumen ini hanya untuk penyajian.
+
+MASE, grafik sensitivitas lag, ACF galat, interpretasi komponen, dan backtest nested 42 bulan tersedia pada [PENGAYAAN_PENELITIAN.md](PENGAYAAN_PENELITIAN.md). Analisis tersebut tidak mengganti angka resmi di atas.

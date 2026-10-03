@@ -5,6 +5,8 @@ interface, not network availability or NeuralProphet forecast accuracy.
 """
 
 import os
+import json
+from pathlib import Path
 import unittest
 from unittest.mock import patch
 
@@ -152,6 +154,44 @@ class BlackBoxTests(unittest.TestCase):
         self.assertFalse(app.exception)
         self.assertTrue(any("Pelatihan eksperimen gagal" in item.value for item in app.error))
         self.assertFalse(any("private detail" in item.value for item in app.error))
+
+    def test_bb16_additional_metrics_and_components_switch_series(self):
+        app = self.open_app(response=bps_fixture())
+        first = metric(app, "MASE NeuralProphet").value
+        select(app, "Deret diagnostik").set_value("muat").run(timeout=30)
+        self.assertFalse(app.exception)
+        self.assertNotEqual(metric(app, "MASE NeuralProphet").value, first)
+        self.assertTrue(any("Komponen tren, musiman, dan AR linear" == item.label for item in app.expander))
+        self.assertTrue(any("Lag dengan bobot absolut terbesar" in item.value for item in app.caption))
+
+    def test_bb17_walk_forward_is_precomputed_and_visible(self):
+        with patch("cargo_forecast.modeling._fit", side_effect=AssertionError("UI must not fit")):
+            app = self.open_app(response=bps_fixture())
+        self.assertTrue(any("Walk-forward 42 bulan" in item.label for item in app.expander))
+        self.assertTrue(any("Frekuensi lag terpilih" in item.value for item in app.caption))
+
+    def test_bb18_missing_extra_artifacts_keeps_official_results_visible(self):
+        original = Path.exists
+        def exists(path):
+            return False if path.name in ("enrichment.json", "walk_forward.json") else original(path)
+        with patch("pathlib.Path.exists", exists):
+            app = self.open_app(response=bps_fixture())
+        self.assertEqual(metric(app, "Observasi per deret").value, "114")
+        self.assertTrue(any("MASE dan interpretasi komponen belum tersedia" in item.value for item in app.info))
+
+    def test_bb19_mismatched_analysis_is_rejected_and_official_results_remain(self):
+        original = Path.read_text
+        def read_text(path, *args, **kwargs):
+            value = original(path, *args, **kwargs)
+            if path.name == "enrichment.json":
+                item = json.loads(value)
+                item["source"]["report_sha256"] = "mismatched"
+                return json.dumps(item)
+            return value
+        with patch("pathlib.Path.read_text", read_text):
+            app = self.open_app(response=bps_fixture())
+        self.assertEqual(metric(app, "Observasi per deret").value, "114")
+        self.assertTrue(any("Analisis tambahan tidak cocok" in item.value for item in app.error))
 
 
 if __name__ == "__main__":

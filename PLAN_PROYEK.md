@@ -185,5 +185,17 @@ Waterfall digunakan untuk **pengembangan aplikasi web**. Pemilihan lookback berd
 
 ## 13. Analisis tambahan setelah eksperimen resmi
 
+Tahap pengayaan berikutnya dijelaskan di bagian 14.
+
 Tab **Diagnostik penelitian** dan [DIAGNOSTIK_PENELITIAN.md](DIAGNOSTIK_PENELITIAN.md) menambahkan: (1) galat bertanda dan tiga bulan dengan galat terbesar; (2) tolok ukur bulan sebelumnya dan bulan sama tahun lalu pada 18 bulan uji yang identik; (3) uji lima seed dengan lookback resmi tetap. Semua dihitung dari snapshot 114 bulan. Hasil ini memberi konteks terhadap MAE/RMSE/MAPE NeuralProphet dan tidak dipakai memilih ulang konfigurasi berdasarkan data uji. Artefak `artifacts/diagnostics.json` menyimpan prediksi per bulan dan sidik jari laporan resmi.
+
+## 14. Pengayaan analisis
+
+Hasil resmi tetap dibekukan. [PENGAYAAN_PENELITIAN.md](PENGAYAAN_PENELITIAN.md) menguraikan MASE pada 18 bulan uji, sensitivitas MAE validasi terhadap lag 3/6/12, ACF galat uji lag 1–3, serta komponen model yang dilatih sampai Desember 2024. AR bersifat linear (`ar_layers=[]`); `n_changepoints=10`, 100 epoch, dan learning rate 0,01 tetap. Grid arsitektur dan parameter tambahan tidak dijalankan; tidak ada klaim bahwa semua hyperparameter telah dioptimalkan.
+
+Penanda Maret 2020 pada grafik mengacu pada pernyataan WHO dan hanya menjadi konteks waktu. Tidak ada dummy pandemi, penghapusan data pandemi, atau penetapan pandemi sebagai penyebab kesalahan uji 2025–2026. Lokasi changepoint adalah kandidat otomatis; bobot AR dan perubahan tren tidak dianggap bukti kausal.
+
+Backtest nested walk-forward tambahan memprediksi Januari 2023–Juni 2026, 42 bulan per deret. Origin pertama Desember 2022: train dalam Januari 2017–Desember 2021 (60 bulan), validasi dalam Januari–Desember 2022 (12 bulan). Pada setiap origin berikutnya train bertambah; validasi tetap 12 bulan terakhir. Kandidat lag dipilih dengan MAE validasi masa lalu, model dilatih ulang sampai origin, lalu memprediksi bulan berikutnya. Seed 42 dan konfigurasi lain tetap. Sebanyak 336 fit dijalankan offline dan hasil dapat dilanjutkan dari checkpoint. Dua deret berjalan independen.
+
+Metrik 42 bulan dilaporkan terpisah dari uji resmi 18 bulan karena cakupan waktu dan prosedur pembaruan model berbeda. Uji beberapa seed tetap mengukur variasi pada konfigurasi resmi, bukan variasi seluruh rangkaian walk-forward. Aplikasi hanya membaca artefak tambahan, sehingga membuka tab Diagnostik tidak memicu pelatihan.
 

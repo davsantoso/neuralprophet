@@ -8,6 +8,7 @@ Analisis galat, tolok ukur sederhana, dan kepekaan seed: [DIAGNOSTIK_PENELITIAN.
 Jejak sumber, sidik jari data, dan versi lingkungan: [JEJAK_PENELITIAN.md](JEJAK_PENELITIAN.md).
 Rancangan dan keputusan integrasi data langsung: [RENCANA_INTEGRASI_BPS_API.md](RENCANA_INTEGRASI_BPS_API.md).
 Matriks dan hasil pengujian fungsional black-box: [PENGUJIAN_BLACK_BOX.md](PENGUJIAN_BLACK_BOX.md).
+MASE, interpretasi komponen, dan backtest 42 bulan: [PENGAYAAN_PENELITIAN.md](PENGAYAAN_PENELITIAN.md).
 
 ## Data dan rancangan eksperimen
 
@@ -67,6 +68,10 @@ Jalankan `python diagnose.py` **secara offline** untuk menghitung ulang analisis
 Uji data, parser API, antarmuka, hasil, diagnostik, batas waktu prediksi, jejak penelitian, dan pelatihan ulang dapat dijalankan lewat `python -m unittest discover -s tests -v`. `python audit_provenance.py` memeriksa bahwa CSV, laporan, dan versi lingkungan masih cocok dengan manifest. `requirements-lock.txt` merekam versi lengkap paket pada lingkungan yang menghasilkan hasil di atas.
 
 ## Interaksi aplikasi
+
+Analisis tambahan dapat direproduksi dengan `python enrich.py`, `python walk_forward.py --workers 4`, lalu `python export_enrichment.py`. Backtest nested menghasilkan 42 prediksi per deret pada Januari 2023–Juni 2026; setiap origin memakai 12 bulan validasi terdahulu untuk memilih lag, lalu melatih ulang sampai origin. Seluruh 336 fit berjalan offline. Worker lokal masing-masing memakai satu thread CPU; `--workers 1` mengurangi beban. Checkpoint `.tmp/walk_forward_checkpoint.json` memungkinkan proses dilanjutkan tanpa mengulang bulan yang sudah selesai. Artefak akhir menyimpan batas train/validasi tiap bulan, konfigurasi, prediksi, dan hash sumber.
+
+Model resmi memakai **AR linear** (`ar_layers=[]`), 10 kandidat changepoint, 100 epoch, dan learning rate 0,01. Hanya `n_lags` yang dituning. MASE memakai penyebut dari data latih hingga Desember 2024; interpretasi komponen memakai model yang mereproduksi uji resmi. Grafik PNG dan tabel CSV siap digunakan di naskah tersedia di `artifacts/figures/`.
 
 - **Ringkasan:** grafik dua deret, prediksi Juli 2026, dan ukuran kesalahan uji.
 - **Data:** grafik, statistik, tabel, dan unduhan CSV dari API BPS; pilih salah satu dari lima bandara utama, deret bongkar/muat, dan rentang tahun. Waktu pengambilan dan bulan terakhir tersedia ditampilkan.

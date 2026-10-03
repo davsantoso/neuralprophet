@@ -31,3 +31,9 @@ Pengguna pernah melaporkan banner CPU throttle pada versi sebelumnya. Banner saj
 ## Diagnostik tambahan: pemeriksaan lokal
 
 Sepuluh pelatihan offline untuk lima seed pada kedua deret selesai pada Python 3.12. Seed 42 mereproduksi seluruh 18 prediksi uji resmi per deret dengan selisih maksimum **0 ton**. Tolok ukur bulan sebelumnya dan bulan sama tahun lalu dihitung dari nilai yang mendahului tiap bulan uji. Artefak `artifacts/diagnostics.json` memiliki SHA-256 data yang cocok dengan `artifacts/provenance.json`, sementara `artifacts/report.json` tetap. Enam belas pengujian otomatis, termasuk pembatasan data latih seed sampai Desember 2024, lulus secara lokal. Tab Diagnostik lima bagian juga lulus Streamlit AppTest ketika API langsung gagal. Versi tab tambahan ini belum diuji di Cloud sampai perubahan diterbitkan.
+
+## Pengayaan penelitian: 2 Oktober 2026, lokal
+
+MASE, ACF galat uji, komponen tren/musiman/AR, bobot lag, kandidat changepoint, dan grafik sensitivitas lag sudah ditambahkan. Kedua model interpretasi mereproduksi seluruh prediksi resmi dengan selisih maksimum 0 ton. Nested walk-forward selesai untuk 42 bulan per deret, Januari 2023–Juni 2026, dengan tiga kandidat lag dan refit tiap origin. Setiap origin memakai 12 bulan validasi yang telah berlalu; 336 fit dijalankan offline. Checkpoint dan pemilihan lag berdasarkan masa lalu diuji otomatis.
+
+Seluruh **35 tes** lulus pada Python 3.12.13, termasuk **14 kasus black-box**. Audit provenance resmi tetap cocok. Sepuluh PNG dan enam CSV penelitian telah diekspor dari artefak yang diverifikasi. Aplikasi membaca hasil prahitung; membuka analisis ini tidak melatih model. Aksi widget baru dan unduhan ZIP belum diuji langsung di browser Cloud. Versi pengayaan masih merupakan perubahan lokal sampai diterbitkan.

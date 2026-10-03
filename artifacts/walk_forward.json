@@ -1,0 +1,3574 @@
+{
+  "schema_version": 1,
+  "kind": "backtest_tambahan_bukan_pengganti_uji_resmi",
+  "source": {
+    "data_sha256": "09efd78fe3c15adf1c05683e38ba54b1c677cc1d3ec0285cf8c2c60eace69131",
+    "report_sha256": "ceb808f172f90de63350565bb661f29d75a8d9c3b8957fc5900299f8b49b0f7f"
+  },
+  "protocol": {
+    "start": "2023-01",
+    "end": "2026-06",
+    "months": 42,
+    "inner_validation_months": 12,
+    "minimum_inner_train_months": 60,
+    "lag_candidates": [
+      3,
+      6,
+      12
+    ],
+    "selection_metric": "MAE",
+    "seed": 42,
+    "epochs": 100,
+    "learning_rate": 0.01,
+    "ar_layers": [],
+    "n_changepoints": 10,
+    "n_forecasts": 1,
+    "yearly_seasonality": true,
+    "weekly_seasonality": false,
+    "daily_seasonality": false
+  },
+  "series": {
+    "bongkar": {
+      "monthly": [
+        {
+          "ds": "2023-01",
+          "origin": "2022-12",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2021-12",
+          "inner_train_months": 60,
+          "inner_validation_start": "2022-01",
+          "inner_validation_end": "2022-12",
+          "inner_validation_months": 12,
+          "refit_months": 72,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1143.433349609375,
+                "RMSE": 1396.8091698617843,
+                "MAPE": 12.222870751885027
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1263.5121256510417,
+                "RMSE": 1471.4365356414446,
+                "MAPE": 13.282346327172888
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1292.6857096354167,
+                "RMSE": 1768.8290406555607,
+                "MAPE": 13.274554066039293
+              }
+            }
+          ],
+          "neuralprophet": 9142.28515625,
+          "actual": 8321.0,
+          "last_month": 8087.0
+        },
+        {
+          "ds": "2023-02",
+          "origin": "2023-01",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-01",
+          "inner_train_months": 61,
+          "inner_validation_start": "2022-02",
+          "inner_validation_end": "2023-01",
+          "inner_validation_months": 12,
+          "refit_months": 73,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1251.2872721354167,
+                "RMSE": 1466.2408829900712,
+                "MAPE": 13.520535571346235
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1231.2223307291667,
+                "RMSE": 1447.811862964958,
+                "MAPE": 12.994254610974298
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1267.4779866536458,
+                "RMSE": 1671.3399538932508,
+                "MAPE": 13.245515193015175
+              }
+            }
+          ],
+          "neuralprophet": 7937.73681640625,
+          "actual": 7665.0,
+          "last_month": 8321.0
+        },
+        {
+          "ds": "2023-03",
+          "origin": "2023-02",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-02",
+          "inner_train_months": 62,
+          "inner_validation_start": "2022-03",
+          "inner_validation_end": "2023-02",
+          "inner_validation_months": 12,
+          "refit_months": 74,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1233.82861328125,
+                "RMSE": 1446.65775291067,
+                "MAPE": 13.3703965114261
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1194.5926920572917,
+                "RMSE": 1421.4800490852344,
+                "MAPE": 12.606743874759754
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1384.029541015625,
+                "RMSE": 1736.0953806317439,
+                "MAPE": 14.772318124929237
+              }
+            }
+          ],
+          "neuralprophet": 9291.9287109375,
+          "actual": 9705.0,
+          "last_month": 7665.0
+        },
+        {
+          "ds": "2023-04",
+          "origin": "2023-03",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-03",
+          "inner_train_months": 63,
+          "inner_validation_start": "2022-04",
+          "inner_validation_end": "2023-03",
+          "inner_validation_months": 12,
+          "refit_months": 75,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1255.787841796875,
+                "RMSE": 1387.855907551797,
+                "MAPE": 14.656755401331278
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1032.2797037760417,
+                "RMSE": 1222.892726736144,
+                "MAPE": 11.849264465718349
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1276.4212239583333,
+                "RMSE": 1509.8523097735222,
+                "MAPE": 14.826197311915355
+              }
+            }
+          ],
+          "neuralprophet": 8886.17578125,
+          "actual": 8407.0,
+          "last_month": 9705.0
+        },
+        {
+          "ds": "2023-05",
+          "origin": "2023-04",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-04",
+          "inner_train_months": 64,
+          "inner_validation_start": "2022-05",
+          "inner_validation_end": "2023-04",
+          "inner_validation_months": 12,
+          "refit_months": 76,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1145.0076497395833,
+                "RMSE": 1284.2925823305848,
+                "MAPE": 13.549330280728453
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 887.6966959635416,
+                "RMSE": 1007.0533852053948,
+                "MAPE": 10.356684767343088
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1337.0201416015625,
+                "RMSE": 1570.294617507566,
+                "MAPE": 15.644503347298924
+              }
+            }
+          ],
+          "neuralprophet": 8226.47265625,
+          "actual": 8146.0,
+          "last_month": 8407.0
+        },
+        {
+          "ds": "2023-06",
+          "origin": "2023-05",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-05",
+          "inner_train_months": 65,
+          "inner_validation_start": "2022-06",
+          "inner_validation_end": "2023-05",
+          "inner_validation_months": 12,
+          "refit_months": 77,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 845.0297037760416,
+                "RMSE": 984.4869143521047,
+                "MAPE": 10.04571467942159
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 830.5450846354166,
+                "RMSE": 955.4942175828108,
+                "MAPE": 9.718109144268544
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1331.6707763671875,
+                "RMSE": 1553.9277387316922,
+                "MAPE": 15.626817033336149
+              }
+            }
+          ],
+          "neuralprophet": 8553.001953125,
+          "actual": 7528.0,
+          "last_month": 8146.0
+        },
+        {
+          "ds": "2023-07",
+          "origin": "2023-06",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-06",
+          "inner_train_months": 66,
+          "inner_validation_start": "2022-07",
+          "inner_validation_end": "2023-06",
+          "inner_validation_months": 12,
+          "refit_months": 78,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 868.8269856770834,
+                "RMSE": 1004.5276578555644,
+                "MAPE": 10.508280219204662
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 944.815673828125,
+                "RMSE": 1061.0436138986206,
+                "MAPE": 11.337966995508502
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1199.4418131510417,
+                "RMSE": 1401.6330851616208,
+                "MAPE": 14.484314462979158
+              }
+            }
+          ],
+          "neuralprophet": 8785.826171875,
+          "actual": 8322.0,
+          "last_month": 7528.0
+        },
+        {
+          "ds": "2023-08",
+          "origin": "2023-07",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-07",
+          "inner_train_months": 67,
+          "inner_validation_start": "2022-08",
+          "inner_validation_end": "2023-07",
+          "inner_validation_months": 12,
+          "refit_months": 79,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 797.189453125,
+                "RMSE": 929.4868621220032,
+                "MAPE": 9.722817547062656
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 853.1565755208334,
+                "RMSE": 958.8307341481766,
+                "MAPE": 10.352937589641332
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1146.6413167317708,
+                "RMSE": 1345.406431534119,
+                "MAPE": 13.93102570169597
+              }
+            }
+          ],
+          "neuralprophet": 8977.826171875,
+          "actual": 8317.0,
+          "last_month": 8322.0
+        },
+        {
+          "ds": "2023-09",
+          "origin": "2023-08",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-08",
+          "inner_train_months": 68,
+          "inner_validation_start": "2022-09",
+          "inner_validation_end": "2023-08",
+          "inner_validation_months": 12,
+          "refit_months": 80,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 875.207763671875,
+                "RMSE": 974.2628361273037,
+                "MAPE": 10.657520398734084
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 937.89111328125,
+                "RMSE": 1051.7327229815162,
+                "MAPE": 11.536632744510044
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1359.5029703776042,
+                "RMSE": 1544.5942928496156,
+                "MAPE": 16.530436592880278
+              }
+            }
+          ],
+          "neuralprophet": 8119.2421875,
+          "actual": 8423.0,
+          "last_month": 8317.0
+        },
+        {
+          "ds": "2023-10",
+          "origin": "2023-09",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-09",
+          "inner_train_months": 69,
+          "inner_validation_start": "2022-10",
+          "inner_validation_end": "2023-09",
+          "inner_validation_months": 12,
+          "refit_months": 81,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 741.8311360677084,
+                "RMSE": 852.7044635619811,
+                "MAPE": 9.095368135650638
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 938.2255859375,
+                "RMSE": 1049.9418548152146,
+                "MAPE": 11.573263251041078
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1071.3316650390625,
+                "RMSE": 1262.99015822054,
+                "MAPE": 13.170553404708125
+              }
+            }
+          ],
+          "neuralprophet": 7300.44677734375,
+          "actual": 8101.0,
+          "last_month": 8423.0
+        },
+        {
+          "ds": "2023-11",
+          "origin": "2023-10",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-10",
+          "inner_train_months": 70,
+          "inner_validation_start": "2022-11",
+          "inner_validation_end": "2023-10",
+          "inner_validation_months": 12,
+          "refit_months": 82,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 582.516845703125,
+                "RMSE": 718.8723743625196,
+                "MAPE": 7.080465156364301
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 756.7430419921875,
+                "RMSE": 889.8584235811431,
+                "MAPE": 9.299744405510634
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1154.6441243489583,
+                "RMSE": 1348.8688100090917,
+                "MAPE": 14.196003544460831
+              }
+            }
+          ],
+          "neuralprophet": 8235.6806640625,
+          "actual": 7884.0,
+          "last_month": 8101.0
+        },
+        {
+          "ds": "2023-12",
+          "origin": "2023-11",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-11",
+          "inner_train_months": 71,
+          "inner_validation_start": "2022-12",
+          "inner_validation_end": "2023-11",
+          "inner_validation_months": 12,
+          "refit_months": 83,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 523.90234375,
+                "RMSE": 662.3919965407841,
+                "MAPE": 6.378940510636473
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 729.0187581380209,
+                "RMSE": 874.3227487445685,
+                "MAPE": 9.013140742094102
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 948.70947265625,
+                "RMSE": 1171.4032829208081,
+                "MAPE": 11.73260430639257
+              }
+            }
+          ],
+          "neuralprophet": 8523.0458984375,
+          "actual": 9383.0,
+          "last_month": 7884.0
+        },
+        {
+          "ds": "2024-01",
+          "origin": "2023-12",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-12",
+          "inner_train_months": 72,
+          "inner_validation_start": "2023-01",
+          "inner_validation_end": "2023-12",
+          "inner_validation_months": 12,
+          "refit_months": 84,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 427.6162516276042,
+                "RMSE": 508.2074611937803,
+                "MAPE": 5.032784393769613
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 579.6600341796875,
+                "RMSE": 695.5680721636448,
+                "MAPE": 7.0864759342430705
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 663.6482747395834,
+                "RMSE": 843.5974450227537,
+                "MAPE": 8.078980901916083
+              }
+            }
+          ],
+          "neuralprophet": 9465.333984375,
+          "actual": 10201.0,
+          "last_month": 9383.0
+        },
+        {
+          "ds": "2024-02",
+          "origin": "2024-01",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-01",
+          "inner_train_months": 73,
+          "inner_validation_start": "2023-02",
+          "inner_validation_end": "2024-01",
+          "inner_validation_months": 12,
+          "refit_months": 85,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 425.8722330729167,
+                "RMSE": 515.2915021242889,
+                "MAPE": 4.823323063020293
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 469.669677734375,
+                "RMSE": 584.9458385014419,
+                "MAPE": 5.717662526899753
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 644.396240234375,
+                "RMSE": 845.0707238777126,
+                "MAPE": 7.829852464587157
+              }
+            }
+          ],
+          "neuralprophet": 8327.9873046875,
+          "actual": 9936.0,
+          "last_month": 10201.0
+        },
+        {
+          "ds": "2024-03",
+          "origin": "2024-02",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-02",
+          "inner_train_months": 74,
+          "inner_validation_start": "2023-03",
+          "inner_validation_end": "2024-02",
+          "inner_validation_months": 12,
+          "refit_months": 86,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 575.41748046875,
+                "RMSE": 731.6852188600221,
+                "MAPE": 6.308228040983802
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 498.3101399739583,
+                "RMSE": 601.812105373618,
+                "MAPE": 5.868021646110325
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 665.9964192708334,
+                "RMSE": 826.0297771335569,
+                "MAPE": 7.67735282504919
+              }
+            }
+          ],
+          "neuralprophet": 10653.39453125,
+          "actual": 10974.0,
+          "last_month": 9936.0
+        },
+        {
+          "ds": "2024-04",
+          "origin": "2024-03",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-03",
+          "inner_train_months": 75,
+          "inner_validation_start": "2023-04",
+          "inner_validation_end": "2024-03",
+          "inner_validation_months": 12,
+          "refit_months": 87,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 541.6285400390625,
+                "RMSE": 675.7748057815879,
+                "MAPE": 5.928536856922402
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 507.7518310546875,
+                "RMSE": 623.3810031767835,
+                "MAPE": 6.041736850980679
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 676.4749755859375,
+                "RMSE": 840.4112954829112,
+                "MAPE": 7.765839175683068
+              }
+            }
+          ],
+          "neuralprophet": 10533.4150390625,
+          "actual": 9211.0,
+          "last_month": 10974.0
+        },
+        {
+          "ds": "2024-05",
+          "origin": "2024-04",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-04",
+          "inner_train_months": 76,
+          "inner_validation_start": "2023-05",
+          "inner_validation_end": "2024-04",
+          "inner_validation_months": 12,
+          "refit_months": 88,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 569.7515869140625,
+                "RMSE": 679.807556237667,
+                "MAPE": 6.3790062480395235
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 570.7460123697916,
+                "RMSE": 714.9609564478649,
+                "MAPE": 6.629351683615163
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 769.0895589192709,
+                "RMSE": 910.9307244423786,
+                "MAPE": 8.775474128070758
+              }
+            }
+          ],
+          "neuralprophet": 8633.4208984375,
+          "actual": 9755.0,
+          "last_month": 9211.0
+        },
+        {
+          "ds": "2024-06",
+          "origin": "2024-05",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-05",
+          "inner_train_months": 77,
+          "inner_validation_start": "2023-06",
+          "inner_validation_end": "2024-05",
+          "inner_validation_months": 12,
+          "refit_months": 89,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 690.4194742838541,
+                "RMSE": 780.664898715818,
+                "MAPE": 7.498027852039528
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 639.8857421875,
+                "RMSE": 757.8892852348773,
+                "MAPE": 7.321995059580871
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 832.6108805338541,
+                "RMSE": 940.1030574113461,
+                "MAPE": 9.486341468974608
+              }
+            }
+          ],
+          "neuralprophet": 9833.884765625,
+          "actual": 9085.0,
+          "last_month": 9755.0
+        },
+        {
+          "ds": "2024-07",
+          "origin": "2024-06",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-06",
+          "inner_train_months": 78,
+          "inner_validation_start": "2023-07",
+          "inner_validation_end": "2024-06",
+          "inner_validation_months": 12,
+          "refit_months": 90,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 681.7514241536459,
+                "RMSE": 783.2495850790781,
+                "MAPE": 7.34726518114543
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 625.0898030598959,
+                "RMSE": 740.1391662715702,
+                "MAPE": 6.950046920721826
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 837.812744140625,
+                "RMSE": 932.5412579744435,
+                "MAPE": 9.330150534489977
+              }
+            }
+          ],
+          "neuralprophet": 9005.384765625,
+          "actual": 9341.0,
+          "last_month": 9085.0
+        },
+        {
+          "ds": "2024-08",
+          "origin": "2024-07",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-07",
+          "inner_train_months": 79,
+          "inner_validation_start": "2023-08",
+          "inner_validation_end": "2024-07",
+          "inner_validation_months": 12,
+          "refit_months": 91,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 689.4867350260416,
+                "RMSE": 808.3762716614201,
+                "MAPE": 7.3543192741318375
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 618.3373209635416,
+                "RMSE": 698.0578658310761,
+                "MAPE": 6.728479381832223
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 797.088623046875,
+                "RMSE": 894.0014140504514,
+                "MAPE": 8.831046397851487
+              }
+            }
+          ],
+          "neuralprophet": 10176.9873046875,
+          "actual": 9494.0,
+          "last_month": 9341.0
+        },
+        {
+          "ds": "2024-09",
+          "origin": "2024-08",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-08",
+          "inner_train_months": 80,
+          "inner_validation_start": "2023-09",
+          "inner_validation_end": "2024-08",
+          "inner_validation_months": 12,
+          "refit_months": 92,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 735.3316650390625,
+                "RMSE": 859.9196578698723,
+                "MAPE": 7.731230043967849
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 626.5943603515625,
+                "RMSE": 721.9935587127334,
+                "MAPE": 6.7376872321156345
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 840.7774251302084,
+                "RMSE": 912.9479515244961,
+                "MAPE": 8.964614261641952
+              }
+            }
+          ],
+          "neuralprophet": 8729.796875,
+          "actual": 9439.0,
+          "last_month": 9494.0
+        },
+        {
+          "ds": "2024-10",
+          "origin": "2024-09",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-09",
+          "inner_train_months": 81,
+          "inner_validation_start": "2023-10",
+          "inner_validation_end": "2024-09",
+          "inner_validation_months": 12,
+          "refit_months": 93,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 822.4700520833334,
+                "RMSE": 936.574262326377,
+                "MAPE": 8.61581799562255
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 678.6246744791666,
+                "RMSE": 748.9111578572737,
+                "MAPE": 7.259864723452996
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 962.91259765625,
+                "RMSE": 1035.1394933911947,
+                "MAPE": 10.228015680023706
+              }
+            }
+          ],
+          "neuralprophet": 9044.70703125,
+          "actual": 9570.0,
+          "last_month": 9439.0
+        },
+        {
+          "ds": "2024-11",
+          "origin": "2024-10",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-10",
+          "inner_train_months": 82,
+          "inner_validation_start": "2023-11",
+          "inner_validation_end": "2024-10",
+          "inner_validation_months": 12,
+          "refit_months": 94,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 794.4609375,
+                "RMSE": 899.8304233887869,
+                "MAPE": 8.219972620968296
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 683.69091796875,
+                "RMSE": 748.0969202773409,
+                "MAPE": 7.252715161107449
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1024.9815673828125,
+                "RMSE": 1098.147958596668,
+                "MAPE": 10.76089084531947
+              }
+            }
+          ],
+          "neuralprophet": 8721.455078125,
+          "actual": 9472.0,
+          "last_month": 9570.0
+        },
+        {
+          "ds": "2024-12",
+          "origin": "2024-11",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-11",
+          "inner_train_months": 83,
+          "inner_validation_start": "2023-12",
+          "inner_validation_end": "2024-11",
+          "inner_validation_months": 12,
+          "refit_months": 95,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 889.5553385416666,
+                "RMSE": 982.4626625818304,
+                "MAPE": 9.150287593235634
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 756.9368489583334,
+                "RMSE": 818.6911523865975,
+                "MAPE": 7.907510731275151
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1139.5702311197917,
+                "RMSE": 1247.2292807623364,
+                "MAPE": 11.764914399475005
+              }
+            }
+          ],
+          "neuralprophet": 10592.3359375,
+          "actual": 10398.0,
+          "last_month": 9472.0
+        },
+        {
+          "ds": "2025-01",
+          "origin": "2024-12",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-12",
+          "inner_train_months": 84,
+          "inner_validation_start": "2024-01",
+          "inner_validation_end": "2024-12",
+          "inner_validation_months": 12,
+          "refit_months": 96,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 739.015625,
+                "RMSE": 860.9593308222137,
+                "MAPE": 7.572743860217074
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 669.0623372395834,
+                "RMSE": 758.3925581453021,
+                "MAPE": 6.992416547433615
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1116.3248291015625,
+                "RMSE": 1200.9251138252298,
+                "MAPE": 11.437045825139386
+              }
+            }
+          ],
+          "neuralprophet": 10527.830078125,
+          "actual": 11923.0,
+          "last_month": 10398.0
+        },
+        {
+          "ds": "2025-02",
+          "origin": "2025-01",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-01",
+          "inner_train_months": 85,
+          "inner_validation_start": "2024-02",
+          "inner_validation_end": "2025-01",
+          "inner_validation_months": 12,
+          "refit_months": 97,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 881.6736653645834,
+                "RMSE": 1049.142255944478,
+                "MAPE": 8.727023339019896
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 799.0852864583334,
+                "RMSE": 906.6546780357828,
+                "MAPE": 8.065669368295914
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1141.0013020833333,
+                "RMSE": 1236.1225674351613,
+                "MAPE": 11.3965263696181
+              }
+            }
+          ],
+          "neuralprophet": 11081.408203125,
+          "actual": 9253.0,
+          "last_month": 11923.0
+        },
+        {
+          "ds": "2025-03",
+          "origin": "2025-02",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-02",
+          "inner_train_months": 86,
+          "inner_validation_start": "2024-03",
+          "inner_validation_end": "2025-02",
+          "inner_validation_months": 12,
+          "refit_months": 98,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 757.552490234375,
+                "RMSE": 906.8576552095742,
+                "MAPE": 7.587949200900297
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 821.375244140625,
+                "RMSE": 945.3197030610286,
+                "MAPE": 8.39516008711756
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1044.434814453125,
+                "RMSE": 1155.2807925773375,
+                "MAPE": 10.475084710061115
+              }
+            }
+          ],
+          "neuralprophet": 10975.12109375,
+          "actual": 11150.0,
+          "last_month": 9253.0
+        },
+        {
+          "ds": "2025-04",
+          "origin": "2025-03",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-03",
+          "inner_train_months": 87,
+          "inner_validation_start": "2024-04",
+          "inner_validation_end": "2025-03",
+          "inner_validation_months": 12,
+          "refit_months": 99,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 724.844482421875,
+                "RMSE": 874.2541610308132,
+                "MAPE": 7.283209768058469
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 835.1668294270834,
+                "RMSE": 960.975052550759,
+                "MAPE": 8.493717881497814
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1007.4324544270834,
+                "RMSE": 1105.9245230107501,
+                "MAPE": 10.095094756529438
+              }
+            }
+          ],
+          "neuralprophet": 10339.3994140625,
+          "actual": 10224.0,
+          "last_month": 11150.0
+        },
+        {
+          "ds": "2025-05",
+          "origin": "2025-04",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-04",
+          "inner_train_months": 88,
+          "inner_validation_start": "2024-05",
+          "inner_validation_end": "2025-04",
+          "inner_validation_months": 12,
+          "refit_months": 100,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 673.1822102864584,
+                "RMSE": 841.779205686237,
+                "MAPE": 6.682024044961402
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 757.5648600260416,
+                "RMSE": 891.93096460303,
+                "MAPE": 7.633158850385448
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 954.2130940755209,
+                "RMSE": 1090.9381374501236,
+                "MAPE": 9.500844121102471
+              }
+            }
+          ],
+          "neuralprophet": 9617.591796875,
+          "actual": 10696.0,
+          "last_month": 10224.0
+        },
+        {
+          "ds": "2025-06",
+          "origin": "2025-05",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-05",
+          "inner_train_months": 89,
+          "inner_validation_start": "2024-06",
+          "inner_validation_end": "2025-05",
+          "inner_validation_months": 12,
+          "refit_months": 101,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 665.9991048177084,
+                "RMSE": 852.6982775422765,
+                "MAPE": 6.548862307637618
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 794.569580078125,
+                "RMSE": 936.4048931251394,
+                "MAPE": 7.893290768695811
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 991.6402180989584,
+                "RMSE": 1143.1729256340116,
+                "MAPE": 9.795092668006951
+              }
+            }
+          ],
+          "neuralprophet": 10002.986328125,
+          "actual": 7541.0,
+          "last_month": 10696.0
+        },
+        {
+          "ds": "2025-07",
+          "origin": "2025-06",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-06",
+          "inner_train_months": 90,
+          "inner_validation_start": "2024-07",
+          "inner_validation_end": "2025-06",
+          "inner_validation_months": 12,
+          "refit_months": 102,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 828.0584309895834,
+                "RMSE": 1057.128767600594,
+                "MAPE": 8.731537143624807
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 900.200927734375,
+                "RMSE": 1092.056625277527,
+                "MAPE": 9.482763907846008
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1123.5146484375,
+                "RMSE": 1282.638920047491,
+                "MAPE": 11.509320423659284
+              }
+            }
+          ],
+          "neuralprophet": 9516.14453125,
+          "actual": 5630.0,
+          "last_month": 7541.0
+        },
+        {
+          "ds": "2025-08",
+          "origin": "2025-07",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-07",
+          "inner_train_months": 91,
+          "inner_validation_start": "2024-08",
+          "inner_validation_end": "2025-07",
+          "inner_validation_months": 12,
+          "refit_months": 103,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1124.18994140625,
+                "RMSE": 1483.2269264146762,
+                "MAPE": 14.039226882997866
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1110.0887858072917,
+                "RMSE": 1392.2328829446597,
+                "MAPE": 13.563799524584983
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1331.1590983072917,
+                "RMSE": 1607.4359595997907,
+                "MAPE": 15.958654434841769
+              }
+            }
+          ],
+          "neuralprophet": 8216.201171875,
+          "actual": 7477.0,
+          "last_month": 5630.0
+        },
+        {
+          "ds": "2025-09",
+          "origin": "2025-08",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-08",
+          "inner_train_months": 92,
+          "inner_validation_start": "2024-09",
+          "inner_validation_end": "2025-08",
+          "inner_validation_months": 12,
+          "refit_months": 104,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1122.2379557291667,
+                "RMSE": 1472.7316829586707,
+                "MAPE": 14.2521966498748
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1126.7288411458333,
+                "RMSE": 1394.4381574523438,
+                "MAPE": 13.876855572895932
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1348.49365234375,
+                "RMSE": 1586.9566254085232,
+                "MAPE": 16.20719126708808
+              }
+            }
+          ],
+          "neuralprophet": 7375.19140625,
+          "actual": 9840.0,
+          "last_month": 7477.0
+        },
+        {
+          "ds": "2025-10",
+          "origin": "2025-09",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-09",
+          "inner_train_months": 93,
+          "inner_validation_start": "2024-10",
+          "inner_validation_end": "2025-09",
+          "inner_validation_months": 12,
+          "refit_months": 105,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1278.2898356119792,
+                "RMSE": 1642.4516635804396,
+                "MAPE": 15.915495635588318
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1259.7062581380208,
+                "RMSE": 1530.6838398899413,
+                "MAPE": 15.318288547806858
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1408.2809651692708,
+                "RMSE": 1655.364178676994,
+                "MAPE": 16.936261090035476
+              }
+            }
+          ],
+          "neuralprophet": 8153.29736328125,
+          "actual": 10219.0,
+          "last_month": 9840.0
+        },
+        {
+          "ds": "2025-11",
+          "origin": "2025-10",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-10",
+          "inner_train_months": 94,
+          "inner_validation_start": "2024-11",
+          "inner_validation_end": "2025-10",
+          "inner_validation_months": 12,
+          "refit_months": 106,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1380.8515625,
+                "RMSE": 1728.2214272130257,
+                "MAPE": 16.943999997320955
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1418.32861328125,
+                "RMSE": 1671.0772229980637,
+                "MAPE": 16.881993990626043
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1559.5151774088542,
+                "RMSE": 1853.0983524193682,
+                "MAPE": 18.592571007661732
+              }
+            }
+          ],
+          "neuralprophet": 9291.123046875,
+          "actual": 9505.0,
+          "last_month": 10219.0
+        },
+        {
+          "ds": "2025-12",
+          "origin": "2025-11",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-11",
+          "inner_train_months": 95,
+          "inner_validation_start": "2024-12",
+          "inner_validation_end": "2025-11",
+          "inner_validation_months": 12,
+          "refit_months": 107,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1345.7291666666667,
+                "RMSE": 1717.6325214548335,
+                "MAPE": 16.688818147072904
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1398.8734537760417,
+                "RMSE": 1681.722142351436,
+                "MAPE": 16.875652173279658
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1543.4573160807292,
+                "RMSE": 1837.309579965836,
+                "MAPE": 18.555477466523133
+              }
+            }
+          ],
+          "neuralprophet": 10787.83203125,
+          "actual": 10791.0,
+          "last_month": 9505.0
+        },
+        {
+          "ds": "2026-01",
+          "origin": "2025-12",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-12",
+          "inner_train_months": 96,
+          "inner_validation_start": "2025-01",
+          "inner_validation_end": "2025-12",
+          "inner_validation_months": 12,
+          "refit_months": 108,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1339.9928385416667,
+                "RMSE": 1723.1653483187572,
+                "MAPE": 16.675497910678047
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1414.5287272135417,
+                "RMSE": 1670.2736657034616,
+                "MAPE": 16.952139128614554
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1577.8620198567708,
+                "RMSE": 1843.6849270741757,
+                "MAPE": 18.89591049725444
+              }
+            }
+          ],
+          "neuralprophet": 11262.2841796875,
+          "actual": 10196.0,
+          "last_month": 10791.0
+        },
+        {
+          "ds": "2026-02",
+          "origin": "2026-01",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2025-01",
+          "inner_train_months": 97,
+          "inner_validation_start": "2025-02",
+          "inner_validation_end": "2026-01",
+          "inner_validation_months": 12,
+          "refit_months": 109,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1305.1552734375,
+                "RMSE": 1713.0181331949207,
+                "MAPE": 16.723560909255088
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1484.4534098307292,
+                "RMSE": 1738.638349764255,
+                "MAPE": 17.899966682653865
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1508.8694661458333,
+                "RMSE": 1829.449345625726,
+                "MAPE": 18.724363556531735
+              }
+            }
+          ],
+          "neuralprophet": 9759.8994140625,
+          "actual": 10207.0,
+          "last_month": 10196.0
+        },
+        {
+          "ds": "2026-03",
+          "origin": "2026-02",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2025-02",
+          "inner_train_months": 98,
+          "inner_validation_start": "2025-03",
+          "inner_validation_end": "2026-02",
+          "inner_validation_months": 12,
+          "refit_months": 110,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1206.2366129557292,
+                "RMSE": 1662.4893814391057,
+                "MAPE": 15.559711002435831
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1336.1394449869792,
+                "RMSE": 1647.5800326346362,
+                "MAPE": 16.254259790151263
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1376.5386962890625,
+                "RMSE": 1742.1508854703188,
+                "MAPE": 17.143004243389274
+              }
+            }
+          ],
+          "neuralprophet": 11388.1611328125,
+          "actual": 12174.0,
+          "last_month": 10207.0
+        },
+        {
+          "ds": "2026-04",
+          "origin": "2026-03",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2025-03",
+          "inner_train_months": 99,
+          "inner_validation_start": "2025-04",
+          "inner_validation_end": "2026-03",
+          "inner_validation_months": 12,
+          "refit_months": 111,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1265.3931884765625,
+                "RMSE": 1691.0995925390541,
+                "MAPE": 16.114794395866102
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1360.0318603515625,
+                "RMSE": 1662.9462472629473,
+                "MAPE": 16.462833055124463
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1386.0948079427083,
+                "RMSE": 1784.2804791112183,
+                "MAPE": 17.410267558371707
+              }
+            }
+          ],
+          "neuralprophet": 10602.6474609375,
+          "actual": 9912.0,
+          "last_month": 12174.0
+        },
+        {
+          "ds": "2026-05",
+          "origin": "2026-04",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2025-04",
+          "inner_train_months": 100,
+          "inner_validation_start": "2025-05",
+          "inner_validation_end": "2026-04",
+          "inner_validation_months": 12,
+          "refit_months": 112,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1334.2787272135417,
+                "RMSE": 1727.11793754161,
+                "MAPE": 16.885720275574315
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1396.4866536458333,
+                "RMSE": 1670.0465309802723,
+                "MAPE": 16.795758311853128
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1375.2828776041667,
+                "RMSE": 1769.3584576347964,
+                "MAPE": 17.24253042736424
+              }
+            }
+          ],
+          "neuralprophet": 10214.0712890625,
+          "actual": 10233.0,
+          "last_month": 9912.0
+        },
+        {
+          "ds": "2026-06",
+          "origin": "2026-05",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2025-05",
+          "inner_train_months": 101,
+          "inner_validation_start": "2025-06",
+          "inner_validation_end": "2026-05",
+          "inner_validation_months": 12,
+          "refit_months": 113,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1265.9239501953125,
+                "RMSE": 1699.7333739875392,
+                "MAPE": 16.272293334314256
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1323.349365234375,
+                "RMSE": 1643.1533018815833,
+                "MAPE": 16.193657769276474
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1393.9112955729167,
+                "RMSE": 1786.3728102324326,
+                "MAPE": 17.62512758385344
+              }
+            }
+          ],
+          "neuralprophet": 9494.9716796875,
+          "actual": 9612.0,
+          "last_month": 10233.0
+        }
+      ],
+      "metrics": {
+        "all_42": {
+          "neuralprophet": {
+            "MAE": 836.677746000744,
+            "RMSE": 1136.5227558599333,
+            "MAPE": 9.657738500428954
+          },
+          "last_month": {
+            "MAE": 944.9761904761905,
+            "RMSE": 1247.2573053361066,
+            "MAPE": 10.370722294357455
+          }
+        },
+        "2023_2024": {
+          "neuralprophet": {
+            "MAE": 649.478515625,
+            "RMSE": 741.9220354587509,
+            "MAPE": 7.192400291255316
+          },
+          "last_month": {
+            "MAE": 615.2916666666666,
+            "RMSE": 828.3271545711875,
+            "MAPE": 6.720253716616555
+          }
+        },
+        "2025_2026": {
+          "neuralprophet": {
+            "MAE": 1086.2767198350693,
+            "RMSE": 1509.9662904973716,
+            "MAPE": 12.94485611266047
+          },
+          "last_month": {
+            "MAE": 1384.5555555555557,
+            "RMSE": 1647.7309650951315,
+            "MAPE": 15.238013731345317
+          }
+        }
+      },
+      "lag_counts": {
+        "3": 24,
+        "6": 18,
+        "12": 0
+      }
+    },
+    "muat": {
+      "monthly": [
+        {
+          "ds": "2023-01",
+          "origin": "2022-12",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2021-12",
+          "inner_train_months": 60,
+          "inner_validation_start": "2022-01",
+          "inner_validation_end": "2022-12",
+          "inner_validation_months": 12,
+          "refit_months": 72,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 3609.1072591145835,
+                "RMSE": 4125.299290159965,
+                "MAPE": 17.929198612263683
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 3301.5987955729165,
+                "RMSE": 3811.2597781194672,
+                "MAPE": 16.231380921657422
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 4097.98974609375,
+                "RMSE": 5001.333706784439,
+                "MAPE": 19.782414825870774
+              }
+            }
+          ],
+          "neuralprophet": 13807.494140625,
+          "actual": 17889.0,
+          "last_month": 15748.0
+        },
+        {
+          "ds": "2023-02",
+          "origin": "2023-01",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-01",
+          "inner_train_months": 61,
+          "inner_validation_start": "2022-02",
+          "inner_validation_end": "2023-01",
+          "inner_validation_months": 12,
+          "refit_months": 73,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 2870.3990885416665,
+                "RMSE": 3509.84157970197,
+                "MAPE": 14.12807211216974
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 2896.1808268229165,
+                "RMSE": 3377.338506983625,
+                "MAPE": 14.172964299111342
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 3675.3812662760415,
+                "RMSE": 4775.677972042812,
+                "MAPE": 17.2008668184082
+              }
+            }
+          ],
+          "neuralprophet": 16319.49609375,
+          "actual": 15700.0,
+          "last_month": 17889.0
+        },
+        {
+          "ds": "2023-03",
+          "origin": "2023-02",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-02",
+          "inner_train_months": 62,
+          "inner_validation_start": "2022-03",
+          "inner_validation_end": "2023-02",
+          "inner_validation_months": 12,
+          "refit_months": 74,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 2460.88330078125,
+                "RMSE": 3090.469134223727,
+                "MAPE": 12.333696957924504
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 2423.7684733072915,
+                "RMSE": 2903.973907753326,
+                "MAPE": 12.014041742852456
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 3238.032470703125,
+                "RMSE": 4188.887468025642,
+                "MAPE": 15.55545259624096
+              }
+            }
+          ],
+          "neuralprophet": 15340.033203125,
+          "actual": 19538.0,
+          "last_month": 15700.0
+        },
+        {
+          "ds": "2023-04",
+          "origin": "2023-03",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-03",
+          "inner_train_months": 63,
+          "inner_validation_start": "2022-04",
+          "inner_validation_end": "2023-03",
+          "inner_validation_months": 12,
+          "refit_months": 75,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 2372.35400390625,
+                "RMSE": 2977.8809719209157,
+                "MAPE": 11.96857001258052
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 2543.9737141927085,
+                "RMSE": 3004.0367363146825,
+                "MAPE": 12.73037781961791
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2786.4439290364585,
+                "RMSE": 3618.600464958998,
+                "MAPE": 13.53209183316092
+              }
+            }
+          ],
+          "neuralprophet": 18532.76171875,
+          "actual": 15602.0,
+          "last_month": 19538.0
+        },
+        {
+          "ds": "2023-05",
+          "origin": "2023-04",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-04",
+          "inner_train_months": 64,
+          "inner_validation_start": "2022-05",
+          "inner_validation_end": "2023-04",
+          "inner_validation_months": 12,
+          "refit_months": 76,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 2233.0325520833335,
+                "RMSE": 2799.6568994676086,
+                "MAPE": 12.315337464393739
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 2568.8045247395835,
+                "RMSE": 2917.150059197088,
+                "MAPE": 13.622525791148519
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2622.12939453125,
+                "RMSE": 3266.578631193111,
+                "MAPE": 13.960220225999498
+              }
+            }
+          ],
+          "neuralprophet": 17061.8515625,
+          "actual": 15331.0,
+          "last_month": 15602.0
+        },
+        {
+          "ds": "2023-06",
+          "origin": "2023-05",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-05",
+          "inner_train_months": 65,
+          "inner_validation_start": "2022-06",
+          "inner_validation_end": "2023-05",
+          "inner_validation_months": 12,
+          "refit_months": 77,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 2281.54248046875,
+                "RMSE": 2792.0230272314366,
+                "MAPE": 12.791955406860547
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 2071.7849934895835,
+                "RMSE": 2496.6373088889573,
+                "MAPE": 11.222126287716321
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2440.1421712239585,
+                "RMSE": 3178.684325744522,
+                "MAPE": 13.153761843021764
+              }
+            }
+          ],
+          "neuralprophet": 15434.58984375,
+          "actual": 15649.0,
+          "last_month": 15331.0
+        },
+        {
+          "ds": "2023-07",
+          "origin": "2023-06",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-06",
+          "inner_train_months": 66,
+          "inner_validation_start": "2022-07",
+          "inner_validation_end": "2023-06",
+          "inner_validation_months": 12,
+          "refit_months": 78,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 2213.849609375,
+                "RMSE": 2770.6226719393344,
+                "MAPE": 12.572602070277075
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1982.9646809895833,
+                "RMSE": 2473.0827226597767,
+                "MAPE": 10.916312321447911
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2456.2159830729165,
+                "RMSE": 3167.5911278048743,
+                "MAPE": 13.618586706440382
+              }
+            }
+          ],
+          "neuralprophet": 17775.09375,
+          "actual": 17016.0,
+          "last_month": 15649.0
+        },
+        {
+          "ds": "2023-08",
+          "origin": "2023-07",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-07",
+          "inner_train_months": 67,
+          "inner_validation_start": "2022-08",
+          "inner_validation_end": "2023-07",
+          "inner_validation_months": 12,
+          "refit_months": 79,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 2226.5729166666665,
+                "RMSE": 2888.089217851645,
+                "MAPE": 12.610497671464286
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1954.5093587239583,
+                "RMSE": 2469.3394268664106,
+                "MAPE": 10.853628578411403
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2624.7671712239585,
+                "RMSE": 3259.252671003741,
+                "MAPE": 14.880604890986717
+              }
+            }
+          ],
+          "neuralprophet": 16776.15234375,
+          "actual": 17458.0,
+          "last_month": 17016.0
+        },
+        {
+          "ds": "2023-09",
+          "origin": "2023-08",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-08",
+          "inner_train_months": 68,
+          "inner_validation_start": "2022-09",
+          "inner_validation_end": "2023-08",
+          "inner_validation_months": 12,
+          "refit_months": 80,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 2504.5576171875,
+                "RMSE": 3086.581204631864,
+                "MAPE": 14.482176099669832
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1950.3121744791667,
+                "RMSE": 2466.7819535885133,
+                "MAPE": 10.944809068548517
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2538.0338541666665,
+                "RMSE": 3059.47436287559,
+                "MAPE": 14.786989760968957
+              }
+            }
+          ],
+          "neuralprophet": 18049.404296875,
+          "actual": 17323.0,
+          "last_month": 17458.0
+        },
+        {
+          "ds": "2023-10",
+          "origin": "2023-09",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-09",
+          "inner_train_months": 69,
+          "inner_validation_start": "2022-10",
+          "inner_validation_end": "2023-09",
+          "inner_validation_months": 12,
+          "refit_months": 81,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 2360.6173502604165,
+                "RMSE": 2967.903686465616,
+                "MAPE": 13.99653578872751
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1863.3314615885417,
+                "RMSE": 2403.1741141979355,
+                "MAPE": 10.687693833496008
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2703.8570963541665,
+                "RMSE": 3191.0218073418437,
+                "MAPE": 15.823673350545137
+              }
+            }
+          ],
+          "neuralprophet": 17435.9140625,
+          "actual": 15384.0,
+          "last_month": 17323.0
+        },
+        {
+          "ds": "2023-11",
+          "origin": "2023-10",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-10",
+          "inner_train_months": 70,
+          "inner_validation_start": "2022-11",
+          "inner_validation_end": "2023-10",
+          "inner_validation_months": 12,
+          "refit_months": 82,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 2032.9969075520833,
+                "RMSE": 2579.44858253471,
+                "MAPE": 12.421526336255408
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1747.5228678385417,
+                "RMSE": 2302.397048354523,
+                "MAPE": 10.253136388401805
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2991.2648111979165,
+                "RMSE": 3436.5959038209257,
+                "MAPE": 17.6783913568785
+              }
+            }
+          ],
+          "neuralprophet": 16885.3125,
+          "actual": 15672.0,
+          "last_month": 15384.0
+        },
+        {
+          "ds": "2023-12",
+          "origin": "2023-11",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-11",
+          "inner_train_months": 71,
+          "inner_validation_start": "2022-12",
+          "inner_validation_end": "2023-11",
+          "inner_validation_months": 12,
+          "refit_months": 83,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1719.468017578125,
+                "RMSE": 2252.1486237152317,
+                "MAPE": 10.74227889795996
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1691.1930338541667,
+                "RMSE": 2263.505749967679,
+                "MAPE": 10.036539483250271
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 3120.2395833333335,
+                "RMSE": 3465.1434112073835,
+                "MAPE": 18.580987967560382
+              }
+            }
+          ],
+          "neuralprophet": 16521.728515625,
+          "actual": 16157.0,
+          "last_month": 15672.0
+        },
+        {
+          "ds": "2024-01",
+          "origin": "2023-12",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2022-12",
+          "inner_train_months": 72,
+          "inner_validation_start": "2023-01",
+          "inner_validation_end": "2023-12",
+          "inner_validation_months": 12,
+          "refit_months": 84,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1181.9417317708333,
+                "RMSE": 1359.4404664371964,
+                "MAPE": 7.294427993817873
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1519.1200358072917,
+                "RMSE": 2072.4596034250376,
+                "MAPE": 8.856488626561056
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2875.7501627604165,
+                "RMSE": 3398.4248558726617,
+                "MAPE": 16.975318995434474
+              }
+            }
+          ],
+          "neuralprophet": 15982.6328125,
+          "actual": 17925.0,
+          "last_month": 16157.0
+        },
+        {
+          "ds": "2024-02",
+          "origin": "2024-01",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-01",
+          "inner_train_months": 73,
+          "inner_validation_start": "2023-02",
+          "inner_validation_end": "2024-01",
+          "inner_validation_months": 12,
+          "refit_months": 85,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1250.0008951822917,
+                "RMSE": 1407.186442350035,
+                "MAPE": 7.677141015688056
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1263.578369140625,
+                "RMSE": 1686.8134863047967,
+                "MAPE": 7.446840909659603
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2615.355224609375,
+                "RMSE": 3229.2445772589317,
+                "MAPE": 15.519768082087563
+              }
+            }
+          ],
+          "neuralprophet": 15652.7890625,
+          "actual": 17533.0,
+          "last_month": 17925.0
+        },
+        {
+          "ds": "2024-03",
+          "origin": "2024-02",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-02",
+          "inner_train_months": 74,
+          "inner_validation_start": "2023-03",
+          "inner_validation_end": "2024-02",
+          "inner_validation_months": 12,
+          "refit_months": 86,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1280.3562825520833,
+                "RMSE": 1416.962694044589,
+                "MAPE": 7.793802053033529
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1312.0740559895833,
+                "RMSE": 1706.1639953889674,
+                "MAPE": 7.673854192703172
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2498.4908040364585,
+                "RMSE": 3117.671344601112,
+                "MAPE": 14.742403391914353
+              }
+            }
+          ],
+          "neuralprophet": 18350.5625,
+          "actual": 21426.0,
+          "last_month": 17533.0
+        },
+        {
+          "ds": "2024-04",
+          "origin": "2024-03",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-03",
+          "inner_train_months": 75,
+          "inner_validation_start": "2023-04",
+          "inner_validation_end": "2024-03",
+          "inner_validation_months": 12,
+          "refit_months": 87,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1434.375,
+                "RMSE": 1576.5258837971658,
+                "MAPE": 8.60368771861098
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1245.5816243489583,
+                "RMSE": 1460.5946484374729,
+                "MAPE": 7.345011775629278
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2307.0286458333335,
+                "RMSE": 2762.5920556735173,
+                "MAPE": 13.897351923118553
+              }
+            }
+          ],
+          "neuralprophet": 20968.712890625,
+          "actual": 17519.0,
+          "last_month": 21426.0
+        },
+        {
+          "ds": "2024-05",
+          "origin": "2024-04",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-04",
+          "inner_train_months": 76,
+          "inner_validation_start": "2023-05",
+          "inner_validation_end": "2024-04",
+          "inner_validation_months": 12,
+          "refit_months": 88,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1410.7335611979167,
+                "RMSE": 1576.725786202618,
+                "MAPE": 8.237877928868972
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1341.4674479166667,
+                "RMSE": 1655.6220800531237,
+                "MAPE": 7.7103880888900145
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1960.7202962239583,
+                "RMSE": 2308.238037969994,
+                "MAPE": 11.506288935421109
+              }
+            }
+          ],
+          "neuralprophet": 17094.380859375,
+          "actual": 20051.0,
+          "last_month": 17519.0
+        },
+        {
+          "ds": "2024-06",
+          "origin": "2024-05",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-05",
+          "inner_train_months": 77,
+          "inner_validation_start": "2023-06",
+          "inner_validation_end": "2024-05",
+          "inner_validation_months": 12,
+          "refit_months": 89,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1358.06591796875,
+                "RMSE": 1567.0036917376003,
+                "MAPE": 7.6431280148525085
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1526.9715983072917,
+                "RMSE": 1812.8579440368305,
+                "MAPE": 8.579093817484614
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2004.6034342447917,
+                "RMSE": 2281.2735838766994,
+                "MAPE": 11.537951424874983
+              }
+            }
+          ],
+          "neuralprophet": 17474.365234375,
+          "actual": 18729.0,
+          "last_month": 20051.0
+        },
+        {
+          "ds": "2024-07",
+          "origin": "2024-06",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-06",
+          "inner_train_months": 78,
+          "inner_validation_start": "2023-07",
+          "inner_validation_end": "2024-06",
+          "inner_validation_months": 12,
+          "refit_months": 90,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1309.6129557291667,
+                "RMSE": 1499.1949896521255,
+                "MAPE": 7.293721306161231
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1639.4943033854167,
+                "RMSE": 1867.3311632955063,
+                "MAPE": 9.157261075224248
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2038.33349609375,
+                "RMSE": 2269.38303656115,
+                "MAPE": 11.602566872941122
+              }
+            }
+          ],
+          "neuralprophet": 20018.3125,
+          "actual": 19423.0,
+          "last_month": 18729.0
+        },
+        {
+          "ds": "2024-08",
+          "origin": "2024-07",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-07",
+          "inner_train_months": 79,
+          "inner_validation_start": "2023-08",
+          "inner_validation_end": "2024-07",
+          "inner_validation_months": 12,
+          "refit_months": 91,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1329.298095703125,
+                "RMSE": 1510.603969909517,
+                "MAPE": 7.3330190921207645
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1647.6500651041667,
+                "RMSE": 1870.7856334011622,
+                "MAPE": 9.16564477649035
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1815.5873209635417,
+                "RMSE": 2089.404444276668,
+                "MAPE": 10.253129807666816
+              }
+            }
+          ],
+          "neuralprophet": 20458.76171875,
+          "actual": 20065.0,
+          "last_month": 19423.0
+        },
+        {
+          "ds": "2024-09",
+          "origin": "2024-08",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-08",
+          "inner_train_months": 80,
+          "inner_validation_start": "2023-09",
+          "inner_validation_end": "2024-08",
+          "inner_validation_months": 12,
+          "refit_months": 92,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1348.9226888020833,
+                "RMSE": 1527.995724599763,
+                "MAPE": 7.392110020076522
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1552.4173177083333,
+                "RMSE": 1826.0941140521008,
+                "MAPE": 8.614172254333795
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1798.8424479166667,
+                "RMSE": 2065.28965625648,
+                "MAPE": 9.946987261830888
+              }
+            }
+          ],
+          "neuralprophet": 19245.03515625,
+          "actual": 19060.0,
+          "last_month": 20065.0
+        },
+        {
+          "ds": "2024-10",
+          "origin": "2024-09",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-09",
+          "inner_train_months": 81,
+          "inner_validation_start": "2023-10",
+          "inner_validation_end": "2024-09",
+          "inner_validation_months": 12,
+          "refit_months": 93,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1317.0305989583333,
+                "RMSE": 1533.9283681480417,
+                "MAPE": 7.166836194189393
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1578.83349609375,
+                "RMSE": 1841.6180953471167,
+                "MAPE": 8.699236054276845
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1575.3331705729167,
+                "RMSE": 1814.072233571026,
+                "MAPE": 8.594998553501947
+              }
+            }
+          ],
+          "neuralprophet": 18680.205078125,
+          "actual": 20259.0,
+          "last_month": 19060.0
+        },
+        {
+          "ds": "2024-11",
+          "origin": "2024-10",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-10",
+          "inner_train_months": 82,
+          "inner_validation_start": "2023-11",
+          "inner_validation_end": "2024-10",
+          "inner_validation_months": 12,
+          "refit_months": 94,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1319.44873046875,
+                "RMSE": 1583.225299526173,
+                "MAPE": 6.981478075749316
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1430.85498046875,
+                "RMSE": 1739.2990773246775,
+                "MAPE": 7.656679459056844
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1572.0860188802083,
+                "RMSE": 1813.6291638849366,
+                "MAPE": 8.281388969165002
+              }
+            }
+          ],
+          "neuralprophet": 18851.03515625,
+          "actual": 20773.0,
+          "last_month": 20259.0
+        },
+        {
+          "ds": "2024-12",
+          "origin": "2024-11",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-11",
+          "inner_train_months": 83,
+          "inner_validation_start": "2023-12",
+          "inner_validation_end": "2024-11",
+          "inner_validation_months": 12,
+          "refit_months": 95,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1462.159912109375,
+                "RMSE": 1773.9355161803596,
+                "MAPE": 7.553094612932852
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1512.7201334635417,
+                "RMSE": 1842.6399300013768,
+                "MAPE": 7.887412363164244
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1714.7234700520833,
+                "RMSE": 2006.1217759664041,
+                "MAPE": 8.713612845616204
+              }
+            }
+          ],
+          "neuralprophet": 21351.509765625,
+          "actual": 22744.0,
+          "last_month": 20773.0
+        },
+        {
+          "ds": "2025-01",
+          "origin": "2024-12",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2023-12",
+          "inner_train_months": 84,
+          "inner_validation_start": "2024-01",
+          "inner_validation_end": "2024-12",
+          "inner_validation_months": 12,
+          "refit_months": 96,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1631.8964029947917,
+                "RMSE": 1882.1972159824052,
+                "MAPE": 8.292774706903309
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1633.4759928385417,
+                "RMSE": 1910.6450028967902,
+                "MAPE": 8.363731100938539
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2077.38720703125,
+                "RMSE": 2393.0113174882486,
+                "MAPE": 10.279523681300299
+              }
+            }
+          ],
+          "neuralprophet": 21294.93359375,
+          "actual": 20907.0,
+          "last_month": 22744.0
+        },
+        {
+          "ds": "2025-02",
+          "origin": "2025-01",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-01",
+          "inner_train_months": 85,
+          "inner_validation_start": "2024-02",
+          "inner_validation_end": "2025-01",
+          "inner_validation_months": 12,
+          "refit_months": 97,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1520.2099609375,
+                "RMSE": 1822.5443616518514,
+                "MAPE": 7.62885715172837
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1487.2703450520833,
+                "RMSE": 1842.7329892526716,
+                "MAPE": 7.5480561592083575
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2103.330078125,
+                "RMSE": 2399.0969177381007,
+                "MAPE": 10.334381746460329
+              }
+            }
+          ],
+          "neuralprophet": 21053.44140625,
+          "actual": 18985.0,
+          "last_month": 20907.0
+        },
+        {
+          "ds": "2025-03",
+          "origin": "2025-02",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-02",
+          "inner_train_months": 86,
+          "inner_validation_start": "2024-03",
+          "inner_validation_end": "2025-02",
+          "inner_validation_months": 12,
+          "refit_months": 98,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1426.818359375,
+                "RMSE": 1714.4187588334137,
+                "MAPE": 7.107941171055394
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1525.341796875,
+                "RMSE": 1873.9649413852126,
+                "MAPE": 7.695307696103937
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 2078.89306640625,
+                "RMSE": 2346.9527149265136,
+                "MAPE": 10.181526998492748
+              }
+            }
+          ],
+          "neuralprophet": 21457.8125,
+          "actual": 22808.0,
+          "last_month": 18985.0
+        },
+        {
+          "ds": "2025-04",
+          "origin": "2025-03",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-03",
+          "inner_train_months": 87,
+          "inner_validation_start": "2024-04",
+          "inner_validation_end": "2025-03",
+          "inner_validation_months": 12,
+          "refit_months": 99,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1319.1638997395833,
+                "RMSE": 1519.5662037684745,
+                "MAPE": 6.613588130177918
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1432.4544270833333,
+                "RMSE": 1730.4095056924673,
+                "MAPE": 7.283720366124075
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1805.64453125,
+                "RMSE": 2052.1602313551293,
+                "MAPE": 8.904122943238448
+              }
+            }
+          ],
+          "neuralprophet": 20635.9921875,
+          "actual": 19760.0,
+          "last_month": 22808.0
+        },
+        {
+          "ds": "2025-05",
+          "origin": "2025-04",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-04",
+          "inner_train_months": 88,
+          "inner_validation_start": "2024-05",
+          "inner_validation_end": "2025-04",
+          "inner_validation_months": 12,
+          "refit_months": 100,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1162.3111979166667,
+                "RMSE": 1437.5065345467472,
+                "MAPE": 5.660442907381364
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1239.3626302083333,
+                "RMSE": 1495.0871746726955,
+                "MAPE": 6.088349740393294
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1688.2750651041667,
+                "RMSE": 2022.333588341355,
+                "MAPE": 8.204859486250255
+              }
+            }
+          ],
+          "neuralprophet": 20283.5859375,
+          "actual": 19945.0,
+          "last_month": 19760.0
+        },
+        {
+          "ds": "2025-06",
+          "origin": "2025-05",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-05",
+          "inner_train_months": 89,
+          "inner_validation_start": "2024-06",
+          "inner_validation_end": "2025-05",
+          "inner_validation_months": 12,
+          "refit_months": 101,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 975.7252604166666,
+                "RMSE": 1186.859572741976,
+                "MAPE": 4.76399736852255
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1091.1736653645833,
+                "RMSE": 1246.7646953296007,
+                "MAPE": 5.372703885195738
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1407.0660807291667,
+                "RMSE": 1790.4825736283221,
+                "MAPE": 6.8347079237441255
+              }
+            }
+          ],
+          "neuralprophet": 18940.90625,
+          "actual": 20466.0,
+          "last_month": 19945.0
+        },
+        {
+          "ds": "2025-07",
+          "origin": "2025-06",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-06",
+          "inner_train_months": 90,
+          "inner_validation_start": "2024-07",
+          "inner_validation_end": "2025-06",
+          "inner_validation_months": 12,
+          "refit_months": 102,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1027.5,
+                "RMSE": 1243.9178911952158,
+                "MAPE": 4.977433594276257
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1163.8408203125,
+                "RMSE": 1324.4647587270813,
+                "MAPE": 5.6877785007138115
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1428.5579427083333,
+                "RMSE": 1800.4047384889118,
+                "MAPE": 6.898445832859617
+              }
+            }
+          ],
+          "neuralprophet": 21286.26953125,
+          "actual": 19016.0,
+          "last_month": 20466.0
+        },
+        {
+          "ds": "2025-08",
+          "origin": "2025-07",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-07",
+          "inner_train_months": 91,
+          "inner_validation_start": "2024-08",
+          "inner_validation_end": "2025-07",
+          "inner_validation_months": 12,
+          "refit_months": 103,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1126.84228515625,
+                "RMSE": 1344.9282820498408,
+                "MAPE": 5.499818076715015
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1304.4031575520833,
+                "RMSE": 1459.6006041940354,
+                "MAPE": 6.421400216658901
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1494.0221354166667,
+                "RMSE": 1823.4023391741057,
+                "MAPE": 7.25958679581072
+              }
+            }
+          ],
+          "neuralprophet": 21374.65625,
+          "actual": 19389.0,
+          "last_month": 19016.0
+        },
+        {
+          "ds": "2025-09",
+          "origin": "2025-08",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-08",
+          "inner_train_months": 92,
+          "inner_validation_start": "2024-09",
+          "inner_validation_end": "2025-08",
+          "inner_validation_months": 12,
+          "refit_months": 104,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1181.9306640625,
+                "RMSE": 1373.8192318260442,
+                "MAPE": 5.788291175628248
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1354.9508463541667,
+                "RMSE": 1478.2109705714752,
+                "MAPE": 6.678664981605626
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1430.9195963541667,
+                "RMSE": 1786.6322141207352,
+                "MAPE": 6.934801390511601
+              }
+            }
+          ],
+          "neuralprophet": 19981.365234375,
+          "actual": 18638.0,
+          "last_month": 19389.0
+        },
+        {
+          "ds": "2025-10",
+          "origin": "2025-09",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-09",
+          "inner_train_months": 93,
+          "inner_validation_start": "2024-10",
+          "inner_validation_end": "2025-09",
+          "inner_validation_months": 12,
+          "refit_months": 105,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1238.4278971354167,
+                "RMSE": 1425.6340737692503,
+                "MAPE": 6.0593113425797425
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1347.7467447916667,
+                "RMSE": 1475.9176327379125,
+                "MAPE": 6.649746395726182
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1428.2672526041667,
+                "RMSE": 1824.1444038377351,
+                "MAPE": 6.8986160996243955
+              }
+            }
+          ],
+          "neuralprophet": 18854.91015625,
+          "actual": 19409.0,
+          "last_month": 18638.0
+        },
+        {
+          "ds": "2025-11",
+          "origin": "2025-10",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-10",
+          "inner_train_months": 94,
+          "inner_validation_start": "2024-11",
+          "inner_validation_end": "2025-10",
+          "inner_validation_months": 12,
+          "refit_months": 106,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1188.23095703125,
+                "RMSE": 1374.478676725847,
+                "MAPE": 5.866637402757086
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1316.5498046875,
+                "RMSE": 1448.294038210035,
+                "MAPE": 6.512299227147972
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1373.7244466145833,
+                "RMSE": 1733.0605856355812,
+                "MAPE": 6.719968349700213
+              }
+            }
+          ],
+          "neuralprophet": 19031.41015625,
+          "actual": 18651.0,
+          "last_month": 19409.0
+        },
+        {
+          "ds": "2025-12",
+          "origin": "2025-11",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-11",
+          "inner_train_months": 95,
+          "inner_validation_start": "2024-12",
+          "inner_validation_end": "2025-11",
+          "inner_validation_months": 12,
+          "refit_months": 107,
+          "selected_n_lags": 3,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1096.5349934895833,
+                "RMSE": 1280.8400189570011,
+                "MAPE": 5.474604553862742
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1152.3045247395833,
+                "RMSE": 1327.3600454344505,
+                "MAPE": 5.7481383339323315
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1206.0847981770833,
+                "RMSE": 1553.1003127322897,
+                "MAPE": 5.9459990200652975
+              }
+            }
+          ],
+          "neuralprophet": 20308.8984375,
+          "actual": 18241.0,
+          "last_month": 18651.0
+        },
+        {
+          "ds": "2026-01",
+          "origin": "2025-12",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2024-12",
+          "inner_train_months": 96,
+          "inner_validation_start": "2025-01",
+          "inner_validation_end": "2025-12",
+          "inner_validation_months": 12,
+          "refit_months": 108,
+          "selected_n_lags": 12,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1239.6643880208333,
+                "RMSE": 1436.2268504615256,
+                "MAPE": 6.380027204281389
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1155.9368489583333,
+                "RMSE": 1323.327307394002,
+                "MAPE": 5.9020635195597055
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1155.3860677083333,
+                "RMSE": 1389.295426163823,
+                "MAPE": 6.004426004906179
+              }
+            }
+          ],
+          "neuralprophet": 19006.48828125,
+          "actual": 15998.0,
+          "last_month": 18241.0
+        },
+        {
+          "ds": "2026-02",
+          "origin": "2026-01",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2025-01",
+          "inner_train_months": 97,
+          "inner_validation_start": "2025-02",
+          "inner_validation_end": "2026-01",
+          "inner_validation_months": 12,
+          "refit_months": 109,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1470.9959309895833,
+                "RMSE": 1677.9323545552213,
+                "MAPE": 7.847060100301596
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1337.9480794270833,
+                "RMSE": 1499.1461577214752,
+                "MAPE": 7.085197865910906
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1372.89892578125,
+                "RMSE": 1657.2748521524952,
+                "MAPE": 7.444096882488317
+              }
+            }
+          ],
+          "neuralprophet": 17021.18359375,
+          "actual": 14966.0,
+          "last_month": 15998.0
+        },
+        {
+          "ds": "2026-03",
+          "origin": "2026-02",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2025-02",
+          "inner_train_months": 98,
+          "inner_validation_start": "2025-03",
+          "inner_validation_end": "2026-02",
+          "inner_validation_months": 12,
+          "refit_months": 110,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1409.0867513020833,
+                "RMSE": 1614.6788476174559,
+                "MAPE": 7.729857162580384
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1276.201171875,
+                "RMSE": 1441.4679323068208,
+                "MAPE": 6.962457410347188
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1334.6204427083333,
+                "RMSE": 1599.7007755305722,
+                "MAPE": 7.51462224080602
+              }
+            }
+          ],
+          "neuralprophet": 18371.861328125,
+          "actual": 15993.0,
+          "last_month": 14966.0
+        },
+        {
+          "ds": "2026-04",
+          "origin": "2026-03",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2025-03",
+          "inner_train_months": 99,
+          "inner_validation_start": "2025-04",
+          "inner_validation_end": "2026-03",
+          "inner_validation_months": 12,
+          "refit_months": 111,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1575.0732421875,
+                "RMSE": 1798.5837907542966,
+                "MAPE": 8.94263546610835
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1404.6318359375,
+                "RMSE": 1581.842482020316,
+                "MAPE": 7.931009788994888
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1593.3347981770833,
+                "RMSE": 1897.0296835373383,
+                "MAPE": 9.227055154885067
+              }
+            }
+          ],
+          "neuralprophet": 14836.404296875,
+          "actual": 16325.0,
+          "last_month": 15993.0
+        },
+        {
+          "ds": "2026-05",
+          "origin": "2026-04",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2025-04",
+          "inner_train_months": 100,
+          "inner_validation_start": "2025-05",
+          "inner_validation_end": "2026-04",
+          "inner_validation_months": 12,
+          "refit_months": 112,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1555.6097005208333,
+                "RMSE": 1818.0316932548683,
+                "MAPE": 8.912877534818529
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1360.1160481770833,
+                "RMSE": 1542.799681692875,
+                "MAPE": 7.78609139712656
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1599.8990885416667,
+                "RMSE": 1905.1412619719395,
+                "MAPE": 9.31496397481964
+              }
+            }
+          ],
+          "neuralprophet": 15773.890625,
+          "actual": 16419.0,
+          "last_month": 16325.0
+        },
+        {
+          "ds": "2026-06",
+          "origin": "2026-05",
+          "inner_train_start": "2017-01",
+          "inner_train_end": "2025-05",
+          "inner_train_months": 101,
+          "inner_validation_start": "2025-06",
+          "inner_validation_end": "2026-05",
+          "inner_validation_months": 12,
+          "refit_months": 113,
+          "selected_n_lags": 6,
+          "validation_candidates": [
+            {
+              "n_lags": 3,
+              "metrics": {
+                "MAE": 1496.3492024739583,
+                "RMSE": 1752.9497705796705,
+                "MAPE": 8.576658585702122
+              }
+            },
+            {
+              "n_lags": 6,
+              "metrics": {
+                "MAE": 1338.3168131510417,
+                "RMSE": 1534.2246662033722,
+                "MAPE": 7.738512922181105
+              }
+            },
+            {
+              "n_lags": 12,
+              "metrics": {
+                "MAE": 1644.6923828125,
+                "RMSE": 1948.2699132107475,
+                "MAPE": 9.637978732324482
+              }
+            }
+          ],
+          "neuralprophet": 15341.62109375,
+          "actual": 14855.0,
+          "last_month": 16419.0
+        }
+      ],
+      "metrics": {
+        "all_42": {
+          "neuralprophet": {
+            "MAE": 1557.3670944940477,
+            "RMSE": 1878.6056397793527,
+            "MAPE": 8.65266426838485
+          },
+          "last_month": {
+            "MAE": 1412.595238095238,
+            "RMSE": 1828.4789215811777,
+            "MAPE": 7.705620660321901
+          }
+        },
+        "2023_2024": {
+          "neuralprophet": {
+            "MAE": 1674.943115234375,
+            "RMSE": 2054.7978411667755,
+            "MAPE": 9.241867879612808
+          },
+          "last_month": {
+            "MAE": 1549.5,
+            "RMSE": 1992.500857381664,
+            "MAPE": 8.530454117892997
+          }
+        },
+        "2025_2026": {
+          "neuralprophet": {
+            "MAE": 1400.5990668402778,
+            "RMSE": 1614.0360772941203,
+            "MAPE": 7.867059453414233
+          },
+          "last_month": {
+            "MAE": 1230.0555555555557,
+            "RMSE": 1583.572701204463,
+            "MAPE": 6.605842716893771
+          }
+        }
+      },
+      "lag_counts": {
+        "3": 24,
+        "6": 17,
+        "12": 1
+      }
+    }
+  },
+  "environment": {
+    "python": "3.12.13",
+    "neuralprophet": "0.9.0"
+  }
+}

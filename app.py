@@ -18,6 +18,7 @@ import streamlit as st
 from cargo_forecast.bps_api import BpsApiError, fetch_bps_cargo
 from cargo_forecast.data import descriptive_stats, load_bps_data
 from cargo_forecast.modeling import LEARNING_RATE, SEED
+from cargo_forecast.research_ui import render_research_extensions
 
 
 ROOT = Path(__file__).resolve().parent
@@ -46,6 +47,14 @@ def saved_diagnostics() -> dict | None:
     return json.loads(DIAGNOSTICS_PATH.read_text(encoding="utf-8"))
 
 
+@st.cache_data
+def saved_extension(name: str) -> dict | None:
+    path = ROOT / "artifacts" / name
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 @st.cache_data(ttl=6 * 3600, show_spinner=False)
 def live_dataset() -> dict:
     key = os.environ.get("BPS_API_KEY")
@@ -67,10 +76,10 @@ def ton(value: float) -> str:
     return f"{value:,.0f}".replace(",", ".") + " ton"
 
 
-def history_plot(frame: pd.DataFrame, series: list[str]) -> alt.Chart:
+def history_plot(frame: pd.DataFrame, series: list[str], mark_pandemic: bool = False) -> alt.Chart:
     values = frame.melt(id_vars="ds", value_vars=series, var_name="Deret", value_name="Ton")
     values["Deret"] = values["Deret"].map(LABELS)
-    return (
+    chart = (
         alt.Chart(values)
         .mark_line(point=True)
         .encode(
@@ -82,6 +91,10 @@ def history_plot(frame: pd.DataFrame, series: list[str]) -> alt.Chart:
         .properties(height=360)
         .interactive()
     )
+    if mark_pandemic:
+        marker = pd.DataFrame({"ds": [pd.Timestamp("2020-03-01")], "Konteks": ["Maret 2020: WHO menggolongkan COVID-19 sebagai pandemi"]})
+        return chart + alt.Chart(marker).mark_rule(color="#777", strokeDash=[5, 5]).encode(x="ds:T", tooltip="Konteks:N")
+    return chart
 
 
 def test_plot(records: list[dict], title: str) -> alt.Chart:
@@ -151,7 +164,9 @@ with tabs[0]:
     first.metric("Observasi per deret", len(data))
     second.metric("Bongkar Juni 2026", ton(data.iloc[-1]["bongkar"]))
     third.metric("Muat Juni 2026", ton(data.iloc[-1]["muat"]))
-    st.altair_chart(history_plot(data, ["bongkar", "muat"]), width="stretch")
+    st.altair_chart(history_plot(data, ["bongkar", "muat"], mark_pandemic=True), width="stretch")
+    st.caption("Garis putus-putus menandai Maret 2020 sebagai konteks waktu pandemi; tidak menjadi variabel input model dan tidak membuktikan penyebab perubahan volume.")
+    st.markdown("[Konteks WHO, 11 Maret 2020](https://www.who.int/news-room/speeches/item/who-director-general-s-opening-remarks-at-the-media-briefing-on-covid-19---11-march-2020)")
     if report:
         st.subheader("Prediksi Juli 2026 · hasil penelitian")
         left, right = st.columns(2)
@@ -207,6 +222,15 @@ with tabs[2]:
         candidates = pd.DataFrame([{"Lookback (bulan)": candidate["n_lags"], **candidate["metrics"]} for candidate in item["validation_candidates"]])
         st.write("**Hasil validasi 2024**")
         st.dataframe(candidates, hide_index=True, width="stretch")
+        candidates["Terpilih"] = candidates["Lookback (bulan)"] == item["selected_n_lags"]
+        lag_chart = alt.Chart(candidates).encode(x=alt.X("Lookback (bulan):O", title="Lookback (bulan)"),
+                                               y=alt.Y("MAE:Q", title="MAE validasi (ton)"))
+        lag_points = lag_chart.mark_point(filled=True, size=90).encode(
+            color=alt.condition(alt.datum.Terpilih, alt.value("#c65b45"), alt.value("#327eac")),
+            tooltip=["Lookback (bulan):O", "MAE:Q", "Terpilih:N"])
+        st.altair_chart((lag_chart.mark_line() + lag_points).properties(height=220), width="stretch")
+        st.caption("Titik oranye menandai lookback terpilih berdasarkan MAE validasi terendah.")
+        st.caption("Hanya lookback 3, 6, dan 12 yang dituning. Parameter tetap: AR linear (ar_layers=[]), 10 kandidat changepoint, 100 epoch, learning rate 0,01, dan seed 42.")
         metrics = item["test_metrics"]
         a, b, c = st.columns(3)
         a.metric("MAE uji", ton(metrics["MAE"]))
@@ -250,13 +274,19 @@ with tabs[3]:
         })
         st.write("**Rincian bulanan dan tiga galat terbesar**")
         st.dataframe(monthly, hide_index=True, width="stretch")
-        st.dataframe(pd.DataFrame(detail["largest_errors"])[["ds", "actual", "neuralprophet", "error", "ape_percent"]], hide_index=True, width="stretch")
+        largest = pd.DataFrame(detail["largest_errors"])
+        largest["Perubahan aktual dari bulan lalu (%)"] = (largest["actual"] / largest["last_month"] - 1) * 100
+        st.dataframe(largest[["ds", "actual", "neuralprophet", "error", "ape_percent", "Perubahan aktual dari bulan lalu (%)"]], hide_index=True, width="stretch")
+        st.caption("Perubahan aktual membantu membaca besarnya fluktuasi pada bulan kesalahan terbesar. Penyebab ekonomi atau operasional tidak dapat dipastikan dari deret ini saja.")
         st.write("**Kepekaan terhadap seed pelatihan**")
         st.caption(f"Lookback {detail['selected_n_lags']} bulan tetap; setiap seed dilatih pada data sampai Desember 2024 dan diuji pada 18 bulan yang sama. Hasil uji tidak dipakai memilih seed terbaik.")
         st.dataframe(pd.DataFrame([{"Seed": run["seed"], **run["metrics"]} for run in detail["seed_runs"]]), hide_index=True, width="stretch")
         st.dataframe(pd.DataFrame([{"Metrik": name, **summary} for name, summary in detail["seed_summary"].items()]).rename(columns={"mean": "Rata-rata", "sample_std": "Simpangan baku sampel", "min": "Minimum", "max": "Maksimum"}), hide_index=True, width="stretch")
         st.caption(f"Seed 42 mereproduksi laporan resmi (selisih prediksi maksimum {detail['seed_42_max_forecast_difference_from_official']:.6f} ton). Kelima seed memakai periode uji yang sama; sebarannya bukan interval kepercayaan atau bukti kinerja pada bandara lain.")
         st.download_button("Unduh diagnostik lengkap (JSON)", json.dumps(diagnostics, ensure_ascii=False, indent=2), file_name="diagnostik_penelitian.json", mime="application/json")
+        render_research_extensions(target, report, detail, saved_extension("enrichment.json"),
+            saved_extension("walk_forward.json"), {"report_sha256": diagnostics["source"]["report_sha256"],
+                                                  "data_sha256": diagnostics["source"]["data_sha256"]})
 
 with tabs[4]:
     st.subheader("Eksperimen prediksi dari data BPS langsung")

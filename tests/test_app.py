@@ -1,5 +1,6 @@
 """Exercise live-data choices while keeping model training out of UI tests."""
 
+import os
 import unittest
 from unittest.mock import patch
 
@@ -30,6 +31,12 @@ def live_fixture():
 
 
 class AppWorkflowTests(unittest.TestCase):
+    def setUp(self):
+        # UI fixtures must work in a clean deployment checkout without secrets.
+        key = patch.dict(os.environ, {"BPS_API_KEY": "test-key"})
+        key.start()
+        self.addCleanup(key.stop)
+
     def test_api_failure_keeps_research_visible_and_disables_training(self):
         st.cache_data.clear()
         with patch("cargo_forecast.bps_api.fetch_bps_cargo", side_effect=BpsApiError("API sementara gagal")):

@@ -1,0 +1,4 @@
+# Preserve exact bytes of research inputs and the report referenced by SHA-256.
+# Git must not convert line endings between Windows and Linux deployments.
+data/*.csv -text
+artifacts/report.json -text whitespace=cr-at-eol

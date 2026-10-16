@@ -37,3 +37,10 @@ Sepuluh pelatihan offline untuk lima seed pada kedua deret selesai pada Python 3
 MASE, ACF galat uji, komponen tren/musiman/AR, bobot lag, kandidat changepoint, dan grafik sensitivitas lag sudah ditambahkan. Kedua model interpretasi mereproduksi seluruh prediksi resmi dengan selisih maksimum 0 ton. Nested walk-forward selesai untuk 42 bulan per deret, Januari 2023–Juni 2026, dengan tiga kandidat lag dan refit tiap origin. Setiap origin memakai 12 bulan validasi yang telah berlalu; 336 fit dijalankan offline. Checkpoint dan pemilihan lag berdasarkan masa lalu diuji otomatis.
 
 Seluruh **35 tes** lulus pada Python 3.12.13, termasuk **14 kasus black-box**. Audit provenance resmi tetap cocok. Sepuluh PNG dan enam CSV penelitian telah diekspor dari artefak yang diverifikasi. Aplikasi membaca hasil prahitung; membuka analisis ini tidak melatih model. Aksi widget baru dan unduhan ZIP belum diuji langsung di browser Cloud. Versi pengayaan masih merupakan perubahan lokal sampai diterbitkan.
+
+
+## Perbaikan hash artefak: 16 Oktober 2026
+
+Pengguna melaporkan tab Diagnostik menampilkan penolakan hash laporan. Penyebab terkonfirmasi: `core.autocrlf=true` mengubah laporan CRLF lokal menjadi LF dalam Git, sehingga SHA-256 deployment berbeda meskipun seluruh isi JSON sama. Aturan `.gitattributes` kini mempertahankan byte laporan resmi dan CSV mentah. Laporan ditambahkan ulang dengan byte asli yang cocok dengan ketiga artefak tambahan dan manifest; tidak ada pelatihan ulang atau perubahan angka.
+
+Salinan bersih dibuat dari Git index dengan `core.autocrlf=false`, tanpa secret lokal. Ketiga hash sumber cocok, seluruh isi JSON laporan sama dengan versi sebelumnya, dan seluruh 35 pengujian lulus, termasuk tab Diagnostik, MASE, komponen, walk-forward, dan penolakan analisis yang benar-benar tidak cocok. Pengujian antarmuka kini memasok key dummy untuk fixture agar tidak bergantung pada secret lokal. Pemeriksaan ini memakai checkout dengan konfigurasi akhir baris deployment, dijalankan pada Python Windows; bukan pengujian langsung browser Cloud atau runtime Linux. Hasil browser Cloud setelah penerbitan belum diverifikasi.

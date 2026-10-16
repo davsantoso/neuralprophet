@@ -8,6 +8,8 @@ Tanggal pengunduhan awal CSV tidak tercatat, sehingga tidak dinyatakan sebagai t
 
 ## Rantai hasil
 
+Sidik jari laporan resmi dan CSV mentah dihitung dari byte berkas. `.gitattributes` menonaktifkan konversi akhir baris Git untuk `artifacts/report.json` dan `data/*.csv`, sehingga checkout Windows dan Linux mempertahankan byte yang sama. Perubahan CRLF menjadi LF saja akan menghasilkan hash berbeda meskipun angka JSON sama; jangan mengatasi penolakan artefak dengan menonaktifkan pemeriksaan hash.
+
 `audit_provenance.py` membaca ulang CSV, membentuk tabel kanonis `ds,bongkar,muat`, mencatat SHA-256 tabel 114 bulan dan `artifacts/report.json`, memeriksa 18 aktual uji per deret terhadap CSV, serta mencatat versi Python dan paket utama. Manifest juga menyimpan split, kandidat dan pilihan lookback, seed, epoch, learning rate, serta horizon prediksi. Ini memungkinkan pemeriksa mendeteksi bila sumber, hasil, atau lingkungan berubah.
 
 Artefak tambahan [`artifacts/diagnostics.json`](artifacts/diagnostics.json) mencatat SHA-256 snapshot kanonis dan laporan resmi, galat bulanan, dua aturan prediksi sederhana pada 18 bulan uji, serta lima hasil pelatihan per deret dengan seed berbeda. Lookback 6 dan 3 bulan tetap mengikuti validasi resmi seed 42. `python diagnose.py` menghitungnya ulang secara offline; artefak resmi `artifacts/report.json` tidak ditulis ulang.

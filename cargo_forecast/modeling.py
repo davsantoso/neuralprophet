@@ -52,7 +52,8 @@ def _fit(
         epochs=epochs,
         learning_rate=LEARNING_RATE,
     )
-    model.fit(to_neuralprophet(frame, target), freq="MS", progress=None, minimal=minimal)
+    # Per-epoch training metrics are kept for diagnostics; fitting is unchanged.
+    model.fit_metrics = model.fit(to_neuralprophet(frame, target), freq="MS", progress=None, minimal=minimal)
     return model
 
 
@@ -184,17 +185,6 @@ def evaluate_seed_sensitivity(
                 "predictions": _records(predictions),
             })
     return results
-
-
-def retrain_for_next_month(frame: pd.DataFrame, lags: dict[str, int]) -> dict[str, Any]:
-    """Fit on all available rows for an exploratory next-month forecast."""
-    data = validate_monthly(frame)
-    if data["ds"].max() < THESIS_CUTOFF:
-        raise ValueError("Data eksperimen tidak boleh berakhir sebelum Juni 2026.")
-    forecasts = {}
-    for target in COLUMNS:
-        forecasts[target] = retrain_target_for_next_month(data, target, lags[target])["forecast"]
-    return {"last_observation": data["ds"].max().strftime("%Y-%m"), "n_observations": len(data), "forecasts": forecasts}
 
 
 def retrain_target_for_next_month(

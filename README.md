@@ -71,6 +71,8 @@ Uji data, parser API, antarmuka, hasil, diagnostik, batas waktu prediksi, jejak 
 
 Analisis tambahan dapat direproduksi dengan `python enrich.py`, `python walk_forward.py --workers 4`, lalu `python export_enrichment.py`. Backtest nested menghasilkan 42 prediksi per deret pada Januari 2023–Juni 2026; setiap origin memakai 12 bulan validasi terdahulu untuk memilih lag, lalu melatih ulang sampai origin. Seluruh 336 fit berjalan offline. Worker lokal masing-masing memakai satu thread CPU; `--workers 1` mengurangi beban. Checkpoint `.tmp/walk_forward_checkpoint.json` memungkinkan proses dilanjutkan tanpa mengulang bulan yang sudah selesai. Artefak akhir menyimpan batas train/validasi tiap bulan, konfigurasi, prediksi, dan hash sumber.
 
+`python significance.py` menghitung uji Diebold-Mariano (koreksi Harvey-Leybourne-Newbold) dari prediksi yang sudah tersimpan, tanpa pelatihan, dan menulis `artifacts/significance.json` serta [UJI_SIGNIFIKANSI.md](UJI_SIGNIFIKANSI.md). `python training_diagnostics.py` membuat grafik data 114 bulan, kurva loss model uji resmi (wajib mereproduksi 18 prediksi resmi), dan sensitivitas epoch pada validasi 2024 saja; hasilnya ada di `artifacts/training_diagnostics.json` dan [DIAGNOSTIK_PELATIHAN.md](DIAGNOSTIK_PELATIHAN.md). Keduanya tidak mengubah laporan resmi.
+
 Model resmi memakai **AR linear** (`ar_layers=[]`), 10 kandidat changepoint, 100 epoch, dan learning rate 0,01. Hanya `n_lags` yang dituning. MASE memakai penyebut dari data latih hingga Desember 2024; interpretasi komponen memakai model yang mereproduksi uji resmi. Grafik PNG dan tabel CSV siap digunakan di naskah tersedia di `artifacts/figures/`.
 
 - **Ringkasan:** grafik dua deret, prediksi Juli 2026, dan ukuran kesalahan uji.

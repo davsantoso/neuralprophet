@@ -66,6 +66,21 @@ Setelah dilatih ulang pada seluruh 114 bulan, prediksi untuk **2026-07** adalah 
 | 2026-05 | 10.233 | 9.622,09 | 16.419 | 16.350,87 |
 | 2026-06 | 9.612 | 10.067,88 | 14.855 | 16.159,54 |
 
+## Pengecekan ex-post Juli 2026
+
+Aktual Juli 2026 dari CSV snapshot yang sama kini dapat dibandingkan dengan prediksi Juli yang dibuat dari batas data Juni. Ini **satu titik pengamatan**, bukan metrik uji: tidak digabung dengan 18 bulan uji dan tidak dipakai memilih ulang konfigurasi. Dua aturan sederhana ditampilkan sebagai rujukan.
+
+| Deret | Aktual Juli 2026 (ton) | Metode | Prediksi (ton) | Galat (ton) | Galat absolut (%) |
+| --- | ---: | --- | ---: | ---: | ---: |
+| Bongkar | 10.633 | NeuralProphet | 9.768,53 | -864,47 | 8,13 |
+| Bongkar | 10.633 | Bulan sebelumnya (Juni 2026) | 9.612,00 | -1.021,00 | 9,60 |
+| Bongkar | 10.633 | Bulan sama tahun lalu (Juli 2025) | 5.630,00 | -5.003,00 | 47,05 |
+| Muat | 15.496 | NeuralProphet | 16.909,51 | 1.413,51 | 9,12 |
+| Muat | 15.496 | Bulan sebelumnya (Juni 2026) | 14.855,00 | -641,00 | 4,14 |
+| Muat | 15.496 | Bulan sama tahun lalu (Juli 2025) | 19.016,00 | 3.520,00 | 22,72 |
+
+Galat didefinisikan sebagai prediksi dikurangi aktual. Bulan setelah Juli 2026 tidak dimasukkan karena belum ada di snapshot yang sidik jarinya dicatat.
+
 ## Batas interpretasi
 
 Metrik di atas menggambarkan kesalahan pada 18 bulan uji dengan prosedur satu langkah yang didefinisikan. Hasil tidak membuktikan model akan memiliki kesalahan yang sama pada semua bulan mendatang. Prediksi Juli 2026 berasal dari titik akhir Juni 2026; karena nilai aktual Juli kini tersedia, hasil tersebut harus tetap dibedakan dari metrik uji yang sudah ditetapkan. Tab eksperimen memakai data terbaru dari BPS Web API tanpa mengubah hasil penelitian ini.
@@ -74,4 +89,4 @@ Diagnostik galat, tolok ukur prediksi sederhana, dan kepekaan lima seed disajika
 
 Angka tidak dibulatkan dalam `artifacts/report.json`; pembulatan di dokumen ini hanya untuk penyajian.
 
-MASE, grafik sensitivitas lag, ACF galat, interpretasi komponen, dan backtest nested 42 bulan tersedia pada [PENGAYAAN_PENELITIAN.md](PENGAYAAN_PENELITIAN.md). Analisis tersebut tidak mengganti angka resmi di atas.
+MASE, grafik sensitivitas lag, ACF galat, interpretasi komponen, dan backtest nested 42 bulan tersedia pada [PENGAYAAN_PENELITIAN.md](PENGAYAAN_PENELITIAN.md). Uji signifikansi Diebold-Mariano ada pada [UJI_SIGNIFIKANSI.md](UJI_SIGNIFIKANSI.md), sedangkan kurva loss dan sensitivitas epoch ada pada [DIAGNOSTIK_PELATIHAN.md](DIAGNOSTIK_PELATIHAN.md). Analisis tersebut tidak mengganti angka resmi di atas.

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import csv
-import io
 import re
 from pathlib import Path
 
@@ -64,28 +63,6 @@ def load_bps_data(directory: str | Path = "data", *, through: pd.Timestamp | Non
                 raise ValueError(f"Data belum tersedia untuk {ds:%Y-%m} di {path.name}.")
             records.append({"ds": ds, "bongkar": raw_bongkar, "muat": raw_muat})
     return validate_monthly(pd.DataFrame(records))
-
-
-def parse_additional_csv(content: bytes, base: pd.DataFrame) -> pd.DataFrame:
-    """Accept new monthly rows in ds,bongkar,muat format and append to base."""
-    if len(content) > 1_000_000:
-        raise ValueError("CSV tambahan maksimal 1 MB.")
-    try:
-        extra = pd.read_csv(io.BytesIO(content), dtype={"ds": str})
-    except (UnicodeError, pd.errors.ParserError) as exc:
-        raise ValueError("Berkas tambahan harus berupa CSV UTF-8.") from exc
-    if not {"ds", *COLUMNS}.issubset(extra.columns) or extra.empty:
-        raise ValueError("CSV tambahan perlu kolom ds,bongkar,muat dan minimal satu baris.")
-    if len(extra) > 24:
-        raise ValueError("CSV tambahan maksimal 24 bulan per eksperimen.")
-    extra = extra.loc[:, ["ds", *COLUMNS]].copy()
-    if not extra["ds"].str.fullmatch(r"\d{4}-\d{2}").all():
-        raise ValueError("Kolom ds harus menggunakan format YYYY-MM.")
-    extra["ds"] = pd.to_datetime(extra["ds"] + "-01", errors="raise")
-    expected_start = base["ds"].max() + pd.offsets.MonthBegin(1)
-    if extra["ds"].min() != expected_start:
-        raise ValueError(f"Data tambahan harus dimulai dari {expected_start:%Y-%m}.")
-    return validate_monthly(pd.concat([base, extra], ignore_index=True))
 
 
 def to_neuralprophet(frame: pd.DataFrame, target: str) -> pd.DataFrame:

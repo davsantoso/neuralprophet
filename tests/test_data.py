@@ -2,7 +2,7 @@ import unittest
 
 import pandas as pd
 
-from cargo_forecast.data import load_bps_data, parse_additional_csv
+from cargo_forecast.data import load_bps_data, validate_monthly
 
 
 class BpsDataTests(unittest.TestCase):
@@ -14,23 +14,15 @@ class BpsDataTests(unittest.TestCase):
         self.assertEqual(thesis.iloc[-1]["bongkar"], 9612)
         self.assertEqual(thesis.iloc[-1]["muat"], 14855)
 
-    def test_uploaded_months_must_be_contiguous(self):
+    def test_months_must_be_contiguous(self):
         thesis = load_bps_data()
-        with self.assertRaisesRegex(ValueError, "dimulai"):
-            parse_additional_csv(b"ds,bongkar,muat\n2026-08,10000,15000\n", thesis)
-        appended = parse_additional_csv(b"ds,bongkar,muat\n2026-07,10633,15496\n", thesis)
-        self.assertEqual(len(appended), 115)
-
-    def test_uploaded_data_is_bounded(self):
-        thesis = load_bps_data()
-        with self.assertRaisesRegex(ValueError, "1 MB"):
-            parse_additional_csv(b"x" * 1_000_001, thesis)
-        months = pd.period_range("2026-07", periods=25, freq="M")
-        content = "ds,bongkar,muat\n" + "".join(f"{month},10000,15000\n" for month in months)
-        with self.assertRaisesRegex(ValueError, "24 bulan"):
-            parse_additional_csv(content.encode("utf-8"), thesis)
+        gap = pd.concat([thesis, pd.DataFrame({"ds": [pd.Timestamp("2026-08-01")], "bongkar": [10000], "muat": [15000]})])
+        with self.assertRaisesRegex(ValueError, "berurutan"):
+            validate_monthly(gap)
+        duplicate = pd.concat([thesis, thesis.tail(1)])
+        with self.assertRaisesRegex(ValueError, "berurutan"):
+            validate_monthly(duplicate)
 
 
 if __name__ == "__main__":
     unittest.main()
-

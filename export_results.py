@@ -5,10 +5,13 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from cargo_forecast.data import descriptive_stats, load_bps_data
+import pandas as pd
+
+from cargo_forecast.data import THESIS_CUTOFF, descriptive_stats, load_bps_data
 
 
 REPORT_PATH = Path("artifacts/report.json")
+JULY = pd.Timestamp("2026-07-01")
 OUTPUT_PATH = Path("HASIL_EKSPERIMEN.md")
 LABELS = {"bongkar": "Bongkar", "muat": "Muat"}
 
@@ -84,7 +87,32 @@ def main() -> None:
             f"| {left['ds']} | {decimal(left['aktual'], 0)} | {decimal(left['prediksi'])} | "
             f"{decimal(right['aktual'], 0)} | {decimal(right['prediksi'])} |"
         )
+    latest = load_bps_data(through=JULY).set_index("ds")
+    indexed = data.set_index("ds")
     lines.extend([
+        "",
+        "## Pengecekan ex-post Juli 2026",
+        "",
+        "Aktual Juli 2026 dari CSV snapshot yang sama kini dapat dibandingkan dengan prediksi Juli yang dibuat dari batas data Juni. Ini **satu titik pengamatan**, bukan metrik uji: tidak digabung dengan 18 bulan uji dan tidak dipakai memilih ulang konfigurasi. Dua aturan sederhana ditampilkan sebagai rujukan.",
+        "",
+        "| Deret | Aktual Juli 2026 (ton) | Metode | Prediksi (ton) | Galat (ton) | Galat absolut (%) |",
+        "| --- | ---: | --- | ---: | ---: | ---: |",
+    ])
+    for target in ("bongkar", "muat"):
+        observed = float(latest.loc[JULY, target])
+        forecasts = (
+            ("NeuralProphet", report["series"][target]["next_month"]["prediksi"]),
+            ("Bulan sebelumnya (Juni 2026)", float(indexed.loc[THESIS_CUTOFF, target])),
+            ("Bulan sama tahun lalu (Juli 2025)", float(indexed.loc[JULY - pd.DateOffset(months=12), target])),
+        )
+        for method, forecast in forecasts:
+            lines.append(
+                f"| {LABELS[target]} | {decimal(observed, 0)} | {method} | {decimal(forecast)} | "
+                f"{decimal(forecast - observed)} | {decimal(abs(forecast - observed) / observed * 100)} |"
+            )
+    lines.extend([
+        "",
+        "Galat didefinisikan sebagai prediksi dikurangi aktual. Bulan setelah Juli 2026 tidak dimasukkan karena belum ada di snapshot yang sidik jarinya dicatat.",
         "",
         "## Batas interpretasi",
         "",
@@ -93,6 +121,8 @@ def main() -> None:
         "Diagnostik galat, tolok ukur prediksi sederhana, dan kepekaan lima seed disajikan terpisah di [DIAGNOSTIK_PENELITIAN.md](DIAGNOSTIK_PENELITIAN.md). Angka tambahan itu tidak dipakai memilih ulang hasil resmi.",
         "",
         "Angka tidak dibulatkan dalam `artifacts/report.json`; pembulatan di dokumen ini hanya untuk penyajian.",
+        "",
+        "MASE, grafik sensitivitas lag, ACF galat, interpretasi komponen, dan backtest nested 42 bulan tersedia pada [PENGAYAAN_PENELITIAN.md](PENGAYAAN_PENELITIAN.md). Uji signifikansi Diebold-Mariano ada pada [UJI_SIGNIFIKANSI.md](UJI_SIGNIFIKANSI.md), sedangkan kurva loss dan sensitivitas epoch ada pada [DIAGNOSTIK_PELATIHAN.md](DIAGNOSTIK_PELATIHAN.md). Analisis tersebut tidak mengganti angka resmi di atas.",
         "",
     ])
     OUTPUT_PATH.write_text("\n".join(lines), encoding="utf-8")

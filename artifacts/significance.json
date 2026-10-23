@@ -1,0 +1,567 @@
+{
+  "schema_version": 1,
+  "kind": "uji_signifikansi_tambahan_bukan_pengganti_uji_resmi",
+  "source": {
+    "data_sha256": "09efd78fe3c15adf1c05683e38ba54b1c677cc1d3ec0285cf8c2c60eace69131",
+    "report_sha256": "ceb808f172f90de63350565bb661f29d75a8d9c3b8957fc5900299f8b49b0f7f"
+  },
+  "method": {
+    "name": "Diebold-Mariano dengan koreksi sampel kecil Harvey-Leybourne-Newbold",
+    "horizon_months": 1,
+    "losses": [
+      "absolute",
+      "squared"
+    ],
+    "alpha": 0.05,
+    "difference": "loss NeuralProphet dikurangi loss pembanding; negatif berarti galat NeuralProphet lebih kecil",
+    "reference_distribution": "t dengan derajat bebas n-1, dua sisi"
+  },
+  "series": {
+    "bongkar": {
+      "test_18": {
+        "start": "2025-01",
+        "end": "2026-06",
+        "comparisons": {
+          "last_month": {
+            "absolute": {
+              "n": 18,
+              "mean_loss_difference": -195.08919270833334,
+              "dm": -0.9093341522177316,
+              "dm_hln": -0.8837139496535878,
+              "df": 17,
+              "p_value": 0.38917760264075485
+            },
+            "squared": {
+              "n": 18,
+              "mean_loss_difference": -592087.5246713427,
+              "dm": -0.8500352007105498,
+              "dm_hln": -0.8260857273780643,
+              "df": 17,
+              "p_value": 0.4201985472087262
+            }
+          },
+          "same_month_last_year": {
+            "absolute": {
+              "n": 18,
+              "mean_loss_difference": 87.57747395833333,
+              "dm": 0.43772691502116257,
+              "dm_hln": 0.42539409742790596,
+              "df": 17,
+              "p_value": 0.6758856682804646
+            },
+            "squared": {
+              "n": 18,
+              "mean_loss_difference": 129726.47532865737,
+              "dm": 0.24272494095900926,
+              "dm_hln": 0.23588624240185813,
+              "df": 17,
+              "p_value": 0.8163393691342171
+            }
+          }
+        }
+      },
+      "walk_forward_42": {
+        "start": "2023-01",
+        "end": "2026-06",
+        "metrics": {
+          "neuralprophet": {
+            "MAE": 836.677746000744,
+            "RMSE": 1136.5227558599333,
+            "MAPE": 9.657738500428954
+          },
+          "last_month": {
+            "MAE": 944.9761904761905,
+            "RMSE": 1247.2573053361066,
+            "MAPE": 10.370722294357455
+          },
+          "same_month_last_year": {
+            "MAE": 1244.6190476190477,
+            "RMSE": 1467.7387856349449,
+            "MAPE": 14.087520170649926
+          }
+        },
+        "same_month_last_year": [
+          {
+            "ds": "2023-01",
+            "prediksi": 10123.0
+          },
+          {
+            "ds": "2023-02",
+            "prediksi": 9141.0
+          },
+          {
+            "ds": "2023-03",
+            "prediksi": 12841.0
+          },
+          {
+            "ds": "2023-04",
+            "prediksi": 9921.0
+          },
+          {
+            "ds": "2023-05",
+            "prediksi": 8389.0
+          },
+          {
+            "ds": "2023-06",
+            "prediksi": 9684.0
+          },
+          {
+            "ds": "2023-07",
+            "prediksi": 9398.0
+          },
+          {
+            "ds": "2023-08",
+            "prediksi": 10290.0
+          },
+          {
+            "ds": "2023-09",
+            "prediksi": 8960.0
+          },
+          {
+            "ds": "2023-10",
+            "prediksi": 7964.0
+          },
+          {
+            "ds": "2023-11",
+            "prediksi": 8304.0
+          },
+          {
+            "ds": "2023-12",
+            "prediksi": 8087.0
+          },
+          {
+            "ds": "2024-01",
+            "prediksi": 8321.0
+          },
+          {
+            "ds": "2024-02",
+            "prediksi": 7665.0
+          },
+          {
+            "ds": "2024-03",
+            "prediksi": 9705.0
+          },
+          {
+            "ds": "2024-04",
+            "prediksi": 8407.0
+          },
+          {
+            "ds": "2024-05",
+            "prediksi": 8146.0
+          },
+          {
+            "ds": "2024-06",
+            "prediksi": 7528.0
+          },
+          {
+            "ds": "2024-07",
+            "prediksi": 8322.0
+          },
+          {
+            "ds": "2024-08",
+            "prediksi": 8317.0
+          },
+          {
+            "ds": "2024-09",
+            "prediksi": 8423.0
+          },
+          {
+            "ds": "2024-10",
+            "prediksi": 8101.0
+          },
+          {
+            "ds": "2024-11",
+            "prediksi": 7884.0
+          },
+          {
+            "ds": "2024-12",
+            "prediksi": 9383.0
+          },
+          {
+            "ds": "2025-01",
+            "prediksi": 10201.0
+          },
+          {
+            "ds": "2025-02",
+            "prediksi": 9936.0
+          },
+          {
+            "ds": "2025-03",
+            "prediksi": 10974.0
+          },
+          {
+            "ds": "2025-04",
+            "prediksi": 9211.0
+          },
+          {
+            "ds": "2025-05",
+            "prediksi": 9755.0
+          },
+          {
+            "ds": "2025-06",
+            "prediksi": 9085.0
+          },
+          {
+            "ds": "2025-07",
+            "prediksi": 9341.0
+          },
+          {
+            "ds": "2025-08",
+            "prediksi": 9494.0
+          },
+          {
+            "ds": "2025-09",
+            "prediksi": 9439.0
+          },
+          {
+            "ds": "2025-10",
+            "prediksi": 9570.0
+          },
+          {
+            "ds": "2025-11",
+            "prediksi": 9472.0
+          },
+          {
+            "ds": "2025-12",
+            "prediksi": 10398.0
+          },
+          {
+            "ds": "2026-01",
+            "prediksi": 11923.0
+          },
+          {
+            "ds": "2026-02",
+            "prediksi": 9253.0
+          },
+          {
+            "ds": "2026-03",
+            "prediksi": 11150.0
+          },
+          {
+            "ds": "2026-04",
+            "prediksi": 10224.0
+          },
+          {
+            "ds": "2026-05",
+            "prediksi": 10696.0
+          },
+          {
+            "ds": "2026-06",
+            "prediksi": 7541.0
+          }
+        ],
+        "comparisons": {
+          "last_month": {
+            "absolute": {
+              "n": 42,
+              "mean_loss_difference": -108.29844447544643,
+              "dm": -0.8426580844443153,
+              "dm_hln": -0.8325660067991445,
+              "df": 41,
+              "p_value": 0.40991310795803304
+            },
+            "squared": {
+              "n": 42,
+              "mean_loss_difference": -263966.8111268282,
+              "dm": -0.6785420707724408,
+              "dm_hln": -0.67041552527295,
+              "df": 41,
+              "p_value": 0.506351929332756
+            }
+          },
+          "same_month_last_year": {
+            "absolute": {
+              "n": 42,
+              "mean_loss_difference": -407.94130161830356,
+              "dm": -3.078028059816252,
+              "dm_hln": -3.0411641185011162,
+              "df": 41,
+              "p_value": 0.004096485341293375
+            },
+            "squared": {
+              "n": 42,
+              "mean_loss_difference": -862573.1682696854,
+              "dm": -2.292836136280611,
+              "dm_hln": -2.2653760302872574,
+              "df": 41,
+              "p_value": 0.028838320115614508
+            }
+          }
+        }
+      }
+    },
+    "muat": {
+      "test_18": {
+        "start": "2025-01",
+        "end": "2026-06",
+        "comparisons": {
+          "last_month": {
+            "absolute": {
+              "n": 18,
+              "mean_loss_difference": 80.32796223958333,
+              "dm": 0.29555625460028623,
+              "dm_hln": 0.2872290504658198,
+              "df": 17,
+              "p_value": 0.7774086400357945
+            },
+            "squared": {
+              "n": 18,
+              "mean_loss_difference": -70338.61450677448,
+              "dm": -0.06854266577297606,
+              "dm_hln": -0.0666114978111138,
+              "df": 17,
+              "p_value": 0.9476681221876828
+            }
+          },
+          "same_month_last_year": {
+            "absolute": {
+              "n": 18,
+              "mean_loss_difference": -1311.5609266493057,
+              "dm": -2.997870817101806,
+              "dm_hln": -2.9134067535802006,
+              "df": 17,
+              "p_value": 0.0096833766167959
+            },
+            "squared": {
+              "n": 18,
+              "mean_loss_difference": -8100093.281173442,
+              "dm": -2.8993421175832736,
+              "dm_hln": -2.817654069054496,
+              "df": 17,
+              "p_value": 0.011856325298647406
+            }
+          }
+        }
+      },
+      "walk_forward_42": {
+        "start": "2023-01",
+        "end": "2026-06",
+        "metrics": {
+          "neuralprophet": {
+            "MAE": 1557.3670944940477,
+            "RMSE": 1878.6056397793527,
+            "MAPE": 8.65266426838485
+          },
+          "last_month": {
+            "MAE": 1412.595238095238,
+            "RMSE": 1828.4789215811777,
+            "MAPE": 7.705620660321901
+          },
+          "same_month_last_year": {
+            "MAE": 3291.3333333333335,
+            "RMSE": 4005.6427877254787,
+            "MAPE": 18.913433687596857
+          }
+        },
+        "same_month_last_year": [
+          {
+            "ds": "2023-01",
+            "prediksi": 18824.0
+          },
+          {
+            "ds": "2023-02",
+            "prediksi": 20508.0
+          },
+          {
+            "ds": "2023-03",
+            "prediksi": 20693.0
+          },
+          {
+            "ds": "2023-04",
+            "prediksi": 25539.0
+          },
+          {
+            "ds": "2023-05",
+            "prediksi": 20798.0
+          },
+          {
+            "ds": "2023-06",
+            "prediksi": 22138.0
+          },
+          {
+            "ds": "2023-07",
+            "prediksi": 23682.0
+          },
+          {
+            "ds": "2023-08",
+            "prediksi": 24270.0
+          },
+          {
+            "ds": "2023-09",
+            "prediksi": 21992.0
+          },
+          {
+            "ds": "2023-10",
+            "prediksi": 19261.0
+          },
+          {
+            "ds": "2023-11",
+            "prediksi": 18701.0
+          },
+          {
+            "ds": "2023-12",
+            "prediksi": 15748.0
+          },
+          {
+            "ds": "2024-01",
+            "prediksi": 17889.0
+          },
+          {
+            "ds": "2024-02",
+            "prediksi": 15700.0
+          },
+          {
+            "ds": "2024-03",
+            "prediksi": 19538.0
+          },
+          {
+            "ds": "2024-04",
+            "prediksi": 15602.0
+          },
+          {
+            "ds": "2024-05",
+            "prediksi": 15331.0
+          },
+          {
+            "ds": "2024-06",
+            "prediksi": 15649.0
+          },
+          {
+            "ds": "2024-07",
+            "prediksi": 17016.0
+          },
+          {
+            "ds": "2024-08",
+            "prediksi": 17458.0
+          },
+          {
+            "ds": "2024-09",
+            "prediksi": 17323.0
+          },
+          {
+            "ds": "2024-10",
+            "prediksi": 15384.0
+          },
+          {
+            "ds": "2024-11",
+            "prediksi": 15672.0
+          },
+          {
+            "ds": "2024-12",
+            "prediksi": 16157.0
+          },
+          {
+            "ds": "2025-01",
+            "prediksi": 17925.0
+          },
+          {
+            "ds": "2025-02",
+            "prediksi": 17533.0
+          },
+          {
+            "ds": "2025-03",
+            "prediksi": 21426.0
+          },
+          {
+            "ds": "2025-04",
+            "prediksi": 17519.0
+          },
+          {
+            "ds": "2025-05",
+            "prediksi": 20051.0
+          },
+          {
+            "ds": "2025-06",
+            "prediksi": 18729.0
+          },
+          {
+            "ds": "2025-07",
+            "prediksi": 19423.0
+          },
+          {
+            "ds": "2025-08",
+            "prediksi": 20065.0
+          },
+          {
+            "ds": "2025-09",
+            "prediksi": 19060.0
+          },
+          {
+            "ds": "2025-10",
+            "prediksi": 20259.0
+          },
+          {
+            "ds": "2025-11",
+            "prediksi": 20773.0
+          },
+          {
+            "ds": "2025-12",
+            "prediksi": 22744.0
+          },
+          {
+            "ds": "2026-01",
+            "prediksi": 20907.0
+          },
+          {
+            "ds": "2026-02",
+            "prediksi": 18985.0
+          },
+          {
+            "ds": "2026-03",
+            "prediksi": 22808.0
+          },
+          {
+            "ds": "2026-04",
+            "prediksi": 19760.0
+          },
+          {
+            "ds": "2026-05",
+            "prediksi": 19945.0
+          },
+          {
+            "ds": "2026-06",
+            "prediksi": 20466.0
+          }
+        ],
+        "comparisons": {
+          "last_month": {
+            "absolute": {
+              "n": 42,
+              "mean_loss_difference": 144.77185639880952,
+              "dm": 0.920704170783342,
+              "dm_hln": 0.9096773757506859,
+              "df": 41,
+              "p_value": 0.3683095855079376
+            },
+            "squared": {
+              "n": 42,
+              "mean_loss_difference": 185823.98314412436,
+              "dm": 0.30338028708378845,
+              "dm_hln": 0.2997468591611419,
+              "df": 41,
+              "p_value": 0.7658846784364437
+            }
+          },
+          "same_month_last_year": {
+            "absolute": {
+              "n": 42,
+              "mean_loss_difference": -1733.9662388392858,
+              "dm": -4.436030031114924,
+              "dm_hln": -4.382902006431171,
+              "df": 41,
+              "p_value": 7.950613614285836e-05
+            },
+            "squared": {
+              "n": 42,
+              "mean_loss_difference": -12516014.993046353,
+              "dm": -4.0912999445405225,
+              "dm_hln": -4.0423005728235655,
+              "df": 41,
+              "p_value": 0.00022731841736564588
+            }
+          }
+        }
+      }
+    }
+  }
+}

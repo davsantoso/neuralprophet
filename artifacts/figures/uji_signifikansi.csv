@@ -1,0 +1,17 @@
+deret,protokol,pembanding,loss,n,rata_selisih_loss,dm_hln,p_value,kesimpulan
+bongkar,test_18,last_month,absolute,18,-195.08919270833334,-0.8837139496535878,0.38917760264075485,Tidak berbeda signifikan
+bongkar,test_18,last_month,squared,18,-592087.5246713427,-0.8260857273780643,0.4201985472087262,Tidak berbeda signifikan
+bongkar,test_18,same_month_last_year,absolute,18,87.57747395833333,0.42539409742790596,0.6758856682804646,Tidak berbeda signifikan
+bongkar,test_18,same_month_last_year,squared,18,129726.47532865737,0.23588624240185813,0.8163393691342171,Tidak berbeda signifikan
+bongkar,walk_forward_42,last_month,absolute,42,-108.29844447544643,-0.8325660067991445,0.40991310795803304,Tidak berbeda signifikan
+bongkar,walk_forward_42,last_month,squared,42,-263966.8111268282,-0.67041552527295,0.506351929332756,Tidak berbeda signifikan
+bongkar,walk_forward_42,same_month_last_year,absolute,42,-407.94130161830356,-3.0411641185011162,0.004096485341293375,NeuralProphet lebih kecil
+bongkar,walk_forward_42,same_month_last_year,squared,42,-862573.1682696854,-2.2653760302872574,0.028838320115614508,NeuralProphet lebih kecil
+muat,test_18,last_month,absolute,18,80.32796223958333,0.2872290504658198,0.7774086400357945,Tidak berbeda signifikan
+muat,test_18,last_month,squared,18,-70338.61450677448,-0.0666114978111138,0.9476681221876828,Tidak berbeda signifikan
+muat,test_18,same_month_last_year,absolute,18,-1311.5609266493057,-2.9134067535802006,0.0096833766167959,NeuralProphet lebih kecil
+muat,test_18,same_month_last_year,squared,18,-8100093.281173442,-2.817654069054496,0.011856325298647406,NeuralProphet lebih kecil
+muat,walk_forward_42,last_month,absolute,42,144.77185639880952,0.9096773757506859,0.3683095855079376,Tidak berbeda signifikan
+muat,walk_forward_42,last_month,squared,42,185823.98314412436,0.2997468591611419,0.7658846784364437,Tidak berbeda signifikan
+muat,walk_forward_42,same_month_last_year,absolute,42,-1733.9662388392858,-4.382902006431171,7.950613614285836e-05,NeuralProphet lebih kecil
+muat,walk_forward_42,same_month_last_year,squared,42,-12516014.993046353,-4.0423005728235655,0.00022731841736564588,NeuralProphet lebih kecil

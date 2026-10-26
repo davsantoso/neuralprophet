@@ -40,7 +40,7 @@ class AppWorkflowTests(unittest.TestCase):
     def test_api_failure_keeps_research_visible_and_disables_training(self):
         st.cache_data.clear()
         with patch("cargo_forecast.bps_api.fetch_bps_cargo", side_effect=BpsApiError("API sementara gagal")):
-            app = AppTest.from_file("app.py").run(timeout=30)
+            app = AppTest.from_file("../app.py").run(timeout=30)
         self.assertFalse(app.exception)
         self.assertEqual(app.metric[0].value, "114")
         self.assertTrue(any(item.label == "Deret diagnostik" for item in app.selectbox))
@@ -50,7 +50,7 @@ class AppWorkflowTests(unittest.TestCase):
     def test_live_data_and_experiment_inputs(self):
         st.cache_data.clear()
         with patch("cargo_forecast.bps_api.fetch_bps_cargo", return_value=live_fixture()):
-            app = AppTest.from_file("app.py").run(timeout=30)
+            app = AppTest.from_file("../app.py").run(timeout=30)
             self.assertFalse(app.exception)
             self.assertEqual([tab.label for tab in app.tabs], ["Ringkasan", "Data", "Evaluasi model", "Diagnostik penelitian", "Eksperimen"])
             self.assertEqual(app.metric[0].value, "114")

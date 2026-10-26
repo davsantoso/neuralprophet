@@ -60,7 +60,7 @@ class BlackBoxTests(unittest.TestCase):
                 return_value=response,
                 side_effect=error,
             ):
-                app = AppTest.from_file("app.py").run(timeout=30)
+                app = AppTest.from_file("../app.py").run(timeout=30)
         self.assertFalse(app.exception)
         return app
 

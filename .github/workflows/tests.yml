@@ -14,12 +14,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: pip
-          cache-dependency-path: |
+      # Requires-Python NeuralProphet 0.9.0 tertulis "<=3.12" sehingga pip menolak
+      # Python 3.12.1 ke atas. uv menerimanya dan juga dipakai lingkungan penelitian.
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.6"
+          enable-cache: true
+          cache-dependency-glob: |
             requirements.txt
             requirements-lock.txt
       - name: Pasang dependensi (torch CPU, versi dikunci)
-        run: python -m pip install -r requirements.txt
+        run: uv pip install --system -r requirements.txt
       - name: Jalankan seluruh tes
         # Tes UI memakai key dummy dan fixture; secret BPS tidak diperlukan.
         run: python -m unittest discover -s tests -v

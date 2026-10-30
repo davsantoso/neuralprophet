@@ -43,12 +43,13 @@ Angka tersebut menunjukkan perbedaan rentang dan besarnya perubahan relatif, seh
 ## Menjalankan secara lokal
 
 NeuralProphet 0.9.0 memerlukan **Python 3.9–3.12**; gunakan Python 3.12. Python 3.13 tidak dapat memasang versi tersebut.
+Metadata paketnya menulis `Requires-Python <=3.12`, sehingga pip menolak Python 3.12.1 ke atas. Pasang dependensi dengan [uv](https://docs.astral.sh/uv/), seperti lingkungan penelitian dan CI.
 Proyek NeuralProphet [menyarankan WSL2 untuk Windows](https://pypi.org/project/neuralprophet/); target deployment Streamlit Community Cloud berbasis Linux.
 
 ```powershell
-py -3.12 -m venv .venv
+uv venv --python 3.12 .venv
 .venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
+uv pip install -r requirements.txt
 python train.py
 streamlit run app.py
 ```

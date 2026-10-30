@@ -29,4 +29,8 @@ Artefak `artifacts/enrichment.json` menyimpan MASE, ACF galat uji, komponen tren
 
 `artifacts/walk_forward.json` mencatat 42 origin per deret dengan validasi dalam 12 bulan yang mendahului target. Tiga kandidat lag dituning pada tiap origin, lalu model terpilih dilatih ulang sampai origin. Checkpoint di `.tmp/` tidak menjadi artefak hasil akhir. Kedua artefak tambahan memuat hash data dan laporan resmi; aplikasi menolak menampilkan analisis jika hash berbeda. `python export_enrichment.py` menghasilkan naskah, grafik PNG, dan tabel CSV dari artefak yang cocok.
 
+`artifacts/significance.json` (uji Diebold-Mariano) dan `artifacts/training_diagnostics.json` (kurva loss dan sensitivitas epoch) juga memuat hash data dan laporan resmi. Tab Diagnostik menolaknya bila hash berbeda. `tests/test_documents.py` memastikan `HASIL_EKSPERIMEN.md` dan `DIAGNOSTIK_PENELITIAN.md` yang di-commit sama persis dengan keluaran generatornya, sehingga angka atau kalimat perbandingan di dokumen tidak tertinggal dari artefak.
+
+Pemeriksaan API 29 Oktober 2026: seluruh 230 nilai Soekarno Hatta-Jakarta Januari 2017–Juli 2026 dari BPS Web API identik dengan snapshot CSV. Tidak ada revisi sumber pada rentang tersebut. Tanggal ini dapat dicatat sebagai tanggal verifikasi data, karena tanggal unduh CSV awal tidak tercatat.
+
 Metrik uji berasal dari Januari 2025–Juni 2026, 18 prediksi satu bulan ke depan per deret, dengan nilai aktual bulan sebelumnya tersedia sebagai riwayat. Prediksi Juli 2026 dibuat dari data hingga Juni 2026; adanya angka aktual Juli dalam snapshot tidak menjadikannya data latih atau uji resmi. Klaim penelitian dibatasi pada kategori dan periode tersebut.

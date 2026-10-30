@@ -23,6 +23,32 @@ class BpsDataTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "berurutan"):
             validate_monthly(duplicate)
 
+    def test_zero_negative_missing_and_empty_inputs_are_rejected(self):
+        thesis = load_bps_data()
+        for bad in (0, -5, None):
+            frame = thesis.copy()
+            frame["muat"] = frame["muat"].astype(object)
+            frame.loc[10, "muat"] = bad
+            with self.assertRaisesRegex(ValueError, "positif"):
+                validate_monthly(frame)
+        with self.assertRaisesRegex(ValueError, "dimulai"):
+            validate_monthly(thesis.iloc[0:0])
+        mid_month = thesis.copy()
+        mid_month.loc[5, "ds"] = pd.Timestamp("2017-06-15")
+        with self.assertRaisesRegex(ValueError, "hari pertama"):
+            validate_monthly(mid_month)
+        with self.assertRaisesRegex(ValueError, "Kolom wajib"):
+            validate_monthly(thesis.drop(columns="bongkar"))
+
+    def test_experiment_rejects_empty_or_short_history(self):
+        from cargo_forecast.modeling import retrain_target_for_next_month
+
+        thesis = load_bps_data()
+        with self.assertRaisesRegex(ValueError, "kosong"):
+            retrain_target_for_next_month(thesis.iloc[0:0], "bongkar", 3)
+        with self.assertRaisesRegex(ValueError, "60 bulan"):
+            retrain_target_for_next_month(thesis.tail(59), "bongkar", 3)
+
 
 if __name__ == "__main__":
     unittest.main()

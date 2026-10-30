@@ -7,6 +7,7 @@ import os
 import gc
 import logging
 from pathlib import Path
+import shutil
 import time
 from typing import Any
 
@@ -187,6 +188,13 @@ def evaluate_seed_sensitivity(
     return results
 
 
+def _remove_run_logs(model: Any) -> None:
+    """Visitor experiments keep no per-click TensorBoard folder on the server."""
+    log_dir = Path(model.metrics_logger.log_dir).resolve()
+    if (Path.cwd() / "lightning_logs").resolve() in log_dir.parents:
+        shutil.rmtree(log_dir, ignore_errors=True)
+
+
 def retrain_target_for_next_month(
     frame: pd.DataFrame,
     target: str,
@@ -215,6 +223,7 @@ def retrain_target_for_next_month(
     try:
         forecast = _forecast_next(model, data, target)
     finally:
+        _remove_run_logs(model)
         del model
         gc.collect()
     duration = time.perf_counter() - started

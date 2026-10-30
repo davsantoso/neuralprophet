@@ -20,8 +20,11 @@ class RetrainingTests(unittest.TestCase):
         report = json.loads(REPORT_PATH.read_text(encoding="utf-8"))
         lags = {target: report["series"][target]["selected_n_lags"] for target in ("bongkar", "muat")}
         frame = load_bps_data(through=pd.Timestamp("2026-07-01"))
+        logs = Path("lightning_logs")
+        before = set(logs.iterdir()) if logs.exists() else set()
         for target in ("bongkar", "muat"):
             result = retrain_target_for_next_month(frame, target, lags[target])
+            self.assertEqual(set(logs.iterdir()) if logs.exists() else set(), before)
             self.assertEqual(result["n_observations"], 115)
             self.assertEqual(result["last_observation"], "2026-07")
             self.assertEqual(result["target"], target)

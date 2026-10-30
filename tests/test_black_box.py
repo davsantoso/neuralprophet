@@ -25,6 +25,7 @@ AIRPORTS = [
     "Hasanudin-Makassar",
     "Ngurah Rai-Bali",
 ]
+EXTRA_ARTIFACTS = ("enrichment.json", "walk_forward.json", "significance.json", "training_diagnostics.json")
 
 
 def bps_fixture():
@@ -36,7 +37,9 @@ def bps_fixture():
         "airports": AIRPORTS,
         "fetched_at": "2026-10-01T00:00:00+00:00",
         "last_update": "2026-09-02 08:39:21",
-        "source_url": "https://webapi.bps.go.id/v1/api/list/model/data/lang/ind/domain/0000/var/2351/th/117,126",
+        "source_url": "https://webapi.bps.go.id/v1/api/list/model/data/lang/ind/domain/0000/var/2351",
+        "year_requests": ["117:119", "120:122", "123:125", "126"],
+        "partial_months": [],
         "last_month": "2026-07",
     }
 
@@ -52,6 +55,7 @@ def metric(app, label):
 class BlackBoxTests(unittest.TestCase):
     def setUp(self):
         st.cache_data.clear()
+        st.cache_resource.clear()  # Shared API-failure memory must not leak between cases.
 
     def open_app(self, response=None, error=None):
         with patch.dict(os.environ, {"BPS_API_KEY": "test-key"}):
@@ -173,11 +177,13 @@ class BlackBoxTests(unittest.TestCase):
     def test_bb18_missing_extra_artifacts_keeps_official_results_visible(self):
         original = Path.exists
         def exists(path):
-            return False if path.name in ("enrichment.json", "walk_forward.json") else original(path)
+            return False if path.name in EXTRA_ARTIFACTS else original(path)
         with patch("pathlib.Path.exists", exists):
             app = self.open_app(response=bps_fixture())
         self.assertEqual(metric(app, "Observasi per deret").value, "114")
-        self.assertTrue(any("MASE dan interpretasi komponen belum tersedia" in item.value for item in app.info))
+        for message in ("MASE dan interpretasi komponen belum tersedia", "Uji signifikansi Diebold-Mariano belum tersedia",
+                        "Kurva loss dan sensitivitas epoch belum tersedia"):
+            self.assertTrue(any(message in item.value for item in app.info), message)
 
     def test_bb19_mismatched_analysis_is_rejected_and_official_results_remain(self):
         original = Path.read_text
@@ -192,6 +198,60 @@ class BlackBoxTests(unittest.TestCase):
             app = self.open_app(response=bps_fixture())
         self.assertEqual(metric(app, "Observasi per deret").value, "114")
         self.assertTrue(any("Analisis tambahan tidak cocok" in item.value for item in app.error))
+
+    def test_bb21_significance_is_precomputed_and_switches_series(self):
+        with patch("cargo_forecast.modeling._fit", side_effect=AssertionError("UI must not fit")):
+            app = self.open_app(response=bps_fixture())
+        self.assertTrue(any("Uji signifikansi Diebold-Mariano" in item.label for item in app.expander))
+        bongkar = next(frame for frame in (item.value for item in app.dataframe) if "DM*" in frame.columns)
+        self.assertEqual(len(bongkar), 8)
+        self.assertEqual(set(bongkar["n"]), {18, 42})
+        select(app, "Deret diagnostik").set_value("muat").run(timeout=30)
+        self.assertFalse(app.exception)
+        muat = next(frame for frame in (item.value for item in app.dataframe) if "DM*" in frame.columns)
+        self.assertNotEqual(list(bongkar["DM*"]), list(muat["DM*"]))
+        self.assertIn("NeuralProphet lebih kecil", set(muat["Kesimpulan"]))
+
+    def test_bb22_loss_curve_and_epoch_sensitivity_are_visible(self):
+        app = self.open_app(response=bps_fixture())
+        self.assertTrue(any("Kurva loss dan sensitivitas epoch" in item.label for item in app.expander))
+        epochs = next(frame for frame in (item.value for item in app.dataframe) if "Konfigurasi resmi" in frame.columns)
+        self.assertEqual(list(epochs["Epoch"]), [25, 50, 100, 150, 200])
+        self.assertEqual(list(epochs.loc[epochs["Konfigurasi resmi"], "Epoch"]), [100])
+        self.assertTrue(any("mereproduksi 18 prediksi uji resmi" in item.value for item in app.caption))
+
+    def test_bb23_api_failure_is_not_retried_on_every_interaction(self):
+        with patch.dict(os.environ, {"BPS_API_KEY": "test-key"}):
+            with patch("cargo_forecast.bps_api.fetch_bps_cargo", side_effect=BpsApiError("API sementara gagal")) as fetch:
+                app = AppTest.from_file("../app.py").run(timeout=30)
+                select(app, "Deret evaluasi").set_value("muat").run(timeout=30)
+                select(app, "Deret diagnostik").set_value("muat").run(timeout=30)
+        self.assertFalse(app.exception)
+        self.assertEqual(fetch.call_count, 1)
+        self.assertTrue(any("API sementara gagal" in item.value and "5 menit" in item.value for item in app.warning))
+
+    def test_figures_bundle_is_a_valid_zip_per_series(self):
+        # The ZIP failed with HTTP 500 on Cloud (23 Oct 2026) but is served with
+        # 200 locally on Windows and Linux; this guards the app-side content.
+        import io
+        import zipfile
+
+        from cargo_forecast.research_ui import SHARED_FIGURES, figures_bundle
+
+        for target in ("bongkar", "muat"):
+            with zipfile.ZipFile(io.BytesIO(figures_bundle(target))) as archive:
+                self.assertIsNone(archive.testzip())
+                names = archive.namelist()
+            self.assertTrue(set(SHARED_FIGURES) <= set(names))
+            self.assertTrue(all(name.startswith(f"{target}_") or name in SHARED_FIGURES for name in names))
+            self.assertIn(f"{target}_kurva_loss.png", names)
+
+    def test_bb24_month_released_for_some_airports_is_explained(self):
+        response = bps_fixture()
+        response["partial_months"] = ["2026-08"]
+        app = self.open_app(response=response)
+        self.assertTrue(any("2026-08 baru terbit untuk sebagian bandara" in item.value for item in app.info))
+        self.assertTrue(any("Data langsung BPS tersedia sampai 2026-07" in item.value for item in app.success))
 
 
 if __name__ == "__main__":

@@ -20,6 +20,14 @@ from .modeling import _metrics
 BASELINES = ("last_month", "same_month_last_year")
 LOSSES = ("absolute", "squared")
 ALPHA = 0.05
+LOSS_LABELS = {"absolute": "Absolut (selaras MAE)", "squared": "Kuadrat (selaras RMSE)"}
+PROTOCOLS = {"test_18": "Uji resmi 18 bulan", "walk_forward_42": "Walk-forward 42 bulan"}
+
+
+def verdict(item: dict[str, Any]) -> str:
+    if item["p_value"] >= ALPHA:
+        return "Tidak berbeda signifikan"
+    return "NeuralProphet lebih kecil" if item["mean_loss_difference"] < 0 else "Pembanding lebih kecil"
 
 
 def _beta_continued_fraction(a: float, b: float, x: float) -> float:

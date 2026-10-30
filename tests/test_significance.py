@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import math
 from pathlib import Path
 import unittest
 
@@ -47,7 +48,22 @@ class SignificanceTests(unittest.TestCase):
                                    walk_forward["series"][target]["metrics"]["all_42"]["neuralprophet"]["MAE"], places=9)
         saved = Path("artifacts/significance.json")
         if saved.exists():
-            self.assertEqual(json.loads(saved.read_text(encoding="utf-8")), json.loads(json.dumps(result)))
+            self.assert_close(json.loads(saved.read_text(encoding="utf-8")), json.loads(json.dumps(result)))
+
+    def assert_close(self, expected, actual, path="root"):
+        """Equal structure; floats may differ in the last digits across platform math libraries."""
+        if isinstance(expected, dict):
+            self.assertEqual(set(expected), set(actual), path)
+            for key in expected:
+                self.assert_close(expected[key], actual[key], f"{path}.{key}")
+        elif isinstance(expected, list):
+            self.assertEqual(len(expected), len(actual), path)
+            for index, (left, right) in enumerate(zip(expected, actual)):
+                self.assert_close(left, right, f"{path}[{index}]")
+        elif isinstance(expected, float):
+            self.assertTrue(math.isclose(expected, actual, rel_tol=1e-12, abs_tol=1e-12), f"{path}: {expected} != {actual}")
+        else:
+            self.assertEqual(expected, actual, path)
 
 
 if __name__ == "__main__":

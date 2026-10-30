@@ -44,3 +44,46 @@ Seluruh **35 tes** lulus pada Python 3.12.13, termasuk **14 kasus black-box**. A
 Pengguna melaporkan tab Diagnostik menampilkan penolakan hash laporan. Penyebab terkonfirmasi: `core.autocrlf=true` mengubah laporan CRLF lokal menjadi LF dalam Git, sehingga SHA-256 deployment berbeda meskipun seluruh isi JSON sama. Aturan `.gitattributes` kini mempertahankan byte laporan resmi dan CSV mentah. Laporan ditambahkan ulang dengan byte asli yang cocok dengan ketiga artefak tambahan dan manifest; tidak ada pelatihan ulang atau perubahan angka.
 
 Salinan bersih dibuat dari Git index dengan `core.autocrlf=false`, tanpa secret lokal. Ketiga hash sumber cocok, seluruh isi JSON laporan sama dengan versi sebelumnya, dan seluruh 35 pengujian lulus, termasuk tab Diagnostik, MASE, komponen, walk-forward, dan penolakan analisis yang benar-benar tidak cocok. Pengujian antarmuka kini memasok key dummy untuk fixture agar tidak bergantung pada secret lokal. Pemeriksaan ini memakai checkout dengan konfigurasi akhir baris deployment, dijalankan pada Python Windows; bukan pengujian langsung browser Cloud atau runtime Linux. Hasil browser Cloud setelah penerbitan belum diverifikasi.
+
+## Tindak lanjut audit: 29 Oktober 2026, lokal
+
+**API BPS sempat tidak berfungsi.** Permintaan lama `th/117,126` kini ditolak BPS dengan HTTP 400. Aturan barunya: rentang memakai `:`, dan satu permintaan paling banyak tiga tahun. Akibatnya, tab Data dan Eksperimen versi daring sebelumnya kemungkinan jatuh ke arsip. Klien kini mengambil `117:119`, `120:122`, `123:125`, dan `126`, lalu menggabungkannya.
+
+Pemeriksaan langsung dengan key lokal:
+- 580 baris, 5 bandara, data sampai Agustus 2026, pembaruan BPS 2026-10-01;
+- seluruh 230 nilai Soekarno Hatta 2017-01–2026-07 identik dengan CSV arsip;
+- aplikasi dirender dengan API asli tanpa exception, dan kelima expander analisis tambahan tampil.
+
+**Perubahan deployment:**
+- `requirements.txt` kini mengunci semua dependensi turunan ke `requirements-lock.txt` (`-c`).
+- Di Linux x86_64, `torch` dipasang dari wheel CPU (`2.14.0+cpu`). Sebelumnya Cloud ikut menarik 18 paket CUDA/NVIDIA. Resolusi `uv` untuk Linux menghasilkan 72 paket tanpa CUDA, identik dengan lock file kecuali `colorama` (khusus Windows). Untuk Windows hasilnya identik dengan lock file, dan `.venv` lokal tidak berubah.
+- Jika API gagal, aplikasi menunggu lima menit sebelum mencoba lagi.
+- Pelatihan eksperimen menghapus folder `lightning_logs` miliknya setelah selesai.
+- Devcontainer kini memakai Python 3.12 dan proteksi XSRF bawaan Streamlit.
+
+**Hasil pengujian:**
+- Windows: 49 tes lulus; audit provenance cocok. Setelah tes validasi input dan tes isi ZIP ditambahkan, jumlahnya menjadi 52 dan semuanya lulus.
+- Simulasi CI di Ubuntu (WSL), Python 3.12, paket dari `requirements.txt`: 48 dari 49 tes lulus pada percobaan pertama. Tes yang gagal membandingkan p-value Diebold-Mariano secara persis, padahal pustaka matematika Linux berbeda di digit ke-16. Tes itu kini memakai toleransi relatif 1e-12 dan lulus di Linux.
+- `test_provenance` lulus di Linux dengan `CI=true`. Hash CSV dan laporan cocok byte per byte pada checkout Linux; hanya versi Python/torch yang berbeda dari lingkungan penelitian.
+
+**Belum terverifikasi di Cloud (perlu dicek setelah push ke `main`):**
+- log build tidak memuat paket `nvidia-*`;
+- aplikasi terbuka dan tab Data menampilkan status sampai bulan terbaru;
+- satu pelatihan ringan berhasil;
+- GitHub Actions `Tes` hijau.
+
+**Kronologi API:** pada pemeriksaan browser 23 Oktober 2026 (Tabel 4.17 naskah), tab Data masih menampilkan data BPS sampai 2026-08. Permintaan dengan format lama baru terbukti ditolak pada 29 Oktober, jadi perubahan aturan BPS terjadi di antara kedua tanggal itu.
+
+## Penelusuran unduhan ZIP (HTTP 500), 29 Oktober 2026
+
+Pada uji browser 23 Oktober, unduhan ZIP grafik/tabel gagal dengan HTTP 500 untuk kedua deret, sedangkan semua unduhan CSV dan JSON berhasil. Penelusuran dengan probe yang membuka sesi Streamlit lewat WebSocket seperti browser, lalu mengunduh setiap URL media tombol:
+
+| Lingkungan | Streamlit | Hasil ZIP |
+| --- | --- | --- |
+| Windows, lokal | 1.57.0 (versi lock 23 Oktober) | 200, 850.027 byte, ZIP valid berisi 12 berkas |
+| Windows, lokal | 1.66.1 | 200, 850.027 byte |
+| Linux (WSL Ubuntu), lokal | 1.66.1 | 200, 850.027 byte |
+
+Endpoint media Streamlit mengembalikan 404, bukan 500, untuk berkas yang tidak ditemukan. Berkas unduhan juga mendapat masa tenggang satu siklus sebelum dihapus. Jadi HTTP 500 tidak berasal dari jalur kode yang dapat direproduksi. Dugaan terkuat adalah lapisan Cloud (proxy di depan aplikasi) atau kondisi sesaat di server Cloud.
+
+Probe langsung ke Cloud tidak dapat membentuk WebSocket dari luar browser, karena proxy menolak handshake. Belum ada perbaikan kode yang diklaim. Tes isi ZIP ditambahkan sebagai pengaman. Setelah versi baru terbit, uji ulang ZIP. Jika masih 500, simpan Cloud logs pada jam klik.

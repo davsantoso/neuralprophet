@@ -20,7 +20,7 @@ def decimal(value: float, digits: int = 2) -> str:
     return f"{value:,.{digits}f}".replace(",", "#").replace(".", ",").replace("#", ".")
 
 
-def main() -> None:
+def build_document() -> str:
     report = json.loads(REPORT_PATH.read_text(encoding="utf-8"))
     data = load_bps_data()
     if report["n_observations"] != len(data) or report["cutoff"] != "2026-06":
@@ -125,7 +125,11 @@ def main() -> None:
         "MASE, grafik sensitivitas lag, ACF galat, interpretasi komponen, dan backtest nested 42 bulan tersedia pada [PENGAYAAN_PENELITIAN.md](PENGAYAAN_PENELITIAN.md). Uji signifikansi Diebold-Mariano ada pada [UJI_SIGNIFIKANSI.md](UJI_SIGNIFIKANSI.md), sedangkan kurva loss dan sensitivitas epoch ada pada [DIAGNOSTIK_PELATIHAN.md](DIAGNOSTIK_PELATIHAN.md). Analisis tersebut tidak mengganti angka resmi di atas.",
         "",
     ])
-    OUTPUT_PATH.write_text("\n".join(lines), encoding="utf-8")
+    return "\n".join(lines)
+
+
+def main() -> None:
+    OUTPUT_PATH.write_text(build_document(), encoding="utf-8")
     print(f"Hasil tertulis tersimpan: {OUTPUT_PATH}")
 
 

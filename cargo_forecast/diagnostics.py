@@ -17,6 +17,37 @@ BASELINE_LABELS = {
     "last_month": "Nilai aktual bulan sebelumnya",
     "same_month_last_year": "Nilai aktual bulan yang sama tahun sebelumnya",
 }
+METRIC_NAMES = ("MAE", "RMSE", "MAPE")
+BASELINE_RULES = {"last_month": "aturan bulan sebelumnya", "same_month_last_year": "aturan bulan sama tahun lalu"}
+
+
+def _join(names: list[str] | tuple[str, ...]) -> str:
+    if len(names) < 3:
+        return " dan ".join(names)
+    return ", ".join(names[:-1]) + ", dan " + names[-1]
+
+
+def baseline_comparison(metrics: dict[str, dict[str, float]], names: tuple[str, ...] = METRIC_NAMES) -> str:
+    """Describe, from the numbers, where each baseline beats NeuralProphet.
+
+    Generated documents use this instead of fixed sentences, so a rerun with
+    different results cannot leave a stale conclusion behind.
+    """
+    parts = []
+    for baseline, rule in BASELINE_RULES.items():
+        lower = [name for name in names if metrics[baseline][name] < metrics["neuralprophet"][name]]
+        rest = [name for name in names if name not in lower]
+        if not lower:
+            parts.append(f"{rule} tidak lebih rendah daripada NeuralProphet pada {_join(names)}")
+        elif not rest:
+            parts.append(f"{rule} lebih rendah daripada NeuralProphet pada {_join(names)}")
+        else:
+            parts.append(f"{rule} lebih rendah pada {_join(lower)}, sedangkan NeuralProphet lebih rendah pada {_join(rest)}")
+    return "; ".join(parts)
+
+
+def neuralprophet_is_best(metrics: dict[str, dict[str, float]], names: tuple[str, ...] = METRIC_NAMES) -> bool:
+    return all(metrics[baseline][name] >= metrics["neuralprophet"][name] for baseline in BASELINE_RULES for name in names)
 
 
 def _metrics(actual: list[float], predicted: list[float]) -> dict[str, float]:

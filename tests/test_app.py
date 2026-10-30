@@ -25,7 +25,9 @@ def live_fixture():
         "airports": airports,
         "fetched_at": "2026-10-01T00:00:00+00:00",
         "last_update": "2026-09-02 08:39:21",
-        "source_url": "https://webapi.bps.go.id/v1/api/list/model/data/lang/ind/domain/0000/var/2351/th/117,126",
+        "source_url": "https://webapi.bps.go.id/v1/api/list/model/data/lang/ind/domain/0000/var/2351",
+        "year_requests": ["117:119", "120:122", "123:125", "126"],
+        "partial_months": [],
         "last_month": "2026-07",
     }
 
@@ -39,6 +41,7 @@ class AppWorkflowTests(unittest.TestCase):
 
     def test_api_failure_keeps_research_visible_and_disables_training(self):
         st.cache_data.clear()
+        st.cache_resource.clear()  # Shared API-failure memory must not leak between cases.
         with patch("cargo_forecast.bps_api.fetch_bps_cargo", side_effect=BpsApiError("API sementara gagal")):
             app = AppTest.from_file("../app.py").run(timeout=30)
         self.assertFalse(app.exception)
@@ -49,6 +52,7 @@ class AppWorkflowTests(unittest.TestCase):
 
     def test_live_data_and_experiment_inputs(self):
         st.cache_data.clear()
+        st.cache_resource.clear()  # Shared API-failure memory must not leak between cases.
         with patch("cargo_forecast.bps_api.fetch_bps_cargo", return_value=live_fixture()):
             app = AppTest.from_file("../app.py").run(timeout=30)
             self.assertFalse(app.exception)

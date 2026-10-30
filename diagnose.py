@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 from importlib.metadata import version
 import json
@@ -9,7 +10,7 @@ from pathlib import Path
 import sys
 
 from cargo_forecast.data import load_bps_data
-from cargo_forecast.diagnostics import build_diagnostics
+from cargo_forecast.diagnostics import baseline_comparison, build_diagnostics, neuralprophet_is_best
 from cargo_forecast.modeling import evaluate_seed_sensitivity
 
 
@@ -43,9 +44,15 @@ def document_lines(diagnostics: dict) -> list[str]:
         for method, label in METHODS.items():
             metric = series["metrics"][method]
             lines.append(f"| {LABELS[target]} | {label} | {decimal(metric['MAE'])} | {decimal(metric['RMSE'])} | {decimal(metric['MAPE'])} |")
+    all_metrics = {target: diagnostics["series"][target]["metrics"] for target in ("bongkar", "muat")}
+    summary = ("NeuralProphet memiliki galat terendah pada ketiga metrik di kedua deret."
+               if all(neuralprophet_is_best(metrics) for metrics in all_metrics.values())
+               else "NeuralProphet tidak menjadi yang terbaik pada semua metrik.")
+    comparisons = " ".join(f"Pada {LABELS[target].lower()}, {baseline_comparison(metrics)}." for target, metrics in all_metrics.items())
+    selected = ", ".join(f"{target} {diagnostics['series'][target]['selected_n_lags']}" for target in ("bongkar", "muat"))
     lines.extend([
         "",
-        "NeuralProphet tidak menjadi yang terbaik pada semua metrik. Pada bongkar, aturan bulan yang sama tahun lalu memiliki MAE dan MAPE lebih rendah. Pada muat, aturan bulan sebelumnya memiliki MAE dan MAPE lebih rendah, sedangkan NeuralProphet memiliki RMSE sedikit lebih rendah. Ini adalah temuan pada 18 bulan uji, bukan bukti bahwa satu metode selalu lebih baik pada periode lain.",
+        f"{summary} {comparisons} Ini adalah temuan pada 18 bulan uji, bukan bukti bahwa satu metode selalu lebih baik pada periode lain.",
         "",
         "## Arah dan bulan kesalahan terbesar",
         "",
@@ -68,7 +75,7 @@ def document_lines(diagnostics: dict) -> list[str]:
     lines.extend([
         "## Kepekaan terhadap seed pelatihan",
         "",
-        "Lima seed diuji dengan lookback yang **sudah dipilih pada validasi resmi seed 42** (bongkar 6, muat 3), 100 epoch, musiman tahunan aktif, data latih sampai Desember 2024, dan 18 bulan uji yang sama. Seed tidak dipilih berdasarkan hasil uji. Ringkasan ini mengukur variasi pelatihan pada konfigurasi tetap; tidak mengukur ketidakpastian prediksi atau kestabilan pemilihan lookback.",
+        f"Lima seed diuji dengan lookback yang **sudah dipilih pada validasi resmi seed 42** ({selected}), 100 epoch, musiman tahunan aktif, data latih sampai Desember 2024, dan 18 bulan uji yang sama. Seed tidak dipilih berdasarkan hasil uji. Ringkasan ini mengukur variasi pelatihan pada konfigurasi tetap; tidak mengukur ketidakpastian prediksi atau kestabilan pemilihan lookback.",
         "",
         "| Deret | Seed | MAE (ton) | RMSE (ton) | MAPE (%) |",
         "| --- | ---: | ---: | ---: | ---: |",
@@ -98,6 +105,13 @@ def document_lines(diagnostics: dict) -> list[str]:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--docs-only", action="store_true",
+                        help="Tulis ulang DIAGNOSTIK_PENELITIAN.md dari artifacts/diagnostics.json tanpa pelatihan.")
+    if parser.parse_args().docs_only:
+        DOCUMENT.write_text("\n".join(document_lines(json.loads(OUTPUT.read_text(encoding="utf-8")))), encoding="utf-8")
+        print(f"Dokumen ditulis ulang dari artefak: {DOCUMENT}")
+        return
     if sys.version_info >= (3, 13):
         raise RuntimeError("Analisis NeuralProphet memerlukan Python 3.12.")
     raw_report = REPORT.read_bytes()

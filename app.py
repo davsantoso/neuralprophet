@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import sys
 import threading
+import time
 
 import altair as alt
 import pandas as pd
@@ -25,6 +26,7 @@ ROOT = Path(__file__).resolve().parent
 REPORT_PATH = ROOT / "artifacts" / "report.json"
 DIAGNOSTICS_PATH = ROOT / "artifacts" / "diagnostics.json"
 LABELS = {"bongkar": "Bongkar", "muat": "Muat"}
+API_RETRY_SECONDS = 300
 BPS_URL = "https://www.bps.go.id/id/statistics-table/2/MjM1MSMy/bongkar-muat-barang-angkutan-udara-dalam-negeri-di-5-bandara-utama.html"
 
 
@@ -64,6 +66,29 @@ def live_dataset() -> dict:
         except (FileNotFoundError, KeyError):
             raise BpsApiError("BPS_API_KEY belum tersedia pada Secrets aplikasi.") from None
     return fetch_bps_cargo(key)
+
+
+@st.cache_resource
+def api_failure() -> dict:
+    """Last BPS failure, shared by visitors; cache_data never stores exceptions."""
+    return {}
+
+
+def load_live_dataset() -> dict:
+    """Avoid repeating slow API retries on every widget rerun while BPS is down."""
+    failure = api_failure()
+    if failure and time.monotonic() - failure["at"] < API_RETRY_SECONDS:
+        raise BpsApiError(failure["message"])
+    try:
+        result = live_dataset()
+    except BpsApiError as exc:
+        failure.update(at=time.monotonic(), message=str(exc))
+        raise
+    except Exception:
+        failure.update(at=time.monotonic(), message="Data BPS langsung belum dapat dibaca. Coba muat ulang nanti.")
+        raise BpsApiError(failure["message"]) from None
+    failure.clear()
+    return result
 
 
 @st.cache_resource
@@ -147,14 +172,11 @@ report = saved_report()
 diagnostics = saved_diagnostics()
 try:
     with st.spinner("Mengambil data terbaru dari BPS..."):
-        live = live_dataset()
+        live = load_live_dataset()
     api_error = None
 except BpsApiError as exc:
     live = None
-    api_error = str(exc)
-except Exception:
-    live = None
-    api_error = "Data BPS langsung belum dapat dibaca. Coba muat ulang nanti."
+    api_error = f"{exc} Aplikasi mencoba lagi paling cepat {API_RETRY_SECONDS // 60} menit setelah kegagalan."
 
 tabs = st.tabs(["Ringkasan", "Data", "Evaluasi model", "Diagnostik penelitian", "Eksperimen"])
 
@@ -189,6 +211,8 @@ with tabs[1]:
         st.dataframe(data.assign(ds=data["ds"].dt.strftime("%Y-%m")), hide_index=True, width="stretch")
     else:
         st.success(f"Data langsung BPS tersedia sampai {live['last_month']}. Diambil {live['fetched_at']} UTC; pembaruan sumber: {live['last_update']}.")
+        if live["partial_months"]:
+            st.info(f"Bulan {', '.join(live['partial_months'])} baru terbit untuk sebagian bandara, sehingga belum ditampilkan. Kelima bandara memakai batas bulan yang sama.")
         airport = st.selectbox("Kategori bandara", live["airports"], key="data_airport")
         series_choice = st.selectbox("Deret yang ditampilkan", ["Keduanya", "Bongkar", "Muat"], key="data_series")
         airport_data = live["frame"].loc[live["frame"]["bandara"] == airport, ["ds", "bongkar", "muat"]].copy()
@@ -203,7 +227,7 @@ with tabs[1]:
         export["ds"] = export["ds"].dt.strftime("%Y-%m")
         st.dataframe(export.rename(columns={"ds": "Bulan", "bongkar": "Bongkar (ton)", "muat": "Muat (ton)"}), hide_index=True, width="stretch")
         st.download_button("Unduh data BPS yang ditampilkan (CSV)", export.to_csv(index=False).encode("utf-8"), file_name="data_kargo_bps_langsung.csv", mime="text/csv")
-        st.caption(f"Endpoint: {live['source_url']} · cache aplikasi maksimal 6 jam.")
+        st.caption(f"Endpoint: {live['source_url']} · parameter tahun per permintaan: {', '.join(live['year_requests'])} · cache aplikasi maksimal 6 jam.")
 
 with tabs[2]:
     st.subheader("Pembagian kronologis penelitian")
@@ -286,7 +310,8 @@ with tabs[3]:
         st.download_button("Unduh diagnostik lengkap (JSON)", json.dumps(diagnostics, ensure_ascii=False, indent=2), file_name="diagnostik_penelitian.json", mime="application/json")
         render_research_extensions(target, report, detail, saved_extension("enrichment.json"),
             saved_extension("walk_forward.json"), {"report_sha256": diagnostics["source"]["report_sha256"],
-                                                  "data_sha256": diagnostics["source"]["data_sha256"]})
+                                                  "data_sha256": diagnostics["source"]["data_sha256"]},
+            significance=saved_extension("significance.json"), training=saved_extension("training_diagnostics.json"))
 
 with tabs[4]:
     st.subheader("Eksperimen prediksi dari data BPS langsung")
@@ -313,7 +338,7 @@ with tabs[4]:
             st.error("Data eksperimen memerlukan minimal 60 bulan lengkap.")
         else:
             model_input = experiment_data.loc[:, ["ds", target]].copy()
-            data_hash = hashlib.sha256(model_input.to_csv(index=False).encode("utf-8")).hexdigest()
+            data_hash = hashlib.sha256(model_input.to_csv(index=False, lineterminator="\n").encode("utf-8")).hexdigest()
             parameters = {"n_lags": n_lags, "epochs": epochs, "yearly_seasonality": yearly, "learning_rate": LEARNING_RATE, "n_forecasts": 1, "seed": SEED}
             signature = hashlib.sha256(json.dumps({"airport": airport, "target": target, "data_sha256": data_hash, "parameters": parameters}, sort_keys=True).encode("utf-8")).hexdigest()
             results = st.session_state.setdefault("experiment_results", {})
@@ -331,6 +356,7 @@ with tabs[4]:
                         provenance = {
                             "jenis": "eksperimen_pengguna",
                             "sumber": live["source_url"],
+                            "parameter_tahun_api": live["year_requests"],
                             "waktu_ambil_api_utc": live["fetched_at"],
                             "pembaruan_bps": live["last_update"],
                             "waktu_hasil_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),

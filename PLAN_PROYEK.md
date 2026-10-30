@@ -183,6 +183,15 @@ Waterfall digunakan untuk **pengembangan aplikasi web**. Pemilihan lookback berd
 
 **Sudah diverifikasi daring:** permintaan anonim dengan sesi cookie mencapai halaman aplikasi dengan HTTP 200 di URL publik. Pengguna mengonfirmasi data API tampil dan satu pelatihan ringan Ngurah Rai-Bali menghasilkan prediksi Agustus 2026 di browser publik. **Belum terukur di Cloud:** pilihan pelatihan paling berat, durasi server secara rinci, serta Cloud logs saat peringatan CPU. Rinciannya ada di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md).
 
+**Pembaruan 29 Oktober 2026:** hasil audit menyeluruh telah ditindaklanjuti.
+
+- BPS Web API kini menolak format rentang tahun lama dengan HTTP 400. Aturan barunya: maksimal tiga tahun per permintaan, rentang memakai `:`. Klien API diperbaiki dan diperiksa langsung: 580 baris sampai Agustus 2026, dan seluruh nilai Soekarno Hatta 2017-01–2026-07 masih identik dengan arsip CSV.
+- Uji Diebold-Mariano dan diagnostik pelatihan kini tampil di tab Diagnostik.
+- Linux memakai torch CPU, dan dependensi Cloud dikunci ke lock file.
+- CI GitHub Actions ditambahkan.
+
+Hasil resmi tidak berubah. Pengujian manual daring BB-11–BB-15 dan BB-20 sudah dilakukan pada 23 Oktober 2026 (Tabel 4.17 naskah). Saat itu API masih berjalan dengan data sampai 2026-08, dan hanya unduhan ZIP yang gagal (HTTP 500). **Belum terverifikasi di Cloud:** build dan aplikasi versi 29 Oktober setelah diterbitkan, serta uji ulang bagian yang berubah: tab Data (API), expander DM/loss, dan ZIP. Daftarnya ada di [PENGUJIAN_BLACK_BOX.md](PENGUJIAN_BLACK_BOX.md).
+
 ## 13. Analisis tambahan setelah eksperimen resmi
 
 Tahap pengayaan berikutnya dijelaskan di bagian 14.
@@ -196,6 +205,8 @@ Hasil resmi tetap dibekukan. [PENGAYAAN_PENELITIAN.md](PENGAYAAN_PENELITIAN.md) 
 Penanda Maret 2020 pada grafik mengacu pada pernyataan WHO dan hanya menjadi konteks waktu. Tidak ada dummy pandemi, penghapusan data pandemi, atau penetapan pandemi sebagai penyebab kesalahan uji 2025–2026. Lokasi changepoint adalah kandidat otomatis; bobot AR dan perubahan tren tidak dianggap bukti kausal.
 
 Backtest nested walk-forward tambahan memprediksi Januari 2023–Juni 2026, 42 bulan per deret. Origin pertama Desember 2022: train dalam Januari 2017–Desember 2021 (60 bulan), validasi dalam Januari–Desember 2022 (12 bulan). Pada setiap origin berikutnya train bertambah; validasi tetap 12 bulan terakhir. Kandidat lag dipilih dengan MAE validasi masa lalu, model dilatih ulang sampai origin, lalu memprediksi bulan berikutnya. Seed 42 dan konfigurasi lain tetap. Sebanyak 336 fit dijalankan offline dan hasil dapat dilanjutkan dari checkpoint. Dua deret berjalan independen.
+
+Uji [Diebold-Mariano](UJI_SIGNIFIKANSI.md) dengan koreksi Harvey-Leybourne-Newbold membandingkan galat NeuralProphet dan kedua tolok ukur pada uji 18 bulan dan walk-forward 42 bulan, tanpa pelatihan baru. Hanya perbandingan terhadap aturan bulan sama tahun lalu yang signifikan pada α = 0,05: pada muat di kedua protokol, dan pada bongkar hanya di walk-forward. Terhadap aturan bulan sebelumnya, tidak ada perbedaan yang signifikan. [Diagnostik pelatihan](DIAGNOSTIK_PELATIHAN.md) menyajikan kurva loss model uji resmi dan sensitivitas epoch pada validasi 2024 saja. Keduanya analisis tambahan yang tidak memilih ulang konfigurasi.
 
 Metrik 42 bulan dilaporkan terpisah dari uji resmi 18 bulan karena cakupan waktu dan prosedur pembaruan model berbeda. Uji beberapa seed tetap mengukur variasi pada konfigurasi resmi, bukan variasi seluruh rangkaian walk-forward. Aplikasi hanya membaca artefak tambahan, sehingga membuka tab Diagnostik tidak memicu pelatihan.
 

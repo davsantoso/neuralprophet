@@ -7,6 +7,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from cargo_forecast.diagnostics import baseline_comparison
+
 
 ROOT = Path(__file__).resolve().parent
 os.environ.setdefault("MPLCONFIGDIR", str(ROOT / ".mpl-cache"))
@@ -39,11 +41,12 @@ def main():
         raise ValueError("Artefak ekspor tidak cocok dengan laporan resmi.")
     figures = ROOT / "artifacts/figures"
     figures.mkdir(exist_ok=True)
+    selected_lags = ", ".join(f"{target} {report['series'][target]['selected_n_lags']}" for target in LABELS)
     lines = ["# Pengayaan analisis penelitian", "",
              "Analisis tambahan ini memakai snapshot 114 bulan Soekarno Hatta-Jakarta. Hasil resmi pada `artifacts/report.json` tetap mengikuti split 84/12/18 dan tidak dipilih ulang dari hasil analisis ini.", "",
              "## Konfigurasi dan batas tuning", "",
              "| Parameter | Nilai | Status |", "| --- | --- | --- |",
-             "| n_lags | 3, 6, 12 | Dipilih berdasarkan MAE validasi; bongkar 6, muat 3 pada eksperimen resmi |",
+             f"| n_lags | 3, 6, 12 | Dipilih berdasarkan MAE validasi; {selected_lags} pada eksperimen resmi |",
              "| ar_layers | [] | Tetap; AR linear tanpa hidden layer |",
              "| n_changepoints | 10 | Tetap; lokasi kandidat otomatis |",
              "| epochs | 100 | Tetap |", "| learning_rate | 0,01 | Tetap |",
@@ -57,7 +60,8 @@ def main():
         mase = extra["series"][target]["mase"]
         for method, value in mase["methods"].items():
             lines.append(f"| {LABELS[target]} | {METHODS[method]} | {fmt(diag['series'][target]['metrics'][method]['MAE'])} | {fmt(value, 3)} | {fmt(mase['scale_ton'])} |")
-    lines += ["", "NeuralProphet mengungguli naif bulan sebelumnya pada MAE bongkar, tetapi kalah pada muat. Aturan bulan sama tahun lalu juga mengungguli NeuralProphet pada MAE bongkar. MASE < 1 berarti kesalahan lebih kecil daripada skala naif *data latih*; hal itu tidak otomatis berarti mengalahkan naif pada *data uji*.", "", "## Sensitivitas lag, residual, dan komponen", ""]
+    comparisons = " ".join(f"Pada {LABELS[target].lower()}, {baseline_comparison(diag['series'][target]['metrics'], ('MAE',))}." for target in LABELS)
+    lines += ["", f"{comparisons} MASE < 1 berarti kesalahan lebih kecil daripada skala naif *data latih*; hal itu tidak otomatis berarti mengalahkan naif pada *data uji*.", "", "## Sensitivitas lag, residual, dan komponen", ""]
     for target, label in LABELS.items():
         item = extra["series"][target]
         component = item["components"]

@@ -15,7 +15,7 @@ Setiap ramalan pembanding memakai hanya nilai aktual yang sudah tersedia sebelum
 | Muat | Bulan sebelumnya | 1.230,06 | 1.583,57 | 6,61 |
 | Muat | Bulan sama tahun lalu | 2.621,94 | 3.246,14 | 15,39 |
 
-NeuralProphet tidak menjadi yang terbaik pada semua metrik. Pada bongkar, aturan bulan yang sama tahun lalu memiliki MAE dan MAPE lebih rendah. Pada muat, aturan bulan sebelumnya memiliki MAE dan MAPE lebih rendah, sedangkan NeuralProphet memiliki RMSE sedikit lebih rendah. Ini adalah temuan pada 18 bulan uji, bukan bukti bahwa satu metode selalu lebih baik pada periode lain.
+NeuralProphet tidak menjadi yang terbaik pada semua metrik. Pada bongkar, aturan bulan sebelumnya tidak lebih rendah daripada NeuralProphet pada MAE, RMSE, dan MAPE; aturan bulan sama tahun lalu lebih rendah daripada NeuralProphet pada MAE, RMSE, dan MAPE. Pada muat, aturan bulan sebelumnya lebih rendah pada MAE dan MAPE, sedangkan NeuralProphet lebih rendah pada RMSE; aturan bulan sama tahun lalu tidak lebih rendah daripada NeuralProphet pada MAE, RMSE, dan MAPE. Ini adalah temuan pada 18 bulan uji, bukan bukti bahwa satu metode selalu lebih baik pada periode lain.
 
 ## Arah dan bulan kesalahan terbesar
 

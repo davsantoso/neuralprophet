@@ -2,6 +2,12 @@
 
 **Status 1 Oktober 2026:** integrasi API, tampilan lima bandara, pelatihan dengan parameter pilihan, jejak eksperimen, dan pengujian lokal telah diimplementasikan pada commit `489152c`. Pengguna telah memverifikasi dari browser publik bahwa data API tampil dan pelatihan ringan Ngurah Rai-Bali menghasilkan prediksi Agustus 2026. Batas CPU Cloud untuk pilihan paling berat belum terukur; rincian bukti ada di [PENGUJIAN_DEPLOYMENT.md](PENGUJIAN_DEPLOYMENT.md).
 
+**Pembaruan 29 Oktober 2026:** BPS mengubah aturan parameter `th`. Permintaan lama `th/117,126` kini ditolak (HTTP 400). Aturan barunya: rentang memakai `:` (rentang) atau `;` (daftar), dan satu permintaan memuat paling banyak tiga tahun.
+
+- `fetch_bps_cargo` kini meminta `117:119`, `120:122`, `123:125`, dan `126`. Keempat respons digabung setelah metadata `var`, `turvar`, `vervar`, dan `turtahun` dipastikan identik.
+- Bulan yang baru terbit untuk sebagian bandara ditahan dan disebutkan di tab Data, tidak lagi membuat seluruh respons ditolak. Bulan yang hilang di tengah deret tetap ditolak.
+- Pemeriksaan langsung: 580 baris (5 bandara × 116 bulan sampai Agustus 2026). Seluruh 230 nilai Soekarno Hatta 2017-01–2026-07 identik dengan CSV arsip.
+
 ## Tujuan dan batas tetap
 
 Aplikasi akan mengambil data asli BPS melalui Web API untuk tampilan data dan eksperimen prediksi terbaru. Pengunjung dapat memilih salah satu kategori bandara utama, termasuk Ngurah Rai-Bali, memilih deret bongkar atau muat, mengatur konfigurasi NeuralProphet dalam batas yang aman, lalu melatih satu model untuk memprediksi **satu bulan setelah data BPS terakhir yang tersedia**. Pengunjung tidak perlu mengunggah CSV.

@@ -29,7 +29,7 @@ MASE = MAE uji / rata-rata |y_t − y_(t−1)| pada data latih Januari 2017–De
 | Muat | Bulan sebelumnya | 1.230,06 | 0,696 | 1.768,59 |
 | Muat | Bulan sama tahun lalu | 2.621,94 | 1,483 | 1.768,59 |
 
-NeuralProphet mengungguli naif bulan sebelumnya pada MAE bongkar, tetapi kalah pada muat. Aturan bulan sama tahun lalu juga mengungguli NeuralProphet pada MAE bongkar. MASE < 1 berarti kesalahan lebih kecil daripada skala naif *data latih*; hal itu tidak otomatis berarti mengalahkan naif pada *data uji*.
+Pada bongkar, aturan bulan sebelumnya tidak lebih rendah daripada NeuralProphet pada MAE; aturan bulan sama tahun lalu lebih rendah daripada NeuralProphet pada MAE. Pada muat, aturan bulan sebelumnya lebih rendah daripada NeuralProphet pada MAE; aturan bulan sama tahun lalu tidak lebih rendah daripada NeuralProphet pada MAE. MASE < 1 berarti kesalahan lebih kecil daripada skala naif *data latih*; hal itu tidak otomatis berarti mengalahkan naif pada *data uji*.
 
 ## Sensitivitas lag, residual, dan komponen
 

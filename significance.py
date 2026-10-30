@@ -6,25 +6,17 @@ import json
 from pathlib import Path
 
 from cargo_forecast.data import load_bps_data
-from cargo_forecast.significance import ALPHA, BASELINES, LOSSES, build_significance
+from cargo_forecast.significance import BASELINES, LOSS_LABELS, LOSSES, PROTOCOLS, build_significance, verdict
 from cargo_forecast.walkforward import atomic_json
 
 
 ROOT = Path(__file__).resolve().parent
 LABELS = {"bongkar": "Bongkar", "muat": "Muat"}
 METHODS = {"neuralprophet": "NeuralProphet", "last_month": "Bulan sebelumnya", "same_month_last_year": "Bulan sama tahun lalu"}
-LOSS_LABELS = {"absolute": "Absolut (selaras MAE)", "squared": "Kuadrat (selaras RMSE)"}
-PROTOCOLS = {"test_18": "Uji resmi 18 bulan", "walk_forward_42": "Walk-forward 42 bulan"}
 
 
 def fmt(value, digits=2):
     return f"{value:,.{digits}f}".replace(",", "_").replace(".", ",").replace("_", ".")
-
-
-def verdict(item):
-    if item["p_value"] >= ALPHA:
-        return "Tidak berbeda signifikan"
-    return "NeuralProphet lebih kecil" if item["mean_loss_difference"] < 0 else "Pembanding lebih kecil"
 
 
 def main():

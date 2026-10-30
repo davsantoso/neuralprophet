@@ -9,16 +9,23 @@ import altair as alt
 import pandas as pd
 import streamlit as st
 
+from .modeling import EPOCHS
+from .significance import LOSS_LABELS, PROTOCOLS, verdict
+
 
 METHODS = {"neuralprophet": "NeuralProphet", "last_month": "Bulan sebelumnya",
            "same_month_last_year": "Bulan sama tahun lalu"}
+# Figures that cover both series belong in each per-series bundle.
+SHARED_FIGURES = ("data_114_bulan.png", "uji_signifikansi.csv")
 
 
 @st.cache_data
 def figures_bundle(target):
-    paths = sorted((Path(__file__).resolve().parents[1] / "artifacts/figures").glob(f"{target}_*"))
+    folder = Path(__file__).resolve().parents[1] / "artifacts/figures"
+    paths = sorted(folder.glob(f"{target}_*"))
     if not paths:
         return None
+    paths += [folder / name for name in SHARED_FIGURES if (folder / name).exists()]
     buffer = io.BytesIO()
     with zipfile.ZipFile(buffer, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for path in paths:
@@ -26,7 +33,51 @@ def figures_bundle(target):
     return buffer.getvalue()
 
 
-def render_research_extensions(target, report, diagnostics, enrichment, walk_forward, source):
+def render_significance(target, significance, source):
+    if significance is None:
+        st.info("Uji signifikansi Diebold-Mariano belum tersedia untuk versi hasil ini.")
+        return
+    if significance.get("source") != source:
+        st.error("Uji signifikansi tidak cocok dengan snapshot dan laporan penelitian.")
+        return
+    with st.expander("Uji signifikansi Diebold-Mariano · analisis tambahan", expanded=False):
+        st.write("Uji ini memeriksa apakah selisih galat NeuralProphet dan aturan pembanding cukup besar untuk dibedakan dari variasi acak. Statistik DM dikoreksi menurut Harvey-Leybourne-Newbold, lalu dibandingkan dengan distribusi t berderajat bebas n − 1, dua sisi, α = 0,05.")
+        rows = [{"Protokol": label, "Pembanding": METHODS[baseline], "Loss": LOSS_LABELS[loss], "n": item["n"],
+                 "Rata-rata selisih loss": item["mean_loss_difference"], "DM*": item["dm_hln"],
+                 "p-value": item["p_value"], "Kesimpulan": verdict(item)}
+                for protocol, label in PROTOCOLS.items()
+                for baseline, losses in significance["series"][target][protocol]["comparisons"].items()
+                for loss, item in losses.items()]
+        st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
+        st.caption("Selisih loss = loss NeuralProphet dikurangi loss pembanding; nilai negatif berarti galat NeuralProphet lebih kecil. p ≥ 0,05 berarti tidak ada bukti perbedaan, bukan bukti bahwa kedua metode sama. Uji 18 dan 42 bulan sebagian beririsan dan jumlah perbandingannya banyak, sehingga hasil dibaca sebagai pola keseluruhan.")
+        st.markdown("[Diebold dan Mariano (1995)](https://doi.org/10.1080/07350015.1995.10524599) · [Harvey, Leybourne, dan Newbold (1997)](https://doi.org/10.1016/S0169-2070(96)00719-4)")
+        st.download_button("Unduh uji signifikansi (JSON)", json.dumps(significance, ensure_ascii=False, indent=2),
+                           file_name="uji_signifikansi.json", mime="application/json")
+
+
+def render_training_diagnostics(target, training, source):
+    if training is None:
+        st.info("Kurva loss dan sensitivitas epoch belum tersedia untuk versi hasil ini.")
+        return
+    if training.get("source") != source:
+        st.error("Diagnostik pelatihan tidak cocok dengan snapshot dan laporan penelitian.")
+        return
+    item = training["series"][target]
+    with st.expander("Kurva loss dan sensitivitas epoch · analisis tambahan", expanded=False):
+        st.caption(f"Model dilatih ulang pada Januari 2017–Desember 2024 dengan lag {item['selected_n_lags']}, seed 42, dan {EPOCHS} epoch. Fit ulang ini mereproduksi 18 prediksi uji resmi (selisih maksimum {item['max_forecast_difference_ton']:.6f} ton).")
+        curve = pd.DataFrame(item["loss_curve"])
+        first, second = st.columns(2)
+        first.altair_chart(alt.Chart(curve).mark_line().encode(x=alt.X("epoch:Q", title="Epoch"),
+            y=alt.Y("loss:Q", title="Loss (skala ternormalisasi)"), tooltip=["epoch:Q", "loss:Q"]).properties(height=220), width="stretch")
+        second.altair_chart(alt.Chart(curve).mark_line(color="#c65b45").encode(x=alt.X("epoch:Q", title="Epoch"),
+            y=alt.Y("train_mae_ton:Q", title="MAE data latih (ton)"), tooltip=["epoch:Q", "train_mae_ton:Q"]).properties(height=220), width="stretch")
+        st.caption("Loss dihitung NeuralProphet pada skala ternormalisasi. Kurva latih yang menurun tidak membuktikan model bebas overfitting; kinerja di luar data latih tetap dibaca dari validasi dan uji kronologis.")
+        st.dataframe(pd.DataFrame([{"Epoch": row["epochs"], "Konfigurasi resmi": row["epochs"] == EPOCHS, **row["validation"]}
+                                   for row in item["epoch_sensitivity"]]), hide_index=True, width="stretch")
+        st.caption("Sensitivitas epoch dihitung setelah eksperimen resmi, memakai latih 84 bulan dan validasi 2024 saja. Tabel ini tidak dipakai mengganti 100 epoch resmi; memilih epoch terbaik lalu melaporkannya pada data uji berarti memilih ulang konfigurasi.")
+
+
+def render_research_extensions(target, report, diagnostics, enrichment, walk_forward, source, *, significance, training):
     if enrichment is None:
         st.info("MASE dan interpretasi komponen belum tersedia untuk versi hasil ini.")
     elif enrichment.get("source") != source:
@@ -103,3 +154,5 @@ def render_research_extensions(target, report, diagnostics, enrichment, walk_for
             st.dataframe(monthly[["ds", "origin", "inner_train_end", "inner_validation_start", "selected_n_lags", "actual", "neuralprophet", "last_month"]], hide_index=True, width="stretch")
             st.download_button("Unduh walk-forward lengkap (JSON)", json.dumps(walk_forward, ensure_ascii=False, indent=2),
                                file_name="walk_forward_42_bulan.json", mime="application/json")
+    render_significance(target, significance, source)
+    render_training_diagnostics(target, training, source)

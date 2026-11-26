@@ -2,3 +2,6 @@
 # Git must not convert line endings between Windows and Linux deployments.
 data/*.csv -text
 artifacts/report.json -text whitespace=cr-at-eol
+# posthoc.json stores the SHA-256 of these two files.
+artifacts/significance.json -text whitespace=cr-at-eol
+artifacts/diagnostics.json -text whitespace=cr-at-eol

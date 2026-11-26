@@ -2,8 +2,8 @@
   "schema_version": 1,
   "kind": "analisis_post_hoc_bukan_pengganti_hasil_resmi",
   "source": {
-    "significance_sha256": "9cca71a0c8c7fb0c6eba5d0ad7429361b4c8a28b89c9f26da5624d9fe0498afe",
-    "diagnostics_sha256": "689bcf884f5f67c8f805db2de23e7c4098f973a502f42afea938cd3e849a248a"
+    "significance_sha256": "1f417bf285db0b05d0f34aa2cc8b9a37c0107389985d8ddc7dd9a7c81ee8859e",
+    "diagnostics_sha256": "1f2eddc0042226faa6e2227cc4978fae1d290e7b2ce67fefdab8e140d1996d94"
   },
   "holm": {
     "jumlah_uji": 16,

@@ -1,0 +1,391 @@
+{
+  "schema_version": 1,
+  "kind": "analisis_post_hoc_bukan_pengganti_hasil_resmi",
+  "source": {
+    "significance_sha256": "9cca71a0c8c7fb0c6eba5d0ad7429361b4c8a28b89c9f26da5624d9fe0498afe",
+    "diagnostics_sha256": "689bcf884f5f67c8f805db2de23e7c4098f973a502f42afea938cd3e849a248a"
+  },
+  "holm": {
+    "jumlah_uji": 16,
+    "alpha": 0.05,
+    "uji": [
+      {
+        "deret": "bongkar",
+        "protokol": "test_18",
+        "pembanding": "last_month",
+        "loss": "absolute",
+        "p_value": 0.38917760264075485,
+        "p_holm": 1.0,
+        "signifikan_setelah_holm": false
+      },
+      {
+        "deret": "bongkar",
+        "protokol": "test_18",
+        "pembanding": "last_month",
+        "loss": "squared",
+        "p_value": 0.4201985472087262,
+        "p_holm": 1.0,
+        "signifikan_setelah_holm": false
+      },
+      {
+        "deret": "bongkar",
+        "protokol": "test_18",
+        "pembanding": "same_month_last_year",
+        "loss": "absolute",
+        "p_value": 0.6758856682804646,
+        "p_holm": 1.0,
+        "signifikan_setelah_holm": false
+      },
+      {
+        "deret": "bongkar",
+        "protokol": "test_18",
+        "pembanding": "same_month_last_year",
+        "loss": "squared",
+        "p_value": 0.8163393691342171,
+        "p_holm": 1.0,
+        "signifikan_setelah_holm": false
+      },
+      {
+        "deret": "bongkar",
+        "protokol": "walk_forward_42",
+        "pembanding": "last_month",
+        "loss": "absolute",
+        "p_value": 0.40991310795803304,
+        "p_holm": 1.0,
+        "signifikan_setelah_holm": false
+      },
+      {
+        "deret": "bongkar",
+        "protokol": "walk_forward_42",
+        "pembanding": "last_month",
+        "loss": "squared",
+        "p_value": 0.506351929332756,
+        "p_holm": 1.0,
+        "signifikan_setelah_holm": false
+      },
+      {
+        "deret": "bongkar",
+        "protokol": "walk_forward_42",
+        "pembanding": "same_month_last_year",
+        "loss": "absolute",
+        "p_value": 0.004096485341293375,
+        "p_holm": 0.05735079477810725,
+        "signifikan_setelah_holm": false
+      },
+      {
+        "deret": "bongkar",
+        "protokol": "walk_forward_42",
+        "pembanding": "same_month_last_year",
+        "loss": "squared",
+        "p_value": 0.028838320115614508,
+        "p_holm": 0.31722152127175957,
+        "signifikan_setelah_holm": false
+      },
+      {
+        "deret": "muat",
+        "protokol": "test_18",
+        "pembanding": "last_month",
+        "loss": "absolute",
+        "p_value": 0.7774086400357945,
+        "p_holm": 1.0,
+        "signifikan_setelah_holm": false
+      },
+      {
+        "deret": "muat",
+        "protokol": "test_18",
+        "pembanding": "last_month",
+        "loss": "squared",
+        "p_value": 0.9476681221876828,
+        "p_holm": 1.0,
+        "signifikan_setelah_holm": false
+      },
+      {
+        "deret": "muat",
+        "protokol": "test_18",
+        "pembanding": "same_month_last_year",
+        "loss": "absolute",
+        "p_value": 0.0096833766167959,
+        "p_holm": 0.1258838960183467,
+        "signifikan_setelah_holm": false
+      },
+      {
+        "deret": "muat",
+        "protokol": "test_18",
+        "pembanding": "same_month_last_year",
+        "loss": "squared",
+        "p_value": 0.011856325298647406,
+        "p_holm": 0.14227590358376888,
+        "signifikan_setelah_holm": false
+      },
+      {
+        "deret": "muat",
+        "protokol": "walk_forward_42",
+        "pembanding": "last_month",
+        "loss": "absolute",
+        "p_value": 0.3683095855079376,
+        "p_holm": 1.0,
+        "signifikan_setelah_holm": false
+      },
+      {
+        "deret": "muat",
+        "protokol": "walk_forward_42",
+        "pembanding": "last_month",
+        "loss": "squared",
+        "p_value": 0.7658846784364437,
+        "p_holm": 1.0,
+        "signifikan_setelah_holm": false
+      },
+      {
+        "deret": "muat",
+        "protokol": "walk_forward_42",
+        "pembanding": "same_month_last_year",
+        "loss": "absolute",
+        "p_value": 7.950613614285836e-05,
+        "p_holm": 0.0012720981782857338,
+        "signifikan_setelah_holm": true
+      },
+      {
+        "deret": "muat",
+        "protokol": "walk_forward_42",
+        "pembanding": "same_month_last_year",
+        "loss": "squared",
+        "p_value": 0.00022731841736564588,
+        "p_holm": 0.0034097762604846883,
+        "signifikan_setelah_holm": true
+      }
+    ]
+  },
+  "rata_rata_lima_seed": {
+    "bongkar": {
+      "seeds": [
+        7,
+        21,
+        42,
+        123,
+        2026
+      ],
+      "metrics": {
+        "MAE": 1085.4224663628472,
+        "RMSE": 1402.4434973238551,
+        "MAPE": 12.750852278964073
+      },
+      "pembanding_terbaik": "same_month_last_year",
+      "dm_absolut_vs_pembanding_terbaik": {
+        "n": 18,
+        "mean_loss_difference": -16.466422526041647,
+        "dm": -0.07811028698540283,
+        "dm_hln": -0.07590955431740747,
+        "df": 17,
+        "p_value": 0.9403772379249548
+      },
+      "prediksi": [
+        {
+          "ds": "2025-01",
+          "aktual": 11923.0,
+          "prediksi_rata_rata": 10429.051953125
+        },
+        {
+          "ds": "2025-02",
+          "aktual": 9253.0,
+          "prediksi_rata_rata": 10504.6029296875
+        },
+        {
+          "ds": "2025-03",
+          "aktual": 11150.0,
+          "prediksi_rata_rata": 10958.3029296875
+        },
+        {
+          "ds": "2025-04",
+          "aktual": 10224.0,
+          "prediksi_rata_rata": 10110.075390625
+        },
+        {
+          "ds": "2025-05",
+          "aktual": 10696.0,
+          "prediksi_rata_rata": 9872.248828125
+        },
+        {
+          "ds": "2025-06",
+          "aktual": 7541.0,
+          "prediksi_rata_rata": 9854.29609375
+        },
+        {
+          "ds": "2025-07",
+          "aktual": 5630.0,
+          "prediksi_rata_rata": 9339.2029296875
+        },
+        {
+          "ds": "2025-08",
+          "aktual": 7477.0,
+          "prediksi_rata_rata": 8147.39482421875
+        },
+        {
+          "ds": "2025-09",
+          "aktual": 9840.0,
+          "prediksi_rata_rata": 7782.5255859375
+        },
+        {
+          "ds": "2025-10",
+          "aktual": 10219.0,
+          "prediksi_rata_rata": 8522.6265625
+        },
+        {
+          "ds": "2025-11",
+          "aktual": 9505.0,
+          "prediksi_rata_rata": 8669.2205078125
+        },
+        {
+          "ds": "2025-12",
+          "aktual": 10791.0,
+          "prediksi_rata_rata": 9923.773828125
+        },
+        {
+          "ds": "2026-01",
+          "aktual": 10196.0,
+          "prediksi_rata_rata": 10802.119140625
+        },
+        {
+          "ds": "2026-02",
+          "aktual": 10207.0,
+          "prediksi_rata_rata": 9961.6361328125
+        },
+        {
+          "ds": "2026-03",
+          "aktual": 12174.0,
+          "prediksi_rata_rata": 11119.208984375
+        },
+        {
+          "ds": "2026-04",
+          "aktual": 9912.0,
+          "prediksi_rata_rata": 10833.9619140625
+        },
+        {
+          "ds": "2026-05",
+          "aktual": 10233.0,
+          "prediksi_rata_rata": 9634.1919921875
+        },
+        {
+          "ds": "2026-06",
+          "aktual": 9612.0,
+          "prediksi_rata_rata": 9697.8892578125
+        }
+      ]
+    },
+    "muat": {
+      "seeds": [
+        7,
+        21,
+        42,
+        123,
+        2026
+      ],
+      "metrics": {
+        "MAE": 1188.977007378472,
+        "RMSE": 1414.4740849588516,
+        "MAPE": 6.676038858503151
+      },
+      "pembanding_terbaik": "last_month",
+      "dm_absolut_vs_pembanding_terbaik": {
+        "n": 18,
+        "mean_loss_difference": -41.078548177083476,
+        "dm": -0.15451099399247317,
+        "dm_hln": -0.1501576955324737,
+        "df": 17,
+        "p_value": 0.8824073870717163
+      },
+      "prediksi": [
+        {
+          "ds": "2025-01",
+          "aktual": 20907.0,
+          "prediksi_rata_rata": 21105.021875
+        },
+        {
+          "ds": "2025-02",
+          "aktual": 18985.0,
+          "prediksi_rata_rata": 20548.3421875
+        },
+        {
+          "ds": "2025-03",
+          "aktual": 22808.0,
+          "prediksi_rata_rata": 21663.469921875
+        },
+        {
+          "ds": "2025-04",
+          "aktual": 19760.0,
+          "prediksi_rata_rata": 20701.531640625
+        },
+        {
+          "ds": "2025-05",
+          "aktual": 19945.0,
+          "prediksi_rata_rata": 19683.046484375
+        },
+        {
+          "ds": "2025-06",
+          "aktual": 20466.0,
+          "prediksi_rata_rata": 19003.116015625
+        },
+        {
+          "ds": "2025-07",
+          "aktual": 19016.0,
+          "prediksi_rata_rata": 21079.00078125
+        },
+        {
+          "ds": "2025-08",
+          "aktual": 19389.0,
+          "prediksi_rata_rata": 20664.0546875
+        },
+        {
+          "ds": "2025-09",
+          "aktual": 18638.0,
+          "prediksi_rata_rata": 19918.6421875
+        },
+        {
+          "ds": "2025-10",
+          "aktual": 19409.0,
+          "prediksi_rata_rata": 18649.314453125
+        },
+        {
+          "ds": "2025-11",
+          "aktual": 18651.0,
+          "prediksi_rata_rata": 19109.916015625
+        },
+        {
+          "ds": "2025-12",
+          "aktual": 18241.0,
+          "prediksi_rata_rata": 20058.843359375
+        },
+        {
+          "ds": "2026-01",
+          "aktual": 15998.0,
+          "prediksi_rata_rata": 18801.783203125
+        },
+        {
+          "ds": "2026-02",
+          "aktual": 14966.0,
+          "prediksi_rata_rata": 16995.058984375
+        },
+        {
+          "ds": "2026-03",
+          "aktual": 15993.0,
+          "prediksi_rata_rata": 18243.911328125
+        },
+        {
+          "ds": "2026-04",
+          "aktual": 16325.0,
+          "prediksi_rata_rata": 15835.7873046875
+        },
+        {
+          "ds": "2026-05",
+          "aktual": 16419.0,
+          "prediksi_rata_rata": 16269.93671875
+        },
+        {
+          "ds": "2026-06",
+          "aktual": 14855.0,
+          "prediksi_rata_rata": 15307.15078125
+        }
+      ]
+    }
+  },
+  "catatan": "Dihitung setelah evaluasi dari prediksi dan nilai p yang tersimpan. Seed 42 tetap hasil utama."
+}
